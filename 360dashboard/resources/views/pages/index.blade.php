@@ -1,19 +1,9 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{config('app.name', '360Dh')}}</title>
+@extends('layouts.app')
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
-
-
-    </head>
-
-    <body>
-        <h1>Welcome to 360º DashBoard</h1>
-        <p>This the 360ºDashboard application</p>
-    </body>
-
-</html>
+@section('content')
+    <div class="jumbotron text-center">
+        <h1>Welcome to 360ºDashboard!</h1>
+        <p>This is the 360 Dashboard application.</p>
+        <p><a class="btn btn-primary btn-lg" href="/login" role="button">Login</a> <a class="btn btn-success btn-lg" href="/register" role="button">Register</a></p>
+    </div>
+@endsection

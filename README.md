@@ -7,8 +7,10 @@ Sistemas de Informação - FEUP
 1. Setup an Apache/XAMPP server: https://www.apachefriends.org/index.html
 2. Install 'Composer' on your computer: https://getcomposer.org/
 	- When asks for php path: 'C/Xampp/php/php.exe'
-2. Git clone'SINF/360Dashboard' to on XAMPP/htdocs
-3. Go to 'http://localhost/SINF/360dashboard/public/index'
+3. Git clone'SINF/360Dashboard' to on XAMPP/htdocs
+4. Go to '...htdocs/SINF/360dashboard' and run command 'composer install' 
+5. [Only if you having 500 error] Go to '...htdocs/SINF/360dashboard' and run command 'cp .env.example .env' and 'php artisan key:generate'
+6. Go to 'http://localhost/SINF/360dashboard/public/index'
 
 
 ### Instructables for GUEST PC - Enable Port Forwarding (VBOX WINDOWS 7 with Primavera):

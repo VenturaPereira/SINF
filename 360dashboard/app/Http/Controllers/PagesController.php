@@ -23,4 +23,33 @@ class PagesController extends Controller
     );
         return view('pages.services')->with($data);
     }
+
+
+    public function overview(){
+
+        return view('pages.overview');
+    }
+
+
+    public function sales(){
+
+        return view('pages.sales');
+    }
+
+
+    public function suppliers(){
+
+        return view('pages.suppliers');
+    }
+
+
+    public function inventory(){
+
+        return view('pages.inventory');
+    }
+
+    public function financial(){
+
+        return view('pages.financial');
+    }
 }

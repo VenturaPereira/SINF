@@ -22,4 +22,12 @@ Route::get('/', 'PagesController@index');
 Route::get('/about', 'PagesController@about');
 Route::get('/services', 'PagesController@services');
 
+//Pages
+Route::get('/overview', 'PagesController@overview');
+Route::get('/sales', 'PagesController@sales');
+Route::get('/suppliers', 'PagesController@suppliers');
+Route::get('/inventory', 'PagesController@inventory');
+Route::get('/financial', 'PagesController@financial');
+
+
 Route::resource('posts', 'PostsController');

@@ -13,9 +13,6 @@
                     <a class="nav-link" href="about">About <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                    <a class="nav-link" href="services">Services <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link" href="overview">Overview</a>
             </li>
             <li class="nav-item">

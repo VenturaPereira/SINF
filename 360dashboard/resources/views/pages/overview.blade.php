@@ -1,6 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
+
+<?php
+
+$dataPoints = array(
+	array("y" => 25, "label" => "Sunday"),
+	array("y" => 15, "label" => "Monday"),
+	array("y" => 25, "label" => "Tuesday"),
+	array("y" => 5, "label" => "Wednesday"),
+	array("y" => 10, "label" => "Thursday"),
+	array("y" => 0, "label" => "Friday"),
+	array("y" => 20, "label" => "Saturday")
+);
+
+?>
+
     <div class="text-center">
 
 
@@ -14,9 +29,29 @@
 
   <div class="border rounded border-success mr-5 d-inline-flex p-1 bd-highlight">Billing: </div>
 
-<img src="img/graph_example.png" class="figure-img img-fluid" height="auto" width="50%">
+  <div class="d-inline-flex m-5" id="chartContainer" style="height: 300px; width: 50%;"></div>
 
         <div class="border rounded border-danger ml-5 d-inline-flex p-1 bd-highlight">Total expenditures: </div>
 
     </div>
 @endsection
+
+<script>
+window.onload = function () {
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	title: {
+		text: "Push-ups Over a Week"
+	},
+	axisY: {
+		title: "Number of Push-ups"
+	},
+	data: [{
+		type: "line",
+		dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+	}]
+});
+chart.render();
+
+}
+</script>

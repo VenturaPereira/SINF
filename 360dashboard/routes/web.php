@@ -30,4 +30,6 @@ Route::get('/inventory', 'PagesController@inventory');
 Route::get('/financial', 'PagesController@financial');
 
 
-Route::resource('posts', 'PostsController');
+
+
+Route::post('/postajax','AjaxController@post');

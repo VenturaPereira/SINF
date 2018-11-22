@@ -33,25 +33,8 @@ $dataPoints = array(
 
         <div class="border rounded border-danger ml-5 d-inline-flex p-1 bd-highlight">Total expenditures: </div>
 
+				<input class="getinfo"></input>
+				<button class="postbutton">Post via ajax!</button>
+
     </div>
 @endsection
-
-<script>
-window.onload = function () {
-
-var chart = new CanvasJS.Chart("chartContainer", {
-	title: {
-		text: "Push-ups Over a Week"
-	},
-	axisY: {
-		title: "Number of Push-ups"
-	},
-	data: [{
-		type: "line",
-		dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
-	}]
-});
-chart.render();
-
-}
-</script>

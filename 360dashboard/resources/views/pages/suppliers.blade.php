@@ -63,7 +63,9 @@
 
 <div>
   <h3 class="text-center">Supplies</h3>
-    <div id="chartContainer" style="height: 300px; width: 50%;">
+  <div class="d-inline-flex m-5" id="chartContainer" style="height: 300px; width: 50%;"> </div>
+  <div class="graph d-inline-flex m-5" id="chartContainer2--Sales-postajax" style="height: 300px; width: 50%;"></div>
+  <script type="text/javascript" src="{{ URL::asset('js/graph.js') }}"></script>
 </div>
 
     </div>

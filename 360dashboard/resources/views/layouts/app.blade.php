@@ -11,7 +11,7 @@
 
         <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script type="text/javascript" src="{{ URL::asset('js/graph.js') }}"></script>
+
 
 
     </head>

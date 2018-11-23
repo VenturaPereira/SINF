@@ -1,15 +1,9 @@
 $(document).ready(function(){
 
-  var id = document.getElementsByClassName("graph")[0].id;
-  var arr = id.split("-");
-  var title = arr[1];
-  var y_axis = arr[2];
-  var url = arr[3];    
-
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
             /* the route pointing to the post function */
-            url: url,
+            url: '/postajax',
             type: 'POST',
             /* send the csrf-token and the input to the controller */
             data: {_token: CSRF_TOKEN, message:$(".getinfo").val()},
@@ -17,12 +11,12 @@ $(document).ready(function(){
             /* remind that 'data' is the response of the AjaxController */
             success: function (data) {
               var d_a = jQuery.parseJSON (data);
-              var chart = new CanvasJS.Chart(id, {
+              var chart = new CanvasJS.Chart("chartContainer", {
                 title: {
-                  text: title
+                  text: "Company growth"
                 },
                 axisY: {
-                  title: y_axis
+                  title: "company value"
                 },
                 data: [{
                   type: "line",

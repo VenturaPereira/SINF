@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+<script type="text/javascript" src="{{ URL::asset('js/BarsGraph.js') }}"></script>
     <div class="text-center">
 
 
-        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        <div class="BarGraph" id="BarChartContainer-Financial Analysis-Thousands billed-Thousands sold-Billed-Sales-Billed (thousand/month)-Sold (thousand/month)-/postajax" style="height: 370px; width: 100%;"></div>
 
 
         <div class="well">

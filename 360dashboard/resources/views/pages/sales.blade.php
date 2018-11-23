@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+<script type="text/javascript" src="{{ URL::asset('js/graph.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/roundGraphs.js') }}"></script>
     <div>
 
     <div class="container-fluid">
@@ -90,9 +92,8 @@
 <div>
   <h3 class="text-center">Sales</h3>
     <div class="roundGraph d-inline-flex m-5" id="roundChartContainer-/postajaxRound" style="height: 300px; width: 50%;"> </div>
-    <div class="graph d-inline-flex m-5" id="chartContainer2--Sales-postajax" style="height: 300px; width: 50%;"></div>
-  	<script type="text/javascript" src="{{ URL::asset('js/graph.js') }}"></script>
-    <script type="text/javascript" src="{{ URL::asset('js/roundGraphs.js') }}"></script>
+    <div class="graph d-inline-flex m-5" id="chartContainerSales--Sales-postajax" style="height: 300px; width: 50%;"></div>
+
 
     </div>
 @endsection

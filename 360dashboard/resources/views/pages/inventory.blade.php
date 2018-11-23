@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<script type="text/javascript" src="{{ URL::asset('js/roundGraphs.js') }}"></script>
     <div>
 
       <div class="container-fluid">
@@ -64,7 +65,7 @@
       </div>
 
 
-      <div id="chartContainer" style="height: 300px; width: 50%;"></div>
+      <div class="roundGraph d-inline-flex m-5" id="roundChartContainerInventory-/postajaxRound" style="height: 300px; width: 50%;"> </div>
     </div>
 @endsection
 

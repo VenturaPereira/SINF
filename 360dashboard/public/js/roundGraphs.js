@@ -3,7 +3,6 @@ $(document).ready(function(){
   var id = document.getElementsByClassName("roundGraph")[0].id;
   var arr = id.split("-");
   var url = arr[1];
-console.log(id);
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
             /* the route pointing to the post function */

@@ -1,9 +1,13 @@
 $(document).ready(function(){
 
+  var id = document.getElementsByClassName("roundGraph")[0].id;
+  var arr = id.split("-");
+  var url = arr[1];
+console.log(id);
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
             /* the route pointing to the post function */
-            url: '/postajax',
+            url: url,
             type: 'POST',
             /* send the csrf-token and the input to the controller */
             data: {_token: CSRF_TOKEN, message:$(".getinfo").val()},
@@ -11,19 +15,32 @@ $(document).ready(function(){
             /* remind that 'data' is the response of the AjaxController */
             success: function (data) {
               var d_a = jQuery.parseJSON (data);
-              var chart = new CanvasJS.Chart("chartContainer", {
-                title: {
-                  text: "Company growth"
-                },
-                axisY: {
-                  title: "company value"
-                },
-                data: [{
-                  type: "line",
-                  dataPoints: d_a
-                }]
+
+              var chart = new CanvasJS.Chart(id, {
+              	theme: "light2",
+              	animationEnabled: true,
+
+
+              	data: [{
+              		type: "pie",
+              		indexLabelFontSize: 18,
+              		radius: 100,
+              		indexLabel: "{label} - {y}",
+              		yValueFormatString: "###0.0\"%\"",
+              		click: explodePie,
+              		dataPoints: d_a
+              	}]
               });
               chart.render();
+
+              function explodePie(e) {
+              	for(var i = 0; i < e.dataSeries.dataPoints.length; i++) {
+              		if(i !== e.dataPointIndex)
+              			e.dataSeries.dataPoints[i].exploded = false;
+              	}
+              }
+
+
             }
         });
 

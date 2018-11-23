@@ -61,48 +61,12 @@
     </div>
 
 
-<div>
-  <h3 class="text-center">Supplies</h3>
-  <div class="d-inline-flex m-5" id="chartContainer" style="height: 300px; width: 50%;"> </div>
-  <div class="graph d-inline-flex m-5" id="chartContainer2--Sales-postajax" style="height: 300px; width: 50%;"></div>
-  <script type="text/javascript" src="{{ URL::asset('js/graph.js') }}"></script>
-</div>
+    <div>
+      <h3 class="text-center">Supplies</h3>
+        <div class="roundGraph d-inline-flex m-5" id="roundChartContainer-/postajaxRound" style="height: 300px; width: 50%;"> </div>
+        <div class="graph d-inline-flex m-5" id="chartContainer2--Sales-postajax" style="height: 300px; width: 50%;"></div>
+      	<script type="text/javascript" src="{{ URL::asset('js/graph.js') }}"></script>
+        <script type="text/javascript" src="{{ URL::asset('js/roundGraphs.js') }}"></script>
 
-    </div>
+        </div>
 @endsection
-
-<script>
-window.onload = function () {
-
-var chart = new CanvasJS.Chart("chartContainer", {
-	theme: "light2",
-	animationEnabled: true,
-
-
-	data: [{
-		type: "pie",
-		indexLabelFontSize: 18,
-		radius: 100,
-		indexLabel: "{label} - {y}",
-		yValueFormatString: "###0.0\"%\"",
-		click: explodePie,
-		dataPoints: [
-			{ y: 42, label: "Gas" },
-			{ y: 21, label: "Nuclear"},
-			{ y: 24.5, label: "Renewable" },
-			{ y: 9, label: "Coal" },
-			{ y: 3.1, label: "Other Fuels" }
-		]
-	}]
-});
-chart.render();
-
-function explodePie(e) {
-	for(var i = 0; i < e.dataSeries.dataPoints.length; i++) {
-		if(i !== e.dataPointIndex)
-			e.dataSeries.dataPoints[i].exploded = false;
-	}
-}
-
-}
-</script>

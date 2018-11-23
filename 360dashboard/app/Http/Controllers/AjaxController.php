@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class AjaxController extends Controller
 {
-  public function post(Request $request){
+  public function graphsData(Request $request){
     $dataPoints = array(
     	array("y" => 25, "label" => "Sunday"),
     	array("y" => 15, "label" => "Monday"),
@@ -21,4 +21,19 @@ class AjaxController extends Controller
 $dataPoints = json_encode($dataPoints,JSON_NUMERIC_CHECK);
     return response()->json($dataPoints);
  }
+
+ public function roundGraphsData(Request $request){
+
+   $dataPoints = array(
+     array("y" => 42, "label" => "Gas"),
+     array("y" => 21, "label" => "Nuclear"),
+     array("y" => 24.5, "label" => "Renewable"),
+     array("y" => 9, "label" => "Coal"),
+     array("y" => 3.1, "label" => "Other Fuels")
+   );
+
+
+$dataPoints = json_encode($dataPoints,JSON_NUMERIC_CHECK);
+   return response()->json($dataPoints);
+}
 }

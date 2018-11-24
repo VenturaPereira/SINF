@@ -34,3 +34,7 @@ Route::get('/financial', 'PagesController@financial');
 
 Route::post('/postajax','AjaxController@graphsData');
 Route::post('/postajaxRound','AjaxController@roundGraphsData');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');

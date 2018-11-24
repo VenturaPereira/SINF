@@ -15,6 +15,14 @@ class SaftController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'saftFile' => 'required'
+        ]);
+
+    
+
+        //save XML in db
+        return redirect('/home')->with('success', 'SAFT Updated');
     }
 }

@@ -11,7 +11,6 @@
 
         <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-      
 
 
     </head>
@@ -19,6 +18,7 @@
     <body>
         @include('inc.navbar')
         <div class="container">
+            @include('inc.messages')
             @yield('content')
         </div>
     </body>

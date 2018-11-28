@@ -15,4 +15,9 @@
 @endsection
 
 
-<script type="text/javascript" src="../dist/ParseXml.js"></script>
+<script type="text/javascript" src="../dist/ParseXml.js">
+
+
+let jsonfile = parsing('C:/xampp/htdocs/SINF/360dashboard/xmlfiles.moodleExample.xml');
+console.log(jsonfile);
+</script>

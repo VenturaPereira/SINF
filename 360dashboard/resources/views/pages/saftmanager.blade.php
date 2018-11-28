@@ -13,3 +13,6 @@
         {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
     {!! Form::close() !!}
 @endsection
+
+
+<script type="text/javascript" src="../dist/ParseXml.js"></script>

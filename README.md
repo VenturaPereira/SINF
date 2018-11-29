@@ -11,7 +11,7 @@ Sistemas de Informação - FEUP
 4. Go to '...htdocs/SINF/360dashboard' and run command 'composer install' 
 5. [Only if you having 500 error] Go to '...htdocs/SINF/360dashboard' and run command 'cp .env.example .env' and 'php artisan key:generate'
 6. In order to run database:
-Go to phpmyAdmin and create database called "360dashboard"
+Go to http://localhost/phpmyadmin/ and create database called "360dashboard"
 - Verify inside .env file these settings (change them if not):
 - DB_DATABASE=360dashboard
 - DB_USERNAME=root

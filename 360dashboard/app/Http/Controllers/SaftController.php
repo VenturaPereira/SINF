@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Customer;
+use App\Products;
 use DB;
 use File;
 
@@ -17,7 +18,8 @@ class SaftController extends Controller
 
     public function store(Request $request)
     {
-  
+        
+        //read from SAFT.xml on /public folder
         $file = $request->file('file');
         $filename=$file->getClientOriginalName();
         $file_path=$file->getRealPath();
@@ -29,6 +31,7 @@ class SaftController extends Controller
 
         //before update this will delete all rows
         DB::table('customers')->delete();
+        DB::table('products')->delete();
 
         //loop customers and save
         foreach ($array["MasterFiles"]["Customer"] as $customer){
@@ -51,9 +54,21 @@ class SaftController extends Controller
          
 
         }
-            
-            
         
+        //loop products and save
+        foreach ($array["MasterFiles"]["Product"] as $product){
+
+            $newProduct = new Products;
+            $newProduct->ProductType = strval($product["ProductType"]);
+            $newProduct->ProductCode = strval($product["ProductCode"]);
+            $newProduct->ProductGroup = strval($product["ProductGroup"]);
+            $newProduct->ProductDescription = strval($product["ProductDescription"]);
+            $newProduct->ProductNumberCode = strval($product["ProductNumberCode"]);
+
+            $newProduct->save();
+         
+
+        }
     
 
         //save XML in db

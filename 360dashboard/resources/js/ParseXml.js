@@ -1,4 +1,4 @@
-var _ = require('lodash');
+/* var _ = require('lodash');
 var $ = require('jquery');
 const fs = require('fs'),
 xml2js = require('xml2js');
@@ -15,4 +15,4 @@ parser.parseString(data, function (err, result) {
 
 return JSON.stringify(result);
 
-}
+} */

@@ -1,23 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Upload SAFT</h1>
-    {!! Form::open(['action' => 'SaftController@store', 'method' => 'POST', 'enctype' => 'multipart/data'] ) !!}
-        <div class="form-group">
-            {{Form::label('title', 'Title')}}
-            {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Title'])}}
-        </div>
-        <div class="form-group">
-            {{Form::file('saftFile')}}
-        </div>
-        {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
-    {!! Form::close() !!}
+    <form action = "{{route('file.store') }}" method="post" enctype="multipart/form-data">
+        {{ csrf_field() }}
+        <input type="file" name="file" id="file">
+        <button type="submit">Submit</button>
 @endsection
 
-
-<script type="text/javascript" src="../dist/ParseXml.js">
-
-
-let jsonfile = parsing('C:/xampp/htdocs/SINF/360dashboard/xmlfiles.moodleExample.xml');
-console.log(jsonfile);
-</script>

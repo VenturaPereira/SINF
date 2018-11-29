@@ -37,6 +37,7 @@ Route::resource('saft', 'SaftController');
 
 Route::post('/postajax','AjaxController@graphsData');
 Route::post('/postajaxRound','AjaxController@roundGraphsData');
+Route::post('/store', 'SaftController@store')->name('file.store');
 
 Auth::routes();
 

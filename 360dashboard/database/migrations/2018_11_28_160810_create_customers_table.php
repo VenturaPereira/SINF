@@ -18,7 +18,6 @@ class CreateCustomersTable extends Migration
             $table->integer('AccountID');
             $table->integer('CustomerTaxID');
             $table->string('CompanyName');
-            
         });
     }
 

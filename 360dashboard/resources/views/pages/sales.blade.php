@@ -3,6 +3,20 @@
 @section('content')
 <script type="text/javascript" src="{{ URL::asset('js/graph.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/roundGraphs.js') }}"></script>
+   
+    @if(count($customers) > 1)
+      @foreach($customers as $customer)
+        <div class="well">
+          <p>CustomerID: {{$customer->CustomerID}}</p>
+          <p>AccountID: {{$customer->AccountID}}</p>
+          <p>CustomerTaxID: {{$customer->CustomerTaxID}}</p>
+          <p>-------------</p>
+        </div>
+      @endforeach
+    @else
+        <p>No Customers found</p>
+    @endif
+
     <div>
 
     <div class="container-fluid">

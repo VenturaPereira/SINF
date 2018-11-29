@@ -39,18 +39,31 @@ class SaftController extends Controller
         foreach ($array["MasterFiles"]["Customer"] as $customer){
 
             $newCustomer = new Customer;
-            $newCustomer->CustomerID = strval($customer["CustomerID"]);
-            $newCustomer->AccountID = intval($customer["AccountID"]);
-            $newCustomer->CustomerTaxID = intval($customer["CustomerTaxID"]);
-            $newCustomer->CompanyName = strval($customer["CompanyName"]);
-            $newCustomer->BillingAddress_AddressDetail = strval($customer["BillingAddress"]["AddressDetail"]);
-            $newCustomer->BillingAddress_City = strval($customer["BillingAddress"]["City"]);
-            $newCustomer->BillingAddress_PostalCode = strval($customer["BillingAddress"]["PostalCode"]);
-            $newCustomer->BillingAddress_Country = strval($customer["BillingAddress"]["Country"]);
-            $newCustomer->ShipToAddress_AddressDetail = strval($customer["ShipToAddress"]["AddressDetail"]);
-            $newCustomer->ShipToAddress_City = strval($customer["ShipToAddress"]["City"]);
-            $newCustomer->ShipToAddress_PostalCode = strval($customer["ShipToAddress"]["PostalCode"]);
-            $newCustomer->ShipToAddress_Country = strval($customer["ShipToAddress"]["Country"]);
+
+            if (array_key_exists('CustomerID', $customer))
+                $newCustomer->CustomerID = strval($customer["CustomerID"]);
+            if (array_key_exists('AccountID', $customer))
+                $newCustomer->AccountID = intval($customer["AccountID"]);
+            if (array_key_exists('CustomerTaxID', $customer))
+                $newCustomer->CustomerTaxID = intval($customer["CustomerTaxID"]);
+            if (array_key_exists('CompanyName', $customer))
+                $newCustomer->CompanyName = strval($customer["CompanyName"]);
+            if (array_key_exists('AddressDetail', $customer["BillingAddress"]))
+                $newCustomer->BillingAddress_AddressDetail = strval($customer["BillingAddress"]["AddressDetail"]);
+            if (array_key_exists('City', $customer["BillingAddress"]))
+                $newCustomer->BillingAddress_City = strval($customer["BillingAddress"]["City"]);
+            if (array_key_exists('PostalCode', $customer["BillingAddress"]))
+                $newCustomer->BillingAddress_PostalCode = strval($customer["BillingAddress"]["PostalCode"]);
+            if (array_key_exists('Country', $customer["BillingAddress"]))
+                $newCustomer->BillingAddress_Country = strval($customer["BillingAddress"]["Country"]);
+            if (array_key_exists('AddressDetail', $customer["ShipToAddress"]))
+                $newCustomer->ShipToAddress_AddressDetail = strval($customer["ShipToAddress"]["AddressDetail"]);
+            if (array_key_exists('City', $customer["ShipToAddress"]))
+                $newCustomer->ShipToAddress_City = strval($customer["ShipToAddress"]["City"]);
+            if (array_key_exists('PostalCode', $customer["ShipToAddress"]))
+                $newCustomer->ShipToAddress_PostalCode = strval($customer["ShipToAddress"]["PostalCode"]);
+            if (array_key_exists('Country', $customer["ShipToAddress"]))
+                $newCustomer->ShipToAddress_Country = strval($customer["ShipToAddress"]["Country"]);
 
             $newCustomer->save();
          
@@ -61,11 +74,17 @@ class SaftController extends Controller
         foreach ($array["MasterFiles"]["Product"] as $product){
 
             $newProduct = new Products;
-            $newProduct->ProductType = strval($product["ProductType"]);
-            $newProduct->ProductCode = strval($product["ProductCode"]);
-            $newProduct->ProductGroup = strval($product["ProductGroup"]);
-            $newProduct->ProductDescription = strval($product["ProductDescription"]);
-            $newProduct->ProductNumberCode = strval($product["ProductNumberCode"]);
+
+            if (array_key_exists('ProductType', $product))
+                $newProduct->ProductType = strval($product["ProductType"]);
+            if (array_key_exists('ProductCode', $product))
+                $newProduct->ProductCode = strval($product["ProductCode"]);
+            if (array_key_exists('ProductGroup', $product))
+                $newProduct->ProductGroup = strval($product["ProductGroup"]);
+            if (array_key_exists('ProductDescription', $product))
+                $newProduct->ProductDescription = strval($product["ProductDescription"]);
+            if (array_key_exists('ProductNumberCode', $product))
+                $newProduct->ProductNumberCode = strval($product["ProductNumberCode"]);
 
             $newProduct->save();
          
@@ -86,21 +105,21 @@ class SaftController extends Controller
                 $newsupplier->SupplierTaxID = intval($supplier["SupplierTaxID"]);
             if (array_key_exists('CompanyName', $supplier))
                 $newsupplier->CompanyName = strval($supplier["CompanyName"]);
-            if (array_key_exists('BillingAddress', $supplier))
+            if (array_key_exists('AddressDetail', $supplier["BillingAddress"]))
                 $newsupplier->BillingAddress_AddressDetail = strval($supplier["BillingAddress"]["AddressDetail"]);
-            if (array_key_exists('BillingAddress', $supplier))
+            if (array_key_exists('City', $supplier["BillingAddress"]))
                 $newsupplier->BillingAddress_City = strval($supplier["BillingAddress"]["City"]);
-            if (array_key_exists('BillingAddress', $supplier))
+            if (array_key_exists('PostalCode', $supplier["BillingAddress"]))
                 $newsupplier->BillingAddress_PostalCode = strval($supplier["BillingAddress"]["PostalCode"]);
-            if (array_key_exists('BillingAddress', $supplier))
+            if (array_key_exists('Country', $supplier["BillingAddress"]))
                 $newsupplier->BillingAddress_Country = strval($supplier["BillingAddress"]["Country"]);
-            if (array_key_exists('ShipFromAddress', $supplier))
+            if (array_key_exists('AddressDetail', $supplier["ShipFromAddress"]))
                 $newsupplier->ShipFromAddress_AddressDetail = strval($supplier["ShipFromAddress"]["AddressDetail"]);
-            if (array_key_exists('ShipFromAddress', $supplier))
+            if (array_key_exists('City', $supplier["ShipFromAddress"]))
                 $newsupplier->ShipFromAddress_City = strval($supplier["ShipFromAddress"]["City"]);
-            if (array_key_exists('ShipFromAddress', $supplier))
+            if (array_key_exists('PostalCode', $supplier["ShipFromAddress"]))
                 $newsupplier->ShipFromAddress_PostalCode = strval($supplier["ShipFromAddress"]["PostalCode"]);
-            if (array_key_exists('ShipFromAddress', $supplier))
+            if (array_key_exists('Country', $supplier["ShipFromAddress"]))
                 $newsupplier->ShipFromAddress_Country = strval($supplier["ShipFromAddress"]["Country"]);
             if (array_key_exists('Telephone', $supplier))
                 $newsupplier->Telephone = intval($supplier["Telephone"]);
@@ -117,6 +136,6 @@ class SaftController extends Controller
     
 
         //save XML in db
-        return redirect('/home')->with('success', 'SAFT Updated');
+        return redirect('/home')->with('success', 'Database is now updated according to SAFT');
     }
 }

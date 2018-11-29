@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Post;
 use App\Customer;
 use App\Products;
+use App\Suppliers;
 use DB;
 use File;
 
@@ -32,6 +33,7 @@ class SaftController extends Controller
         //before update this will delete all rows
         DB::table('customers')->delete();
         DB::table('products')->delete();
+        DB::table('suppliers')->delete();
 
         //loop customers and save
         foreach ($array["MasterFiles"]["Customer"] as $customer){
@@ -67,6 +69,49 @@ class SaftController extends Controller
 
             $newProduct->save();
          
+
+        }
+
+        //loop suppliers and save
+        foreach ($array["MasterFiles"]["Supplier"] as $supplier){
+
+          
+            $newsupplier = new Suppliers;
+            
+            if (array_key_exists('SupplierID', $supplier))
+                $newsupplier->SupplierID = strval($supplier["SupplierID"]);
+            if (array_key_exists('AccountID', $supplier))
+                $newsupplier->AccountID = intval($supplier["AccountID"]);
+            if (array_key_exists('SupplierTaxID', $supplier))
+                $newsupplier->SupplierTaxID = intval($supplier["SupplierTaxID"]);
+            if (array_key_exists('CompanyName', $supplier))
+                $newsupplier->CompanyName = strval($supplier["CompanyName"]);
+            if (array_key_exists('BillingAddress', $supplier))
+                $newsupplier->BillingAddress_AddressDetail = strval($supplier["BillingAddress"]["AddressDetail"]);
+            if (array_key_exists('BillingAddress', $supplier))
+                $newsupplier->BillingAddress_City = strval($supplier["BillingAddress"]["City"]);
+            if (array_key_exists('BillingAddress', $supplier))
+                $newsupplier->BillingAddress_PostalCode = strval($supplier["BillingAddress"]["PostalCode"]);
+            if (array_key_exists('BillingAddress', $supplier))
+                $newsupplier->BillingAddress_Country = strval($supplier["BillingAddress"]["Country"]);
+            if (array_key_exists('ShipFromAddress', $supplier))
+                $newsupplier->ShipFromAddress_AddressDetail = strval($supplier["ShipFromAddress"]["AddressDetail"]);
+            if (array_key_exists('ShipFromAddress', $supplier))
+                $newsupplier->ShipFromAddress_City = strval($supplier["ShipFromAddress"]["City"]);
+            if (array_key_exists('ShipFromAddress', $supplier))
+                $newsupplier->ShipFromAddress_PostalCode = strval($supplier["ShipFromAddress"]["PostalCode"]);
+            if (array_key_exists('ShipFromAddress', $supplier))
+                $newsupplier->ShipFromAddress_Country = strval($supplier["ShipFromAddress"]["Country"]);
+            if (array_key_exists('Telephone', $supplier))
+                $newsupplier->Telephone = intval($supplier["Telephone"]);
+            if (array_key_exists('Fax', $supplier))
+                $newsupplier->Fax = intval($supplier["Fax"]);
+            if (array_key_exists('Website', $supplier))
+                $newsupplier->Website = strval($supplier["Website"]);
+            if (array_key_exists('SelfBillingIndicator', $supplier))
+                $newsupplier->SelfBillingIndicator = strval($supplier["SelfBillingIndicator"]);
+
+            $newsupplier->save();
 
         }
     

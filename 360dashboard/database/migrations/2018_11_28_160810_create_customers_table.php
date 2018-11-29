@@ -14,18 +14,18 @@ class CreateCustomersTable extends Migration
     public function up()
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->string('CustomerID');
-            $table->integer('AccountID');
-            $table->integer('CustomerTaxID');
-            $table->string('CompanyName');
-            $table->string('BillingAddress_AddressDetail');
-            $table->string('BillingAddress_City');
-            $table->string('BillingAddress_PostalCode');
-            $table->string('BillingAddress_Country');
-            $table->string('ShipToAddress_AddressDetail');
-            $table->string('ShipToAddress_City');
-            $table->string('ShipToAddress_PostalCode');
-            $table->string('ShipToAddress_Country');
+            $table->string('CustomerID')->default(' ');
+            $table->integer('AccountID')->default(0);
+            $table->integer('CustomerTaxID')->default(0);
+            $table->string('CompanyName')->default(' ');
+            $table->string('BillingAddress_AddressDetail')->default(' ');
+            $table->string('BillingAddress_City')->default(' ');
+            $table->string('BillingAddress_PostalCode')->default(' ');
+            $table->string('BillingAddress_Country')->default(' ');
+            $table->string('ShipToAddress_AddressDetail')->default(' ');
+            $table->string('ShipToAddress_City')->default(' ');
+            $table->string('ShipToAddress_PostalCode')->default(' ');
+            $table->string('ShipToAddress_Country')->default(' ');
         });
     }
 

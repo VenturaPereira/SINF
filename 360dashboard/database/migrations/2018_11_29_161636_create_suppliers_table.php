@@ -14,22 +14,22 @@ class CreateSuppliersTable extends Migration
     public function up()
     {
         Schema::create('suppliers', function (Blueprint $table) {
-            $table->string('SupplierID');
-            $table->integer('AccountID');
-            $table->integer('SupplierTaxID');
-            $table->string('CompanyName');
-            $table->string('BillingAddress_AddressDetail');
-            $table->string('BillingAddress_City');
-            $table->string('BillingAddress_PostalCode');
-            $table->string('BillingAddress_Country');
-            $table->string('ShipFromAddress_AddressDetail');
-            $table->string('ShipFromAddress_City');
-            $table->string('ShipFromAddress_PostalCode');
-            $table->string('ShipFromAddress_Country');
-            $table->integer('Telephone');
-            $table->integer('Fax');
+            $table->string('SupplierID')->default(' ');
+            $table->integer('AccountID')->default(0);
+            $table->integer('SupplierTaxID')->default(0);
+            $table->string('CompanyName')->default(' ');
+            $table->string('BillingAddress_AddressDetail')->default(' ');
+            $table->string('BillingAddress_City')->default(' ');
+            $table->string('BillingAddress_PostalCode')->default(' ');
+            $table->string('BillingAddress_Country')->default(' ');
+            $table->string('ShipFromAddress_AddressDetail')->default(' ');
+            $table->string('ShipFromAddress_City')->default(' ');
+            $table->string('ShipFromAddress_PostalCode')->default(' ');
+            $table->string('ShipFromAddress_Country')->default(' ');
+            $table->integer('Telephone')->default(0);
+            $table->integer('Fax')->default(0);
             $table->string('Website')->default('www');
-            $table->string('SelfBillingIndicator');
+            $table->string('SelfBillingIndicator')->default(' ');
         });
     }
 

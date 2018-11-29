@@ -18,6 +18,14 @@ class CreateCustomersTable extends Migration
             $table->integer('AccountID');
             $table->integer('CustomerTaxID');
             $table->string('CompanyName');
+            $table->string('BillingAddress_AddressDetail');
+            $table->string('BillingAddress_City');
+            $table->string('BillingAddress_PostalCode');
+            $table->string('BillingAddress_Country');
+            $table->string('ShipToAddress_AddressDetail');
+            $table->string('ShipToAddress_City');
+            $table->string('ShipToAddress_PostalCode');
+            $table->string('ShipToAddress_Country');
         });
     }
 

@@ -29,12 +29,27 @@ class SaftController extends Controller
 
         //loop customers and save
         foreach ($array["MasterFiles"]["Customer"] as $customer){
+
             $newCustomer = new Customer;
             $newCustomer->CustomerID = strval($customer["CustomerID"]);
             $newCustomer->AccountID = intval($customer["AccountID"]);
             $newCustomer->CustomerTaxID = intval($customer["CustomerTaxID"]);
             $newCustomer->CompanyName = strval($customer["CompanyName"]);
+            $newCustomer->BillingAddress_AddressDetail = strval($customer["BillingAddress"]["AddressDetail"]);
+            $newCustomer->BillingAddress_City = strval($customer["BillingAddress"]["City"]);
+            $newCustomer->BillingAddress_PostalCode = strval($customer["BillingAddress"]["PostalCode"]);
+            $newCustomer->BillingAddress_Country = strval($customer["BillingAddress"]["Country"]);
+            $newCustomer->ShipToAddress_AddressDetail = strval($customer["ShipToAddress"]["AddressDetail"]);
+            $newCustomer->ShipToAddress_City = strval($customer["ShipToAddress"]["City"]);
+            $newCustomer->ShipToAddress_PostalCode = strval($customer["ShipToAddress"]["PostalCode"]);
+            $newCustomer->ShipToAddress_Country = strval($customer["ShipToAddress"]["Country"]);
+
             $newCustomer->save();
+
+      
+
+         
+
         }
             
             
@@ -42,6 +57,6 @@ class SaftController extends Controller
     
 
         //save XML in db
-        //return redirect('/home')->with('success', 'SAFT Updated');
+        return redirect('/home')->with('success', 'SAFT Updated');
     }
 }

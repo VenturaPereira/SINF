@@ -27,6 +27,9 @@ class SaftController extends Controller
         $json = json_encode($xml);
         $array = json_decode($json,TRUE);
 
+        //before update this will delete all rows
+        DB::table('customers')->delete();
+
         //loop customers and save
         foreach ($array["MasterFiles"]["Customer"] as $customer){
 
@@ -45,9 +48,6 @@ class SaftController extends Controller
             $newCustomer->ShipToAddress_Country = strval($customer["ShipToAddress"]["Country"]);
 
             $newCustomer->save();
-
-      
-
          
 
         }

@@ -37,6 +37,7 @@ class CreateInvoicesTable extends Migration
             $table->string('CustomerID')->default(' ');
 
             $table->string('ShipTo_DeliveryDate')->default(' ');
+            
             $table->string('ShipTo_Address_AddressDetail')->default(' ');
             $table->string('ShipTo_Address_City')->default(' ');
             $table->string('ShipTo_Address_PostalCode')->default(' ');

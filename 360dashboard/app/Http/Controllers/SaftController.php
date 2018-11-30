@@ -7,6 +7,7 @@ use App\Post;
 use App\Customer;
 use App\Products;
 use App\Suppliers;
+use App\Invoices;
 use DB;
 use File;
 
@@ -132,6 +133,19 @@ class SaftController extends Controller
 
             $newsupplier->save();
 
+        }
+
+        //loop Invoices and save
+        foreach ($array["SourceDocuments"]["SalesInvoices"]["Invoice"] as $invoice){
+
+            $newinvoice = new Invoices;
+
+            if (array_key_exists('InvoiceNo', $invoice))
+                $newinvoice->InvoiceNo = strval($invoice["InvoiceNo"]);
+            if (array_key_exists('ATCUD', $invoice))
+                $newinvoice->ATCUD = strval($invoice["ATCUD"]);
+
+            $newinvoice->save();
         }
     
 

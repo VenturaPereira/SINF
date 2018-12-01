@@ -15,8 +15,8 @@ class CreateSuppliersTable extends Migration
     {
         Schema::create('suppliers', function (Blueprint $table) {
             $table->string('SupplierID')->default(' ');
-            $table->integer('AccountID')->default(0);
-            $table->integer('SupplierTaxID')->default(0);
+            $table->string('AccountID')->default(' ');
+            $table->string('SupplierTaxID')->default(' ');
             $table->string('CompanyName')->default(' ');
             $table->string('BillingAddress_AddressDetail')->default(' ');
             $table->string('BillingAddress_City')->default(' ');
@@ -26,8 +26,8 @@ class CreateSuppliersTable extends Migration
             $table->string('ShipFromAddress_City')->default(' ');
             $table->string('ShipFromAddress_PostalCode')->default(' ');
             $table->string('ShipFromAddress_Country')->default(' ');
-            $table->integer('Telephone')->default(0);
-            $table->integer('Fax')->default(0);
+            $table->string('Telephone')->default(' ');
+            $table->string('Fax')->default(' ');
             $table->string('Website')->default('www');
             $table->string('SelfBillingIndicator')->default(' ');
         });

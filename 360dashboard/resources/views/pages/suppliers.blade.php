@@ -65,7 +65,7 @@
 
     <div>
       <h3 class="text-center">Supplies</h3>
-        <div class="roundGraph d-inline-flex m-5" id="roundChartContainerSupplies-/postajaxRound" style="height: 300px; width: 50%;"> </div>
+        <div class="roundGraph d-inline-flex m-5" id="roundChartContainerSupplies-postajaxRound" style="height: 300px; width: 50%;"> </div>
         <div class="graph d-inline-flex m-5" id="chartContainerSupplies--Sales-postajax" style="height: 300px; width: 50%;"></div>
 
 

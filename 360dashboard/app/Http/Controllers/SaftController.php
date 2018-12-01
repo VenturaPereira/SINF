@@ -7,6 +7,7 @@ use App\Post;
 use App\Customer;
 use App\Products;
 use App\Suppliers;
+use App\Invoices;
 use DB;
 use File;
 class SaftController extends Controller
@@ -135,6 +136,90 @@ class SaftController extends Controller
 
             $newsupplier->save();
 
+        }
+
+        //loop Invoices and save
+        foreach ($array["SourceDocuments"]["SalesInvoices"]["Invoice"] as $invoice){
+
+            $newinvoice = new Invoices;
+
+            if (array_key_exists('InvoiceNo', $invoice))
+                $newinvoice->InvoiceNo = strval($invoice["InvoiceNo"]);
+            if (array_key_exists('ATCUD', $invoice))
+                $newinvoice->ATCUD = strval($invoice["ATCUD"]);
+
+            if (array_key_exists('InvoiceStatus', $invoice["DocumentStatus"]))
+                $newinvoice->DocumentStatus_InvoiceStatus = strval($invoice["DocumentStatus"]["InvoiceStatus"]);
+            if (array_key_exists('InvoiceStatusDate', $invoice["DocumentStatus"]))
+                $newinvoice->DocumentStatus_InvoiceStatusDate = strval($invoice["DocumentStatus"]["InvoiceStatusDate"]);
+            if (array_key_exists('SourceID', $invoice["DocumentStatus"]))
+                $newinvoice->DocumentStatus_SourceID = strval($invoice["DocumentStatus"]["SourceID"]);
+            if (array_key_exists('SourceBilling', $invoice["DocumentStatus"]))
+                $newinvoice->DocumentStatus_SourceBilling = strval($invoice["DocumentStatus"]["SourceBilling"]);
+
+            if (array_key_exists('Hash', $invoice))
+                $newinvoice->Hash = strval($invoice["Hash"]);
+            if (array_key_exists('HashControl', $invoice))
+                $newinvoice->HashControl = strval($invoice["HashControl"]);
+            if (array_key_exists('Period', $invoice))
+                $newinvoice->Period = strval($invoice["Period"]);
+            if (array_key_exists('InvoiceDate', $invoice))
+                $newinvoice->InvoiceDate = strval($invoice["InvoiceDate"]);
+            if (array_key_exists('InvoiceType', $invoice))
+                $newinvoice->InvoiceType = strval($invoice["InvoiceType"]);
+
+            if (array_key_exists('SelfBillingIndicator', $invoice["SpecialRegimes"]))
+                $newinvoice->SpecialRegimes_SelfBillingIndicator = strval($invoice["SpecialRegimes"]["SelfBillingIndicator"]);
+            if (array_key_exists('CashVATSchemeIndicator', $invoice["SpecialRegimes"]))
+                $newinvoice->SpecialRegimes_CashVATSchemeIndicator = strval($invoice["SpecialRegimes"]["CashVATSchemeIndicator"]);
+            if (array_key_exists('ThirdPartiesBillingIndicator', $invoice["SpecialRegimes"]))
+                $newinvoice->SpecialRegimes_ThirdPartiesBillingIndicator = strval($invoice["SpecialRegimes"]["CashVATSchemeIndicator"]);
+
+            if (array_key_exists('SourceID', $invoice))
+                $newinvoice->SourceID = strval($invoice["SourceID"]);
+            if (array_key_exists('SystemEntryDate', $invoice))
+                $newinvoice->SystemEntryDate = strval($invoice["SystemEntryDate"]);
+            if (array_key_exists('CustomerID', $invoice))
+                $newinvoice->CustomerID = strval($invoice["CustomerID"]);
+
+            if (array_key_exists('DeliveryDate', $invoice["ShipTo"]))
+                $newinvoice->ShipTo_DeliveryDate = strval($invoice["ShipTo"]["DeliveryDate"]);
+
+            if (array_key_exists('AddressDetail', $invoice["ShipTo"]["Address"]))
+                $newinvoice->ShipTo_Address_AddressDetail = strval($invoice["ShipTo"]["Address"]["AddressDetail"]);
+            if (array_key_exists('City', $invoice["ShipTo"]["Address"]))
+                $newinvoice->ShipTo_Address_City = strval($invoice["ShipTo"]["Address"]["City"]);
+            if (array_key_exists('PostalCode', $invoice["ShipTo"]["Address"]))
+                $newinvoice->ShipTo_Address_PostalCode = strval($invoice["ShipTo"]["Address"]["PostalCode"]);
+            if (array_key_exists('Country', $invoice["ShipTo"]["Address"]))
+                $newinvoice->ShipTo_Address_Country = strval($invoice["ShipTo"]["Address"]["Country"]);
+
+            if (array_key_exists('DeliveryDate', $invoice["ShipFrom"]))
+                $newinvoice->ShipFrom_DeliveryDate = strval($invoice["ShipFrom"]["DeliveryDate"]);
+
+            if (array_key_exists('AddressDetail', $invoice["ShipFrom"]["Address"]))
+                $newinvoice->ShipFrom_Address_AddressDetail = strval($invoice["ShipFrom"]["Address"]["AddressDetail"]);
+            if (array_key_exists('City', $invoice["ShipFrom"]["Address"]))
+                $newinvoice->ShipFrom_Address_City = strval($invoice["ShipFrom"]["Address"]["City"]);
+            if (array_key_exists('PostalCode', $invoice["ShipFrom"]["Address"]))
+                $newinvoice->ShipFrom_Address_PostalCode = strval($invoice["ShipFrom"]["Address"]["PostalCode"]);
+            if (array_key_exists('Country', $invoice["ShipFrom"]["Address"]))
+                $newinvoice->ShipFrom_Address_Country = strval($invoice["ShipFrom"]["Address"]["Country"]);
+
+            if (array_key_exists('MovementStartTime', $invoice))
+                $newinvoice->MovementStartTime = strval($invoice["MovementStartTime"]);
+
+            if (array_key_exists('TaxPayable', $invoice["DocumentTotals"]))
+                $newinvoice->DocumentTotals_TaxPayable = strval($invoice["DocumentTotals"]["TaxPayable"]);
+            if (array_key_exists('NetTotal', $invoice["DocumentTotals"]))
+                $newinvoice->DocumentTotals_NetTotal = strval($invoice["DocumentTotals"]["NetTotal"]);
+            if (array_key_exists('GrossTotal', $invoice["DocumentTotals"]))
+                $newinvoice->DocumentTotals_GrossTotal = strval($invoice["DocumentTotals"]["GrossTotal"]);
+
+            if (array_key_exists('WithholdingTaxAmount', $invoice["WithholdingTax"]))
+                $newinvoice->WithholdingTax_WithholdingTaxAmount = strval($invoice["WithholdingTax"]["WithholdingTaxAmount"]);
+
+            $newinvoice->save();
         }
     
 

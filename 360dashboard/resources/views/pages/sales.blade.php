@@ -16,8 +16,10 @@
           <th>Account ID</th>
           <th>Customer Tax Id</th>
         </tr>
-       @if(count($customers) > 1)
+    
        <?php $i=0; ?>
+
+    @if(count($customers) > 1)
       @foreach($customers as $customer)
           <?php ++$i;?>
           @if($i < 5)
@@ -33,7 +35,7 @@
             <td>{{$customer->AccountID}}</td>
             <td>{{$customer->CustomerTaxID}}</td>
           </tr>
-        @endif
+          @endif
       @endforeach
       <tr>
            <td colspan=3> <span onclick="toggle('clientsTable')" style="cursor: pointer; color: blue" > View more </span> </td>
@@ -53,8 +55,8 @@
     <th>Product Group</th>
     <th>Product Type</th>
   </tr>
-  @if(count($products) > 1)
   <?php $i=0; ?>
+  @if(count($products) > 1)
       @foreach($products as $product)
       <?php ++$i;?>
        @if($i < 5)
@@ -77,7 +79,7 @@
       </tr>
     @else
         <p>No Products found</p>
-    @endif
+  @endif
 </table>
     </div>
 

@@ -5,7 +5,7 @@
     <div class="text-center">
 
 
-        <div class="BarGraph" id="BarChartContainer-Financial Analysis-Thousands billed-Thousands sold-Billed-Sales-Billed (thousand/month)-Sold (thousand/month)-/postajax" style="height: 370px; width: 100%;"></div>
+        <div class="BarGraph" id="BarChartContainer-Financial Analysis-Thousands billed-Thousands sold-Billed-Sales-Billed (thousand/month)-Sold (thousand/month)-postajax" style="height: 370px; width: 100%;"></div>
 
 
         <div class="well">

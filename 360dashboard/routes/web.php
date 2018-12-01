@@ -20,7 +20,6 @@ Route::get('/users/{id}', function ($id, $name) {
 Route::get('/index', 'PagesController@index');
 Route::get('/', 'PagesController@index');
 Route::get('/about', 'PagesController@about');
-Route::get('/services', 'PagesController@services');
 
 //Pages
 Route::get('/overview', 'PagesController@overview');

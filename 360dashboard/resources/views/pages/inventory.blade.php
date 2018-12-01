@@ -65,7 +65,7 @@
       </div>
 
 
-      <div class="roundGraph d-inline-flex m-5" id="roundChartContainerInventory-/postajaxRound" style="height: 300px; width: 50%;"> </div>
+      <div class="roundGraph d-inline-flex m-5" id="roundChartContainerInventory-postajaxRound" style="height: 300px; width: 50%;"> </div>
     </div>
 @endsection
 

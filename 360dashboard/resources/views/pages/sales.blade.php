@@ -3,7 +3,7 @@
 @section('content')
 <script type="text/javascript" src="{{ URL::asset('js/graph.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/roundGraphs.js') }}"></script>
-   
+
     @if(count($customers) > 1)
       @foreach($customers as $customer)
         <div class="well">
@@ -105,7 +105,7 @@
 
 <div>
   <h3 class="text-center">Sales</h3>
-    <div class="roundGraph d-inline-flex m-5" id="roundChartContainer-/postajaxRound" style="height: 300px; width: 50%;"> </div>
+    <div class="roundGraph d-inline-flex m-5" id="roundChartContainer-postajaxRound" style="height: 300px; width: 50%;"> </div>
     <div class="graph d-inline-flex m-5" id="chartContainerSales--Sales-postajax" style="height: 300px; width: 50%;"></div>
 
 

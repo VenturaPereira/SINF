@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+
+
     <form action = "{{route('file.store') }}" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="input-group mb-3">
@@ -12,5 +14,7 @@
     <button class="input-group-text" type="submit"> Submit file</button>
   </div>
 </div>
-      </form>
+</form>
+
+
 @endsection

@@ -10,7 +10,6 @@ use App\Suppliers;
 use App\Invoices;
 use DB;
 use File;
-
 class SaftController extends Controller
 {
     public function index()
@@ -21,11 +20,15 @@ class SaftController extends Controller
     public function store(Request $request)
     {
 
+        $disk = "uploads";
         //read from SAFT.xml on /public folder
         $file = $request->file('file');
         $filename=$file->getClientOriginalName();
-        $file_path=$file->getRealPath();
-        //$file_content = File::get($file_path.'\SAFT.xml'); //WINDOWS
+        $file_path = $file->getRealPath();
+       $file_path=$file->move($file->getRealPath() . $filename, '../../../public/'.$filename);
+       $updated_path = $file->getRealPath();
+       //return $updated_path;
+        //$file_content = File::get($updated_path);
         $file_content = File::get('/opt/lampp/htdocs/SINF/360dashboard/public/SAFT.xml'); //Unix
 
         $xml = simplexml_load_string($file_content);

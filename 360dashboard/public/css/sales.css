@@ -1,0 +1,75 @@
+#productsDiv{
+    margin-right: 10px;
+    width: 50%;
+    float: right;
+    margin-top: 5%;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    border: 0;
+}
+
+
+#clientsDiv{
+    margin-right: 10px;
+    width: 50%;
+    float: left;
+    margin-top: 5%;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    border: 0;
+}
+
+
+
+#activesDiv{
+    margin-right: 10px;
+    width: 50%;
+    float: right;
+    margin-top: 10%;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    border: 0;
+}
+
+
+#salesGraph{
+    margin-right: 10px !important;
+    width: 50% !important;
+    height: 0 !important;
+    float: left !important;
+    margin-top: 10% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important; 
+    padding: 0 !important;
+    border: 0 !important;
+}
+
+
+#roundChartContainer-/postajaxRound{
+    margin-right: 0 !important;
+    height: 0 !important ;
+    width: 30% !important;
+    float: left !important;
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+}
+
+#chartContainerSales--Sales-postajax{
+    margin-right: 0 !important;
+    height: 0 !important;
+    width: 80% !important;
+    float: left !important;
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0!important;
+    padding: 0 !important;
+    border: 0 !important;
+}
+
+

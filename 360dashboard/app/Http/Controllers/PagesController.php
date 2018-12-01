@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Customer;
+use App\Products;
 
 class PagesController extends Controller
 {
@@ -35,7 +36,8 @@ class PagesController extends Controller
     public function sales(){
 
         $customers = Customer::all();
-        return view('pages.sales')->with('customers',$customers);
+        $products = Products::all();
+        return view('pages.sales')->with(compact('customers','products'));
     }
 
 

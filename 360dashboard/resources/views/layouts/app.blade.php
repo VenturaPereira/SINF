@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="{{asset('css/app.css')}}">
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
-
+        
         <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 

@@ -3,6 +3,7 @@
 @section('content')
 <script type="text/javascript" src="{{ URL::asset('js/graph.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/roundGraphs.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/general.js') }}"></script>
 <link href="{{ URL::asset('css/sales.css') }}" rel="stylesheet">
 
 
@@ -38,7 +39,7 @@
           @endif
       @endforeach
       <tr>
-           <td colspan=3> <span onclick="toggle('clientsTable',event)"  style="cursor: pointer; color: blue" > View more </span> </td>
+           <td colspan=3> <span onclick="toggle('clientsTable-5',event)"  style="cursor: pointer; color: blue" > View more </span> </td>
       </tr>
     @else
         <p>No Customers found</p>
@@ -75,7 +76,7 @@
       @endif
       @endforeach
       <tr>
-           <td colspan=3> <span onclick="toggle('productsTable',event)"  style="cursor: pointer; color: blue" > View more </span> </td>
+           <td colspan=3> <span onclick="toggle('productsTable-5',event)"  style="cursor: pointer; color: blue" > View more </span> </td>
       </tr>
     @else
         <p>No Products found</p>
@@ -118,21 +119,3 @@
 
     </div>
 @endsection
-
-<script>
-function toggle(id,event){
-
-  var x= document.getElementById(id).rows;
-  var el_span = event.target;
-
-  for(var i=5; i < x.length-1; i++){
-  if(x[i].style.display === ""){
-    x[i].style.display = "none";
-    el_span.innerHTML = "View more";
-  } else {
-    x[i].style.removeProperty('display');
-    el_span.innerHTML = "View less";
-  }
-  }
-}
-</script>

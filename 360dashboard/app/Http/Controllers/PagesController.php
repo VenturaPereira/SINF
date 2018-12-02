@@ -42,8 +42,10 @@ class PagesController extends Controller
     public function inventory(){
 
         $products = Products::all();
+        $products_stock = $products->sortBy('ProductQuantity', SORT_REGULAR, true);
+        $products_sales = $products->sortBy('ProductSales', SORT_REGULAR, true);
 
-        return view('pages.inventory')->with(compact('products'));
+        return view('pages.inventory')->with(compact('products_sales','products_stock'));
     }
 
     public function financial(){

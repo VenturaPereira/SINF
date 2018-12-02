@@ -2,45 +2,53 @@
 
 @section('content')
 <script type="text/javascript" src="{{ URL::asset('js/roundGraphs.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/general.js') }}"></script>
     <div>
 
       <div class="container-fluid">
         <h3>Top products by sales </h3>
-        <table class="company_table">
+
+        @if(count($products_sales) > 1)
+        <table class="company_table" id="salesTable" >
     <tr>
       <th>#</th>
       <th>ID</th>
-      <th>Product</th>
-      <th>Quantity</th>
-      <th>Client ID</th>
+      <th>Product name</th>
+      <th>Sales number</th>
     </tr>
 
-    <tr>
-      <td>1</td>
-      <td>101010</td>
-      <td>Banana</td>
-      <td>3</td>
-      <td>1010</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>101010</td>
-      <td>Banana</td>
-      <td>3</td>
-      <td>1010</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>101010</td>
-      <td>Banana</td>
-      <td>3</td>
-      <td>1010</td>
-    </tr>
+    <?php $i=0;?>
+      @foreach($products_sales as $product)
+      <?php ++$i;?>
+       @if($i < 11)
+       <tr>
+          <td>{{$i}}</td>
+          <td>{{$product->ProductCode}}</td>
+          <td>{{$product->ProductDescription}}</td>
+          <td>{{$product->ProductSales}}</td>
+        </tr>
+
+      @else
+        <tr style="display: none ">
+          <td>{{$i}}</td>
+          <td>{{$product->ProductCode}}</td>
+          <td>{{$product->ProductDescription}}</td>
+          <td>{{$product->ProductQuantity}}</td>
+        </tr>
+      @endif
+      @endforeach
+      <tr>
+           <td colspan=4> <span onclick="toggle('salesTable-11',event)" style="cursor: pointer; color: blue" > View more </span> </td>
+      </tr>
+    @else
+        <h5>No Products found</h5>
+  @endif
   </table>
       </div>
 
       <div class="container-fluid">
         <h3>Stock </h3>
+        @if(count($products_stock) > 1)
         <table class="company_table" id="stockTable">
     <tr>
       <th>#</th>
@@ -49,17 +57,15 @@
       <th>Quantity</th>
     </tr>
 
-    <?php $i=0; $stock_example=30;?>
-    @if(count($products) > 1)
-      @foreach($products as $product)
+    <?php $i=0;?>
+      @foreach($products_stock as $product)
       <?php ++$i;?>
-       @if($i < 7)
+       @if($i < 6)
        <tr>
           <td>{{$i}}</td>
           <td>{{$product->ProductCode}}</td>
           <td>{{$product->ProductDescription}}</td>
-          <td>{{$stock_example}}</td>
-          <?php $stock_example = $stock_example*2;?>
+          <td>{{$product->ProductQuantity}}</td>
         </tr>
 
       @else
@@ -67,41 +73,20 @@
           <td>{{$i}}</td>
           <td>{{$product->ProductCode}}</td>
           <td>{{$product->ProductDescription}}</td>
-          <td>{{$stock_example}}</td>
-          <?php $stock_example = $stock_example*2;?>
+          <td>{{$product->ProductQuantity}}</td>
         </tr>
       @endif
       @endforeach
       <tr>
-           <td colspan=4> <span onclick="toggle('stockTable',event)" style="cursor: pointer; color: blue" > View more </span> </td>
+           <td colspan=4> <span onclick="toggle('stockTable-6',event)" style="cursor: pointer; color: blue" > View more </span> </td>
       </tr>
     @else
-        <p>No Products found</p>
+        <h5>No Products found</h5>
   @endif
   </table>
       </div>
 
 
-      <div class="roundGraph d-inline-flex m-5" id="roundChartContainerInventory-postajaxRound" style="height: 300px; width: 50%;"> </div>
+      <div class="roundGraph d-inline-flex m-5" id="roundChartContainerInventory-postajaxRoundStock" style="height: 350px; width: 70%;"> </div>
     </div>
 @endsection
-
-
-
-<script>
-function toggle(id,event){
-
-  var x= document.getElementById(id).rows;
-  var el_span = event.target;
-
-  for(var i=5; i < x.length-1; i++){
-  if(x[i].style.display === ""){
-    x[i].style.display = "none";
-    el_span.innerHTML = "View more";
-  } else {
-    x[i].style.removeProperty('display');
-    el_span.innerHTML = "View less";
-  }
-  }
-}
-</script>

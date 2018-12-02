@@ -22,10 +22,10 @@ $(document).ready(function(){
 
               	data: [{
               		type: "pie",
-              		indexLabelFontSize: 18,
+              		indexLabelFontSize: 15,
               		radius: 100,
               		indexLabel: "{label} - {y}",
-              		yValueFormatString: "###0.0\"%\"",
+              		yValueFormatString: "###0.0\"\"",
               		click: explodePie,
               		dataPoints: d_a
               	}]

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Customer;
+use App\Products;
 
 class AjaxController extends Controller
 {
@@ -22,18 +24,37 @@ $dataPoints = json_encode($dataPoints,JSON_NUMERIC_CHECK);
     return response()->json($dataPoints);
  }
 
- public function roundGraphsData(Request $request){
+ public function roundGraphsStock(Request $request){
 
-   $dataPoints = array(
-     array("y" => 42, "label" => "Gas"),
-     array("y" => 21, "label" => "Nuclear"),
-     array("y" => 24.5, "label" => "Renewable"),
-     array("y" => 9, "label" => "Coal"),
-     array("y" => 3.1, "label" => "Other Fuels")
+   $products = Products::all();
+   $products_price_stock = $products->sortBy('ProductQuantity*ProductUnitaryPrice', SORT_REGULAR, true);
+   $products_price_stock = $products_price_stock->take(10);
+   $dataPoints = array();
+
+   foreach($products_price_stock as $product){
+     array_push($dataPoints,array("y" => ($product->ProductQuantity * $product->ProductUnitaryPrice),
+     "label" => $product->ProductDescription)
    );
+
+ }
 
 
 $dataPoints = json_encode($dataPoints,JSON_NUMERIC_CHECK);
    return response()->json($dataPoints);
+}
+
+
+public function roundGraphsData(Request $request){
+
+$dataPoints = array(
+    array("y" => 21, "label" => "Nuclear"),
+    array("y" => 24.5, "label" => "Renewable"),
+    array("y" => 9, "label" => "Coal"),
+    array("y" => 3.1, "label" => "Other Fuels")
+  );
+
+
+$dataPoints = json_encode($dataPoints,JSON_NUMERIC_CHECK);
+  return response()->json($dataPoints);
 }
 }

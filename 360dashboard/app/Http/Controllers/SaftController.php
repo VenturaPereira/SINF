@@ -90,6 +90,10 @@ class SaftController extends Controller
                 $newProduct->ProductDescription = strval($product["ProductDescription"]);
             if (array_key_exists('ProductNumberCode', $product))
                 $newProduct->ProductNumberCode = strval($product["ProductNumberCode"]);
+            //if (array_key_exists('ProductQuantity', $product))
+                $newProduct->ProductQuantity = strval(rand(10,100));
+                $newProduct->ProductSales = strval(rand(4,50));
+                $newProduct->ProductUnitaryPrice = strval(rand(2,10));
 
             $newProduct->save();
 

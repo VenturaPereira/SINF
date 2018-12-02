@@ -34,7 +34,7 @@
           <td>{{$i}}</td>
           <td>{{$product->ProductCode}}</td>
           <td>{{$product->ProductDescription}}</td>
-          <td>{{$product->ProductQuantity}}</td>
+          <td>{{$product->ProductSales}}</td>
         </tr>
       @endif
       @endforeach
@@ -66,7 +66,13 @@
           <td>{{$i}}</td>
           <td>{{$product->ProductCode}}</td>
           <td>{{$product->ProductDescription}}</td>
+          @if($product->ProductQuantity < 35)
+          <td style="color:red;">{{$product->ProductQuantity}}</td>
+          @elseif($product->ProductQuantity > 80)
+          <td style="color:green;">{{$product->ProductQuantity}}</td>
+          @else
           <td>{{$product->ProductQuantity}}</td>
+          @endif
         </tr>
 
       @else
@@ -74,7 +80,13 @@
           <td>{{$i}}</td>
           <td>{{$product->ProductCode}}</td>
           <td>{{$product->ProductDescription}}</td>
+          @if($product->ProductQuantity < 35)
+          <td style="color:red;">{{$product->ProductQuantity}}</td>
+          @elseif($product->ProductQuantity > 80)
+          <td style="color:green;">{{$product->ProductQuantity}}</td>
+          @else
           <td>{{$product->ProductQuantity}}</td>
+          @endif
         </tr>
       @endif
       @endforeach

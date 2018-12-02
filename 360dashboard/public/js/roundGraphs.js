@@ -3,6 +3,10 @@ $(document).ready(function(){
   var id = document.getElementsByClassName("roundGraph")[0].id;
   var arr = id.split("-");
   var url = arr[1];
+  if(arr.length >2){
+  var title = arr[2];
+  var subtitle = arr[3];
+}
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
             /* the route pointing to the post function */
@@ -18,6 +22,14 @@ $(document).ready(function(){
               var chart = new CanvasJS.Chart(id, {
               	theme: "light2",
               	animationEnabled: true,
+
+                title: {
+            		text: title
+            	},
+            	subtitles: [{
+            		text: subtitle,
+            		fontSize: 16
+            	}],
 
               	data: [{
               		type: "pie",
@@ -37,7 +49,7 @@ $(document).ready(function(){
               	}
               }
 
-              
+
             }
         });
 

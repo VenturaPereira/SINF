@@ -17,7 +17,7 @@
     </div>
 
 
-        <div id="billing" class="border rounded border-success mr-5 d-inline-flex p-1 bd-highlight">Cash: 191.00 </div>
+        <div id="billing" class="border rounded border-success mr-5 d-inline-flex p-1 bd-highlight">Cash: 191.000.000 </div>
         <div id="expenditures" class="border rounded border-danger ml-5 d-inline-flex p-1 bd-highlight">Total expenditures: 33 </div>
         <div class="graph d-inline-flex m-5" id="chartContainer-Company growth-Company value-postajax" style="height: 300px; width: 50%;"></div>
 

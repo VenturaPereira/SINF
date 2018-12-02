@@ -3,71 +3,98 @@
 @section('content')
 <script type="text/javascript" src="{{ URL::asset('js/graph.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/roundGraphs.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/general.js') }}"></script>
+<link href="{{ URL::asset('css/sales.css') }}" rel="stylesheet">
     <div>
 
-    <div class="container-fluid">
-      <h3>Top Suppliers </h3>
-      <table class="company_table">
-  <tr>
-    <th>#</th>
-    <th>First Name</th>
-    <th>Client Number</th>
-  </tr>
-  <tr>
-    <td>1</td>
-    <td>Maria LDSA</td>
-    <td>101010</td>
-  </tr>
-  <tr>
-    <td>2</td>
-    <td>Maria LDSA</td>
-    <td>101010</td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>Maria LDSA</td>
-    <td>101010</td>
-  </tr>
-</table>
+      <div class="container-fluid" id="clientsDiv">
+        <h3>Top Suppliers </h3>
+        @if(count($suppliers) > 1)
+        <table class="company_table" id="clientsTable">
+        <tr>
+            <th>ID</th>
+            <th>Account ID</th>
+            <th>Supplier Name</th>
+          </tr>
+
+         <?php $i=0; ?>
+
+        @foreach($suppliers as $supplier)
+            <?php ++$i;?>
+            @if($i < 5)
+            <tr>
+              <td>{{$supplier->SupplierID}}</td>
+              <td>{{$supplier->AccountID}}</td>
+              <td>{{$supplier->CompanyName}}</td>
+            </tr>
+
+            @else
+            <tr style="display: none">
+              <td>{{$supplier->SupplierID}}</td>
+              <td>{{$supplier->AccountID}}</td>
+              <td>{{$supplier->CompanyName}}</td>
+            </tr>
+            @endif
+        @endforeach
+        @if(count($suppliers) >= 5)
+        <tr>
+             <td colspan=3> <span onclick="toggle('clientsTable-5',event)"  style="cursor: pointer; color: blue" > View more </span> </td>
+        </tr>
+        @endif
+      @else
+          <h5>No Suppliers found</h5>
+      @endif
+        </table>
+      </div>
+
+      <div class="container-fluid" id="productsDiv">
+
+        <h3>Top Products </h3>
+        @if(count($products) > 1)
+        <table class="company_table" id="productsTable">
+    <tr>
+      <th>Product Code</th>
+      <th>Product Group</th>
+      <th>Product Type</th>
+    </tr>
+    <?php $i=0; ?>
+        @foreach($products as $product)
+        <?php ++$i;?>
+         @if($i < 5)
+         <tr>
+            <td>{{$product->ProductCode}}</td>
+            <td>{{$product->ProductGroup}}</td>
+            <td>{{$product->ProductType}}</td>
+          </tr>
+
+        @else
+          <tr style="display: none ">
+            <td>{{$product->ProductCode}}</td>
+            <td>{{$product->ProductGroup}}</td>
+            <td>{{$product->ProductType}}</td>
+          </tr>
+        @endif
+        @endforeach
+        <tr>
+             <td colspan=3> <span onclick="toggle('productsTable-5',event)"  style="cursor: pointer; color: blue" > View more </span> </td>
+        </tr>
+      @else
+          <h5>No Products found</h5>
+    @endif
+  </table>
     </div>
 
 
-    <div class="container-fluid">
-      <h3>Top Products </h3>
-      <table class="company_table">
-  <tr>
-    <th>#</th>
-    <th>Product Name</th>
-    <th>Amount</th>
-    <th>Client Id</th>
-  </tr>
-  <tr>
-    <td>1</td>
-    <td>Banana</td>
-    <td>500</td>
-    <td>101010</td>
-  </tr>
-  <tr>
-    <td>2</td>
-    <td>Orange</td>
-    <td>500</td>
-    <td>101010</td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>Banana</td>
-    <td>500</td>
-    <td>101010</td>
-  </tr>
-</table>
+@if(count($suppliers) > 1)
+    <div class="container-fluid" id="salesGraph">
+      <h3>Supplies</h3>
+        <div class="graph d-inline-flex" id="chartContainerSupplies--Buys-postajax"></div>
     </div>
 
 
-    <div>
-      <h3 class="text-center">Supplies</h3>
-        <div class="roundGraph d-inline-flex m-5" id="roundChartContainerSupplies-postajaxRound" style="height: 300px; width: 50%;"> </div>
-        <div class="graph d-inline-flex m-5" id="chartContainerSupplies--Sales-postajax" style="height: 300px; width: 50%;"></div>
 
+      <div class="roundGraph d-inline-flex float-right" style="margin-top: 15%;" id="roundChartContainerSupplies-postajaxRound-Total Gross/Supplier-In $" style="height: 300px; width: 50%;"> </div>
+@endif
 
         </div>
 @endsection

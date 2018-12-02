@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Customer;
 use App\Products;
+use App\Suppliers;
 
 class PagesController extends Controller
 {
@@ -35,7 +36,9 @@ class PagesController extends Controller
 
     public function suppliers(){
 
-        return view('pages.suppliers');
+      $suppliers = Suppliers::all();
+      $products = Products::all();
+        return view('pages.suppliers')->with(compact('suppliers','products'));
     }
 
 

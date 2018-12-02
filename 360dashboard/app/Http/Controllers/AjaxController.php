@@ -52,10 +52,8 @@ $dataPoints = json_encode($dataPoints,JSON_NUMERIC_CHECK);
 public function roundGraphsData(Request $request){
 
 $dataPoints = array(
-    array("y" => 21, "name" => "Nuclear"),
-    array("y" => 24.5, "name" => "Renewable"),
-    array("y" => 9, "name" => "Coal"),
-    array("y" => 3.1, "name" => "Other Fuels")
+    array("y" => 200, "name" => "Sociedade de Fornecimentos, Lda"),
+    array("y" => 100, "name" => "Publicidade & Marrketing")
   );
 
 

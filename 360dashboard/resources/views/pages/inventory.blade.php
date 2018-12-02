@@ -84,9 +84,7 @@
         <h5>No Products found</h5>
   @endif
   </table>
+      <div class="roundGraph d-inline-flex m-5" id="roundChartContainerInventory-postajaxRoundStock" style="height: 370px; width: 100%;"> </div>
       </div>
-
-
-      <div class="roundGraph d-inline-flex m-5" id="roundChartContainerInventory-postajaxRoundStock" style="height: 350px; width: 70%;"> </div>
     </div>
 @endsection

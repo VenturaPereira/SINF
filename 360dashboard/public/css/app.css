@@ -28,3 +28,10 @@
     background-color: #232b2b;
     color: white;
 }
+
+.canvasjs-chart-tooltip{
+  right: 5px !important;
+  left: auto !important;
+  top: 5px !important;
+  bottom: auto !important;
+}

@@ -19,13 +19,11 @@ $(document).ready(function(){
               	theme: "light2",
               	animationEnabled: true,
 
-
               	data: [{
               		type: "pie",
               		indexLabelFontSize: 15,
               		radius: 100,
-              		indexLabel: "{label} - {y}",
-              		yValueFormatString: "###0.0\"\"",
+              		indexLabel: "{name} - {y}",
               		click: explodePie,
               		dataPoints: d_a
               	}]
@@ -39,7 +37,7 @@ $(document).ready(function(){
               	}
               }
 
-
+              
             }
         });
 

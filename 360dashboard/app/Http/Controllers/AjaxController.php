@@ -33,7 +33,7 @@ $dataPoints = json_encode($dataPoints,JSON_NUMERIC_CHECK);
 
    foreach($products_price_stock as $product){
      array_push($dataPoints,array("y" => ($product->ProductQuantity * $product->ProductUnitaryPrice),
-     "label" => $product->ProductDescription)
+     "name" => $product->ProductDescription)
    );
 
  }
@@ -47,10 +47,10 @@ $dataPoints = json_encode($dataPoints,JSON_NUMERIC_CHECK);
 public function roundGraphsData(Request $request){
 
 $dataPoints = array(
-    array("y" => 21, "label" => "Nuclear"),
-    array("y" => 24.5, "label" => "Renewable"),
-    array("y" => 9, "label" => "Coal"),
-    array("y" => 3.1, "label" => "Other Fuels")
+    array("y" => 21, "name" => "Nuclear"),
+    array("y" => 24.5, "name" => "Renewable"),
+    array("y" => 9, "name" => "Coal"),
+    array("y" => 3.1, "name" => "Other Fuels")
   );
 
 

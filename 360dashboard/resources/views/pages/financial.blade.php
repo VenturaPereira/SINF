@@ -30,7 +30,7 @@
 
     <div class="container-fluid" id="invDiv">
 
-      <h3>Top Products </h3>
+      <h3>Costs and Inventory </h3>
       <table class="company_table" id="invTable">
         <tr>
           <th>Cost of goods sold</th>

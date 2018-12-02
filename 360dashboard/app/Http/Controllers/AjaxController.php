@@ -10,13 +10,18 @@ class AjaxController extends Controller
 {
   public function graphsData(Request $request){
     $dataPoints = array(
-    	array("y" => 25, "label" => "Sunday"),
-    	array("y" => 15, "label" => "Monday"),
-    	array("y" => 25, "label" => "Tuesday"),
-    	array("y" => 5, "label" => "Wednesday"),
-    	array("y" => 10, "label" => "Thursday"),
-    	array("y" => 0, "label" => "Friday"),
-    	array("y" => 20, "label" => "Saturday")
+    	array("y" => 25, "label" => "January"),
+    	array("y" => 15, "label" => "February"),
+    	array("y" => 25, "label" => "March"),
+    	array("y" => 5, "label" => "April"),
+    	array("y" => 10, "label" => "May"),
+    	array("y" => 0, "label" => "June"),
+    	array("y" => 20, "label" => "July"),
+      array("y" => 30, "label" => "August"),
+      array("y" => 22, "label" => "September"),
+      array("y" => 21, "label" => "October"),
+      array("y" => 18, "label" => "November"),
+      array("y" => 6, "label" => "December")
     );
 
 

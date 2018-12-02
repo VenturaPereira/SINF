@@ -4,7 +4,7 @@
 <script type="text/javascript" src="{{ URL::asset('js/graph.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/roundGraphs.js') }}"></script>
 <link href="{{ URL::asset('css/sales.css') }}" rel="stylesheet">
-   
+
 
     <div>
 
@@ -16,7 +16,7 @@
           <th>Account ID</th>
           <th>Customer Tax Id</th>
         </tr>
-    
+
        <?php $i=0; ?>
 
     @if(count($customers) > 1)
@@ -28,7 +28,7 @@
             <td>{{$customer->AccountID}}</td>
             <td>{{$customer->CustomerTaxID}}</td>
           </tr>
-          
+
           @else
           <tr style="display: none">
             <td>{{$customer->CustomerID}}</td>
@@ -38,7 +38,7 @@
           @endif
       @endforeach
       <tr>
-           <td colspan=3> <span onclick="toggle('clientsTable')" style="cursor: pointer; color: blue" > View more </span> </td>
+           <td colspan=3> <span onclick="toggle('clientsTable',event)"  style="cursor: pointer; color: blue" > View more </span> </td>
       </tr>
     @else
         <p>No Customers found</p>
@@ -47,7 +47,7 @@
     </div>
 
     <div class="container-fluid" id="productsDiv">
-    
+
       <h3>Top Products </h3>
       <table class="company_table" id="productsTable">
   <tr>
@@ -75,7 +75,7 @@
       @endif
       @endforeach
       <tr>
-           <td colspan=3> <span onclick="toggle('productsTable')" style="cursor: pointer; color: blue" > View more </span> </td>
+           <td colspan=3> <span onclick="toggle('productsTable',event)"  style="cursor: pointer; color: blue" > View more </span> </td>
       </tr>
     @else
         <p>No Products found</p>
@@ -120,20 +120,19 @@
 @endsection
 
 <script>
+function toggle(id,event){
 
-function toggle(id){
-  console.log(id);
   var x= document.getElementById(id).rows;
+  var el_span = event.target;
 
   for(var i=5; i < x.length-1; i++){
   if(x[i].style.display === ""){
     x[i].style.display = "none";
+    el_span.innerHTML = "View more";
   } else {
     x[i].style.removeProperty('display');
+    el_span.innerHTML = "View less";
   }
   }
 }
-
-
-
 </script>

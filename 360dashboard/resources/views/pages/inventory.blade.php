@@ -5,7 +5,7 @@
     <div>
 
       <div class="container-fluid">
-        <h3>Sales orders </h3>
+        <h3>Top products by sales </h3>
         <table class="company_table">
     <tr>
       <th>#</th>
@@ -14,6 +14,7 @@
       <th>Quantity</th>
       <th>Client ID</th>
     </tr>
+
     <tr>
       <td>1</td>
       <td>101010</td>
@@ -40,27 +41,43 @@
 
       <div class="container-fluid">
         <h3>Stock </h3>
-        <table class="company_table">
+        <table class="company_table" id="stockTable">
     <tr>
       <th>#</th>
-      <th>Product</th>
+      <th>ID</th>
+      <th>Product name</th>
       <th>Quantity</th>
     </tr>
-    <tr>
-      <td>1</td>
-      <td>Banana</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>Banana</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>Banana</td>
-      <td>3</td>
-    </tr>
+
+    <?php $i=0; $stock_example=30;?>
+    @if(count($products) > 1)
+      @foreach($products as $product)
+      <?php ++$i;?>
+       @if($i < 7)
+       <tr>
+          <td>{{$i}}</td>
+          <td>{{$product->ProductCode}}</td>
+          <td>{{$product->ProductDescription}}</td>
+          <td>{{$stock_example}}</td>
+          <?php $stock_example = $stock_example*2;?>
+        </tr>
+
+      @else
+        <tr style="display: none ">
+          <td>{{$i}}</td>
+          <td>{{$product->ProductCode}}</td>
+          <td>{{$product->ProductDescription}}</td>
+          <td>{{$stock_example}}</td>
+          <?php $stock_example = $stock_example*2;?>
+        </tr>
+      @endif
+      @endforeach
+      <tr>
+           <td colspan=4> <span onclick="toggle('stockTable',event)" style="cursor: pointer; color: blue" > View more </span> </td>
+      </tr>
+    @else
+        <p>No Products found</p>
+  @endif
   </table>
       </div>
 
@@ -72,37 +89,19 @@
 
 
 <script>
-window.onload = function () {
+function toggle(id,event){
 
-var chart = new CanvasJS.Chart("chartContainer", {
-	theme: "light2",
-	animationEnabled: true,
+  var x= document.getElementById(id).rows;
+  var el_span = event.target;
 
-
-	data: [{
-		type: "pie",
-		indexLabelFontSize: 18,
-		radius: 100,
-		indexLabel: "{label} - {y}",
-		yValueFormatString: "###0.0\"%\"",
-		click: explodePie,
-		dataPoints: [
-			{ y: 42, label: "Gas" },
-			{ y: 21, label: "Nuclear"},
-			{ y: 24.5, label: "Renewable" },
-			{ y: 9, label: "Coal" },
-			{ y: 3.1, label: "Other Fuels" }
-		]
-	}]
-});
-chart.render();
-
-function explodePie(e) {
-	for(var i = 0; i < e.dataSeries.dataPoints.length; i++) {
-		if(i !== e.dataPointIndex)
-			e.dataSeries.dataPoints[i].exploded = false;
-	}
-}
-
+  for(var i=5; i < x.length-1; i++){
+  if(x[i].style.display === ""){
+    x[i].style.display = "none";
+    el_span.innerHTML = "View more";
+  } else {
+    x[i].style.removeProperty('display');
+    el_span.innerHTML = "View less";
+  }
+  }
 }
 </script>

@@ -41,7 +41,9 @@ class PagesController extends Controller
 
     public function inventory(){
 
-        return view('pages.inventory');
+        $products = Products::all();
+
+        return view('pages.inventory')->with(compact('products'));
     }
 
     public function financial(){

@@ -125,7 +125,17 @@ class SaftController extends Controller
         $query = "SELECT Fornecedor, Nome, Morada,Local,Cp,CpLoc,Tel,Fax,PrazoEnt,TotalDeb,LimiteCred,NumContrib,Pais FROM Fornecedores";
         $apiSuppliers = self::apiRequest($accessToken, $url, $query);
 
+        //Api Call - Gives all CabecCompras
+        $url = "http://localhost:4001/WebApi/Administrador/Consulta";
+        $query = "SELECT Entidade, DataDoc, NumDocExterno, TotalMerc, TotalIva, TotalDesc, NumContribuinte, Nome FROM CabecCompras";
+        $apiCabecCompras = self::apiRequest($accessToken, $url, $query);
 
+        //loop CabeCompras and save
+        //return $apiCabecCompras;
+        foreach($apiCabecCompras["DataSet"]["Table"] as $cabeccompra)
+        {
+            //
+        }
 
         //loop suppliers and save
         foreach($apiSuppliers["DataSet"]["Table"] as $supplier)

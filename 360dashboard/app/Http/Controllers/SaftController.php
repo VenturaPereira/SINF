@@ -181,9 +181,9 @@ class SaftController extends Controller
             if (array_key_exists('CustomerID', $customer))
                 $newCustomer->CustomerID = strval($customer["CustomerID"]);
             if (array_key_exists('AccountID', $customer))
-                $newCustomer->AccountID = intval($customer["AccountID"]);
+                $newCustomer->AccountID = strval($customer["AccountID"]);
             if (array_key_exists('CustomerTaxID', $customer))
-                $newCustomer->CustomerTaxID = intval($customer["CustomerTaxID"]);
+                $newCustomer->CustomerTaxID = strval($customer["CustomerTaxID"]);
             if (array_key_exists('CompanyName', $customer))
                 $newCustomer->CompanyName = strval($customer["CompanyName"]);
             if (array_key_exists('AddressDetail', $customer["BillingAddress"]))

@@ -24,14 +24,14 @@
             @if($i < 5)
             <tr>
               <td>{{$supplier->SupplierID}}</td>
-              <td>{{$supplier->AccountID}}</td>
+              <td>{{$supplier->SupplierTaxID}}</td>
               <td>{{$supplier->CompanyName}}</td>
             </tr>
 
             @else
             <tr style="display: none">
               <td>{{$supplier->SupplierID}}</td>
-              <td>{{$supplier->AccountID}}</td>
+              <td>{{$supplier->SupplierTaxID}}</td>
               <td>{{$supplier->CompanyName}}</td>
             </tr>
             @endif

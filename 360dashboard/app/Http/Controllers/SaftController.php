@@ -119,8 +119,50 @@ class SaftController extends Controller
         $url = "http://localhost:4001/WebApi/Administrador/Consulta";
         $query = "SELECT Cliente, Nome, Fac_Mor FROM Clientes";
         $apiClients = self::apiRequest($accessToken, $url, $query);
-        //return $apiClients;
         
+        //Api Call - Gives all Suppliers
+        $url = "http://localhost:4001/WebApi/Administrador/Consulta";
+        $query = "SELECT Fornecedor, Nome, Morada,Local,Cp,CpLoc,Tel,Fax,PrazoEnt,TotalDeb,LimiteCred,NumContrib,Pais FROM Fornecedores";
+        $apiSuppliers = self::apiRequest($accessToken, $url, $query);
+
+
+
+        //loop suppliers and save
+        foreach($apiSuppliers["DataSet"]["Table"] as $supplier)
+        {
+            $newsupplier = new Suppliers;
+
+            if (array_key_exists('Fornecedor', $supplier))
+                $newsupplier->SupplierID = strval($supplier["Fornecedor"]);
+            if (array_key_exists('NumContrib', $supplier))
+                $newsupplier->SupplierTaxID = strval($supplier["NumContrib"]);
+            if (array_key_exists('Nome', $supplier))
+                $newsupplier->CompanyName = strval($supplier["Nome"]);
+            if (array_key_exists('Morada', $supplier))
+                $newsupplier->BillingAddress_AddressDetail = strval($supplier["Morada"]);
+            if (array_key_exists('City', $supplier))
+                $newsupplier->BillingAddress_City = strval($supplier["City"]);
+            if (array_key_exists('Cp', $supplier))
+                $newsupplier->BillingAddress_PostalCode = strval($supplier["Cp"]);
+            if (array_key_exists('Pais', $supplier))
+                $newsupplier->BillingAddress_Country = strval($supplier["Pais"]);
+            if (array_key_exists('Tel', $supplier))
+                $newsupplier->Telephone = strval($supplier["Tel"]);
+            if (array_key_exists('Fax', $supplier))
+                $newsupplier->Fax = strval($supplier["Fax"]);
+            if (array_key_exists('TotalDeb', $supplier))
+                $newsupplier->TotalDeb = strval($supplier["TotalDeb"]);
+            if (array_key_exists('LimiteCred', $supplier))
+                $newsupplier->LimiteCred = strval($supplier["LimiteCred"]);
+
+
+            $newsupplier->save();
+
+            
+        }
+        
+
+
         //loop customers and save
         foreach ($array["MasterFiles"]["Customer"] as $customer){
 
@@ -182,7 +224,7 @@ class SaftController extends Controller
         }
 
         //loop suppliers and save
-        foreach ($array["MasterFiles"]["Supplier"] as $supplier){
+     /*   foreach ($array["MasterFiles"]["Supplier"] as $supplier){
 
 
             $newsupplier = new Suppliers;
@@ -222,7 +264,7 @@ class SaftController extends Controller
 
             $newsupplier->save();
 
-        }
+        }*/
 
         //loop Invoices and save
         foreach ($array["SourceDocuments"]["SalesInvoices"]["Invoice"] as $invoice){
@@ -304,8 +346,9 @@ class SaftController extends Controller
 
             if (array_key_exists('WithholdingTaxAmount', $invoice["WithholdingTax"]))
                 $newinvoice->WithholdingTax_WithholdingTaxAmount = strval($invoice["WithholdingTax"]["WithholdingTaxAmount"]);
-            
-            //lines
+                
+                
+/*
         foreach ($invoice["Line"] as $line){
             if(gettype($line) === 'array')
             {
@@ -347,7 +390,7 @@ class SaftController extends Controller
                 $newLine->save();
 
             }
-        }
+        }*/
 
             $newinvoice->save();
         }

@@ -8,20 +8,24 @@ use App\Customer;
 use App\Products;
 use App\Suppliers;
 use App\Invoices;
+use App\Lines;
 use DB;
 use File;
 use Illuminate\Http\Request;
+ini_set('max_execution_time', 300);
 
 class SaftController extends Controller
 {
     function readSaft($request){
         $file = $request->file('file');
         $filename=$file->getClientOriginalName();
-        
-        //windows
-            $file_content = File::get('C:\xampp\htdocs\SINF\360dashboard\public\SAFT.xml');
+        $file_path=$file->getRealPath();
+        //windows1
+            $file_content = File::get($file_path.'\SAFT.xml');
+        //windows2
+            //$file_content = File::get('C:\xampp\htdocs\SINF\360dashboard\public\SAFT.xml');
         //unix
-            //$file_content = File::get('/opt/lampp/htdocs/SINF/360dashboard/public/SAFT.xml'); 
+            //$file_contents = File::get('/opt/lampp/htdocs/SINF/360dashboard/public/SAFT.xml'); 
         $xml = simplexml_load_string($file_content);
         $json = json_encode($xml);
         $array = json_decode($json,TRUE);
@@ -115,7 +119,7 @@ class SaftController extends Controller
         $url = "http://localhost:4001/WebApi/Administrador/Consulta";
         $query = "SELECT Cliente, Nome, Fac_Mor FROM Clientes";
         $apiClients = self::apiRequest($accessToken, $url, $query);
-        return $apiClients;
+        //return $apiClients;
         
         //loop customers and save
         foreach ($array["MasterFiles"]["Customer"] as $customer){
@@ -300,9 +304,54 @@ class SaftController extends Controller
 
             if (array_key_exists('WithholdingTaxAmount', $invoice["WithholdingTax"]))
                 $newinvoice->WithholdingTax_WithholdingTaxAmount = strval($invoice["WithholdingTax"]["WithholdingTaxAmount"]);
+            
+            //lines
+        foreach ($invoice["Line"] as $line){
+            if(gettype($line) === 'array')
+            {
+                $newLine = new Lines;
+                $newLine->InvoiceNo = $newinvoice->InvoiceNo;
+
+                if (array_key_exists('ProductCode', $line))
+                    $newLine->ProductCode = strval($line["ProductCode"]);
+                if (array_key_exists('ProductDescription', $line))
+                    $newLine->ProductDescription = strval($line["ProductDescription"]);
+                if (array_key_exists('Quantity', $line))
+                    $newLine->Quantity = strval($line["Quantity"]);
+                if (array_key_exists('UnitOfMeasure', $line))
+                    $newLine->UnitOfMeasure = strval($line["UnitOfMeasure"]);
+                if (array_key_exists('UnitPrice', $line))
+                    $newLine->UnitPrice = strval($line["UnitPrice"]);
+                if (array_key_exists('TaxPointDate', $line))
+                    $newLine->TaxPointDate = strval($line["TaxPointDate"]);
+                if (array_key_exists('Description', $line))
+                    $newLine->Description = strval($line["Description"]);
+                if (array_key_exists('CreditAmount', $line))
+                    $newLine->CreditAmount = strval($line["CreditAmount"]);
+
+                if(array_key_exists('Tax', $line))
+                {
+                    if (array_key_exists('TaxType', $line["Tax"]))
+                        $newLine->Tax_TaxType = strval($line["Tax"]["TaxType"]);
+                    if (array_key_exists('TaxCountryRegion', $line["Tax"]))
+                        $newLine->Tax_TaxCountryRegion = strval($line["Tax"]["TaxCountryRegion"]);
+                    if (array_key_exists('TaxCode', $line["Tax"]))
+                        $newLine->Tax_TaxCode = strval($line["Tax"]["TaxCode"]);
+                    if (array_key_exists('TaxPercentage', $line["Tax"]))
+                        $newLine->Tax_TaxPercentage = strval($line["Tax"]["TaxPercentage"]);
+                }
+
+                if (array_key_exists('SettlementAmount', $line))
+                    $newLine->SettlementAmount = strval($line["SettlementAmount"]);
+
+                $newLine->save();
+
+            }
+        }
 
             $newinvoice->save();
         }
+
 
 
         //save XML in db

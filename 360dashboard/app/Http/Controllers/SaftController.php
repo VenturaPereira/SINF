@@ -73,7 +73,7 @@ class SaftController extends Controller
           CURLOPT_TIMEOUT => 30,
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => "GET",
-          CURLOPT_POSTFIELDS => http_build_query($query),
+          CURLOPT_POSTFIELDS => "\"$query\"\r\n",
           CURLOPT_HTTPHEADER => array(
             "Authorization: Bearer ".$accessToken,
             "Content-Type: application/json",
@@ -114,8 +114,8 @@ class SaftController extends Controller
         //Api Call - Gives all clients
         $url = "http://localhost:4001/WebApi/Administrador/Consulta";
         $query = "SELECT Cliente, Nome, Fac_Mor FROM Clientes";
-        //$apiClients = self::apiRequest($accessToken, $url, $query);
-
+        $apiClients = self::apiRequest($accessToken, $url, $query);
+        return $apiClients;
         
         //loop customers and save
         foreach ($array["MasterFiles"]["Customer"] as $customer){

@@ -9,6 +9,7 @@ use App\Products;
 use App\Suppliers;
 use App\Invoices;
 use App\Lines;
+use App\CabecCompras;
 use DB;
 use File;
 use Illuminate\Http\Request;
@@ -134,7 +135,27 @@ class SaftController extends Controller
         //return $apiCabecCompras;
         foreach($apiCabecCompras["DataSet"]["Table"] as $cabeccompra)
         {
-            //
+            $newcabeccompra = new CabecCompras;
+
+            if (array_key_exists('Entidade', $cabeccompra))
+                $newcabeccompra->Entidade = strval($cabeccompra["Entidade"]);
+            if (array_key_exists('DataDoc', $cabeccompra))
+                $newcabeccompra->DataDoc = strval($cabeccompra["DataDoc"]);
+            if (array_key_exists('NumDocExterno', $cabeccompra))
+                $newcabeccompra->NumDocExterno = strval($cabeccompra["NumDocExterno"]);
+            if (array_key_exists('TotalMerc', $cabeccompra))
+                $newcabeccompra->TotalMerc = strval($cabeccompra["TotalMerc"]);
+            if (array_key_exists('TotalIva', $cabeccompra))
+                $newcabeccompra->TotalIva = strval($cabeccompra["TotalIva"]);
+            if (array_key_exists('TotalDesc', $cabeccompra))
+                $newcabeccompra->TotalDesc = strval($cabeccompra["TotalDesc"]);
+            if (array_key_exists('NumContribuinte', $cabeccompra))
+                $newcabeccompra->NumContribuinte = strval($cabeccompra["NumContribuinte"]);
+            if (array_key_exists('Nome', $cabeccompra))
+                $newcabeccompra->Nome = strval($cabeccompra["Nome"]);
+
+            $newcabeccompra->save();
+
         }
 
         //loop suppliers and save

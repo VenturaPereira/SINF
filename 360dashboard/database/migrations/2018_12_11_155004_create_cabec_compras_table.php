@@ -14,8 +14,17 @@ class CreateCabecComprasTable extends Migration
     public function up()
     {
         Schema::create('cabec_compras', function (Blueprint $table) {
+
             $table->increments('id');
-            $table->timestamps();
+            $table->string('Entidade')->default(' ');
+            $table->string('DataDoc')->default(' ');
+            $table->string('NumDocExterno')->default(' ');
+            $table->string('TotalMerc')->default(' ');
+            $table->string('TotalIva')->default(' ');
+            $table->string('TotalDesc')->default(' ');
+            $table->string('NumContribuinte')->default(' ');
+            $table->string('Nome')->default(' ');
+            
         });
     }
 

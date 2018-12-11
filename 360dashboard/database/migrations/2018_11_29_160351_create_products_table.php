@@ -19,9 +19,9 @@ class CreateProductsTable extends Migration
             $table->string('ProductGroup')->default(' ');
             $table->string('ProductDescription')->default(' ');
             $table->string('ProductNumberCode')->default(' ');
-            $table->string('ProductQuantity')->default(strval(rand(10,100)));
-            $table->string('ProductSales')->default(strval(rand(4,50)));
-            $table->string('ProductUnitaryPrice')->default(strval(rand(2,10)));
+            $table->string('ProductQuantity')->default(' ');
+            $table->string('ProductSales')->default(' ');
+            $table->string('ProductUnitaryPrice')->default(' ');
         });
     }
 

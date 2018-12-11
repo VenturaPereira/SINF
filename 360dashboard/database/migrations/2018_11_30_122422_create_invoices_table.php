@@ -18,14 +18,14 @@ class CreateInvoicesTable extends Migration
             $table->string('ATCUD')->default(' ');
 
             $table->string('DocumentStatus_InvoiceStatus')->default(' ');
-            $table->string('DocumentStatus_InvoiceStatusDate')->default(' ');
+            $table->string('DocumentStatus_InvoiceStatusDate');
             $table->string('DocumentStatus_SourceID')->default(' ');
             $table->string('DocumentStatus_SourceBilling')->default(' ');
 
             $table->string('Hash')->default(' ');
             $table->string('HashControl')->default(' ');
             $table->string('Period')->default(' ');
-            $table->string('InvoiceDate')->default(' ');
+            $table->date('InvoiceDate')->nullable();
             $table->string('InvoiceType')->default(' ');
 
             $table->string('SpecialRegimes_SelfBillingIndicator')->default(' ');

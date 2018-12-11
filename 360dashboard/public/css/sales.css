@@ -37,37 +37,14 @@
 
 #salesGraph{
     margin-right: 10px !important;
-    width: 50% !important;
+    width: 100% !important;
     height: 0 !important;
     float: left !important;
     margin-top: 10% !important;
     margin-left: 0 !important;
-    margin-right: 0 !important;
+    margin-right: 5% !important;
     padding: 0 !important;
     border: 0 !important;
 }
 
 
-#roundChartContainer-/postajaxRound{
-    margin-right: 0 !important;
-    height: 0 !important ;
-    width: 30% !important;
-    float: left !important;
-    margin-top: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding: 0 !important;
-    border: 0 !important;
-}
-
-#chartContainerSales--Sales-postajax{
-    margin-right: 0 !important;
-    height: 0 !important;
-    width: 80% !important;
-    float: left !important;
-    margin-top: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0!important;
-    padding: 0 !important;
-    border: 0 !important;
-}

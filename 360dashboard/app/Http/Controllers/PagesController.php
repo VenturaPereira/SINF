@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Customer;
 use App\Products;
 use App\Suppliers;
+use DB;
+use Khill\Lavacharts\Lavacharts;
 
 class PagesController extends Controller
 {
@@ -27,10 +29,36 @@ class PagesController extends Controller
 
 
     public function sales(){
+        $customers = DB::select(
+            'select *
+            from customers 
+            INNER JOIN
+            (select CustomerID as cid, SUM(DocumentTotals_GrossTotal) as total
+            from invoices
+            GROUP BY cid) as temp
+            ON temp.cid = customers.CustomerID
+            ORDER BY temp.total DESC');
+            
+        $monthSales = DB::select(
+            'select distinct MONTH(invoiceDate) as month, SUM(DocumentTotals_GrossTotal) as total
+             from invoices
+             GROUP BY MONTH(invoices.invoiceDate)'
+        );
 
-        $customers = Customer::all();
+        $year = DB::select('select distinct YEAR(invoiceDate) as year from invoices');
+        $sales = \Lava::DataTable();
+        $sales->addDateColumn('Month')
+              ->addNumberColumn('Sales');
+    
+        
+        foreach($monthSales as $monthsale){
+            $sales->addRow([$year[0]->year.'-'.$monthsale->month.'-1',$monthsale->total]);
+        }
+        $Chart = \Lava::LineChart('Sales', $sales,[
+            'title' => 'Sales by current SAFT'
+        ]);
         $products = Products::all();
-        return view('pages.sales')->with(compact('customers','products'));
+        return view('pages.sales')->with(compact('customers','products','sales'));
     }
 
 

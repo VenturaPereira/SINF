@@ -20,16 +20,13 @@ class SaftController extends Controller
     public function store(Request $request)
     {
 
-        $disk = "uploads";
+    
         //read from SAFT.xml on /public folder
         $file = $request->file('file');
         $filename=$file->getClientOriginalName();
         $file_path = $file->getRealPath();
-       $file_path=$file->move($file->getRealPath() . $filename, '../../../public/'.$filename);
-       $updated_path = $file->getRealPath();
-       //return $updated_path;
-        //$file_content = File::get($updated_path);
-        $file_content = File::get('/opt/lampp/htdocs/SINF/360dashboard/public/SAFT.xml'); //Unix
+       
+        $file_content = File::get('C:\xampp\htdocs\SINF\360dashboard\public\SAFT.xml'); //Unix
 
         $xml = simplexml_load_string($file_content);
         $json = json_encode($xml);
@@ -48,9 +45,9 @@ class SaftController extends Controller
             if (array_key_exists('CustomerID', $customer))
                 $newCustomer->CustomerID = strval($customer["CustomerID"]);
             if (array_key_exists('AccountID', $customer))
-                $newCustomer->AccountID = strval($customer["AccountID"]);
+                $newCustomer->AccountID = intval($customer["AccountID"]);
             if (array_key_exists('CustomerTaxID', $customer))
-                $newCustomer->CustomerTaxID = strval($customer["CustomerTaxID"]);
+                $newCustomer->CustomerTaxID = intval($customer["CustomerTaxID"]);
             if (array_key_exists('CompanyName', $customer))
                 $newCustomer->CompanyName = strval($customer["CompanyName"]);
             if (array_key_exists('AddressDetail', $customer["BillingAddress"]))
@@ -109,9 +106,9 @@ class SaftController extends Controller
             if (array_key_exists('SupplierID', $supplier))
                 $newsupplier->SupplierID = strval($supplier["SupplierID"]);
             if (array_key_exists('AccountID', $supplier))
-                $newsupplier->AccountID = strval($supplier["AccountID"]);
+                $newsupplier->AccountID = intval($supplier["AccountID"]);
             if (array_key_exists('SupplierTaxID', $supplier))
-                $newsupplier->SupplierTaxID = strval($supplier["SupplierTaxID"]);
+                $newsupplier->SupplierTaxID = intval($supplier["SupplierTaxID"]);
             if (array_key_exists('CompanyName', $supplier))
                 $newsupplier->CompanyName = strval($supplier["CompanyName"]);
             if (array_key_exists('AddressDetail', $supplier["BillingAddress"]))
@@ -131,9 +128,9 @@ class SaftController extends Controller
             if (array_key_exists('Country', $supplier["ShipFromAddress"]))
                 $newsupplier->ShipFromAddress_Country = strval($supplier["ShipFromAddress"]["Country"]);
             if (array_key_exists('Telephone', $supplier))
-                $newsupplier->Telephone = strval($supplier["Telephone"]);
+                $newsupplier->Telephone = intval($supplier["Telephone"]);
             if (array_key_exists('Fax', $supplier))
-                $newsupplier->Fax = strval($supplier["Fax"]);
+                $newsupplier->Fax = intval($supplier["Fax"]);
             if (array_key_exists('Website', $supplier))
                 $newsupplier->Website = strval($supplier["Website"]);
             if (array_key_exists('SelfBillingIndicator', $supplier))
@@ -169,7 +166,7 @@ class SaftController extends Controller
             if (array_key_exists('Period', $invoice))
                 $newinvoice->Period = strval($invoice["Period"]);
             if (array_key_exists('InvoiceDate', $invoice))
-                $newinvoice->InvoiceDate = strval($invoice["InvoiceDate"]);
+                $newinvoice->InvoiceDate = date($invoice["InvoiceDate"]);
             if (array_key_exists('InvoiceType', $invoice))
                 $newinvoice->InvoiceType = strval($invoice["InvoiceType"]);
 

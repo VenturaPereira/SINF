@@ -123,7 +123,7 @@
 @if(count($customers) > 1)
 <div class="container-fluid" id="salesGraph">
   <h3>Sales</h3>
-    <div class="graph d-inline-flex m-5" id="chartContainerSales--Sales-postajax"></div>
+  {!! \Lava::render('LineChart', 'Sales', 'salesGraph') !!}
 </div>
 @endif
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+
 use App\Post;
 use App\Customer;
 use App\Products;
@@ -10,8 +10,91 @@ use App\Suppliers;
 use App\Invoices;
 use DB;
 use File;
+use Illuminate\Http\Request;
+
 class SaftController extends Controller
 {
+    function readSaft($request){
+        $file = $request->file('file');
+        $filename=$file->getClientOriginalName();
+        
+        //windows
+            $file_content = File::get('C:\xampp\htdocs\SINF\360dashboard\public\SAFT.xml');
+        //unix
+            //$file_content = File::get('/opt/lampp/htdocs/SINF/360dashboard/public/SAFT.xml'); 
+        $xml = simplexml_load_string($file_content);
+        $json = json_encode($xml);
+        $array = json_decode($json,TRUE);
+        return $array;
+    }
+
+    function apiRequestToken(){
+        $curl = curl_init();
+        
+        curl_setopt_array($curl, array(
+          CURLOPT_PORT => "4001",
+          CURLOPT_URL => "http://localhost:4001/WebApi/token",
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => "",
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 30,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => "POST",
+          CURLOPT_POSTFIELDS => "username=FEUP&password=qualquer1&company=DEMOSINF&instance=DEFAULT&grant_type=password&line=line",
+          CURLOPT_HTTPHEADER => array(
+            "Content-Type: application/x-www-form-urlencoded",
+            "Postman-Token: 948d5039-3e3b-4094-9638-99a7ca64e508",
+            "cache-control: no-cache"
+          ),
+        ));
+        
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        
+        curl_close($curl);
+        
+        if ($err) {
+          echo "cURL Error #:" . $err;
+        } else {
+          $jsondata = json_decode($response, TRUE);
+          return $jsondata["access_token"];
+        }
+    }
+
+    function apiRequest($accessToken, $url, $query){
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+          CURLOPT_PORT => "4001",
+          CURLOPT_URL => $url,
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => "",
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 30,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => "GET",
+          CURLOPT_POSTFIELDS => "\"$query\"\r\n",
+          CURLOPT_HTTPHEADER => array(
+            "Authorization: Bearer ".$accessToken,
+            "Content-Type: application/json",
+            "Postman-Token: 6d32ab81-a824-40c7-9fb2-1e1c5b2a16fa",
+            "cache-control: no-cache"
+          ),
+        ));
+        
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        
+        curl_close($curl);
+        
+        if ($err) {
+          echo "cURL Error #:" . $err;
+        } else {
+            $jsondata = json_decode($response, TRUE);
+            return $jsondata;
+        }
+    }
+
     public function index()
     {
         return view ('pages.saftmanager');
@@ -22,21 +105,18 @@ class SaftController extends Controller
 
     
         //read from SAFT.xml on /public folder
-        $file = $request->file('file');
-        $filename=$file->getClientOriginalName();
-        $file_path = $file->getRealPath();
-       
-        $file_content = File::get('C:\xampp\htdocs\SINF\360dashboard\public\SAFT.xml'); //Unix
+        $array = self::readSaft($request);
 
-        $xml = simplexml_load_string($file_content);
-        $json = json_encode($xml);
-        $array = json_decode($json,TRUE);
+        //Api call - Gives access token for future api calls
+        //IMPORTANT: Need to turn on VM with Primavera and enable Port Forwarding at port 4001
+        $accessToken = self::apiRequestToken();
 
-        //before update this will delete all rows
-        DB::table('customers')->delete();
-        DB::table('products')->delete();
-        DB::table('suppliers')->delete();
-
+        //Api Call - Gives all clients
+        $url = "http://localhost:4001/WebApi/Administrador/Consulta";
+        $query = "SELECT Cliente, Nome, Fac_Mor FROM Clientes";
+        $apiClients = self::apiRequest($accessToken, $url, $query);
+        return $apiClients;
+        
         //loop customers and save
         foreach ($array["MasterFiles"]["Customer"] as $customer){
 

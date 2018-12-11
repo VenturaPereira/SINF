@@ -15,8 +15,8 @@ class CreateCustomersTable extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->string('CustomerID')->default(' ');
-            $table->string('AccountID')->default(0);
-            $table->string('CustomerTaxID')->default(0);
+            $table->string('AccountID')->default(' ');
+            $table->string('CustomerTaxID')->default(' ');
             $table->string('CompanyName')->default(' ');
             $table->string('BillingAddress_AddressDetail')->default(' ');
             $table->string('BillingAddress_City')->default(' ');

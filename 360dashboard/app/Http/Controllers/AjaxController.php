@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Customer;
 use App\Products;
+use App\Suppliers;
 
 class AjaxController extends Controller
 {
@@ -51,10 +52,15 @@ $dataPoints = json_encode($dataPoints,JSON_NUMERIC_CHECK);
 
 public function roundGraphsData(Request $request){
 
-$dataPoints = array(
-    array("y" => 200, "name" => "Sociedade de Fornecimentos, Lda"),
-    array("y" => 100, "name" => "Publicidade & Marrketing")
+  $suppliers = Suppliers::all();
+  $dataPoints = array();
+
+
+  foreach($suppliers as $supplier){
+    array_push($dataPoints,array("y" => ($supplier->TotalDeb),
+    "name" => $supplier->CompanyName)
   );
+}
 
 
 $dataPoints = json_encode($dataPoints,JSON_NUMERIC_CHECK);

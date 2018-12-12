@@ -8,20 +8,25 @@ use App\Customer;
 use App\Products;
 use App\Suppliers;
 use App\Invoices;
+use App\Lines;
+use App\CabecCompras;
 use DB;
 use File;
 use Illuminate\Http\Request;
+ini_set('max_execution_time', 300);
 
 class SaftController extends Controller
 {
     function readSaft($request){
         $file = $request->file('file');
         $filename=$file->getClientOriginalName();
-        
-        //windows
+        $file_path=$file->getRealPath();
+        //windows1
+           // $file_content = File::get($file_path.'\SAFT.xml');
+        //windows2
             $file_content = File::get('C:\xampp\htdocs\SINF\360dashboard\public\SAFT.xml');
         //unix
-            //$file_content = File::get('/opt/lampp/htdocs/SINF/360dashboard/public/SAFT.xml'); 
+          //  $file_content = File::get('/opt/lampp/htdocs/SINF/360dashboard/public/SAFT.xml');
         $xml = simplexml_load_string($file_content);
         $json = json_encode($xml);
         $array = json_decode($json,TRUE);
@@ -30,7 +35,7 @@ class SaftController extends Controller
 
     function apiRequestToken(){
         $curl = curl_init();
-        
+
         curl_setopt_array($curl, array(
           CURLOPT_PORT => "4001",
           CURLOPT_URL => "http://localhost:4001/WebApi/token",
@@ -47,12 +52,12 @@ class SaftController extends Controller
             "cache-control: no-cache"
           ),
         ));
-        
+
         $response = curl_exec($curl);
         $err = curl_error($curl);
-        
+
         curl_close($curl);
-        
+
         if ($err) {
           echo "cURL Error #:" . $err;
         } else {
@@ -81,12 +86,12 @@ class SaftController extends Controller
             "cache-control: no-cache"
           ),
         ));
-        
+
         $response = curl_exec($curl);
         $err = curl_error($curl);
-        
+
         curl_close($curl);
-        
+
         if ($err) {
           echo "cURL Error #:" . $err;
         } else {
@@ -103,7 +108,7 @@ class SaftController extends Controller
     public function store(Request $request)
     {
 
-    
+
         //read from SAFT.xml on /public folder
         $array = self::readSaft($request);
 
@@ -115,8 +120,80 @@ class SaftController extends Controller
         $url = "http://localhost:4001/WebApi/Administrador/Consulta";
         $query = "SELECT Cliente, Nome, Fac_Mor FROM Clientes";
         $apiClients = self::apiRequest($accessToken, $url, $query);
-        
-        
+
+        //Api Call - Gives all Suppliers
+     
+        $query = "SELECT Fornecedor, Nome, Morada,Local,Cp,CpLoc,Tel,Fax,PrazoEnt,TotalDeb,LimiteCred,NumContrib,Pais FROM Fornecedores";
+        $apiSuppliers = self::apiRequest($accessToken, $url, $query);
+
+        //Api Call - Gives all CabecCompras
+      
+        $query = "SELECT Entidade, DataDoc, NumDocExterno, TotalMerc, TotalIva, TotalDesc, NumContribuinte, Nome FROM CabecCompras";
+        $apiCabecCompras = self::apiRequest($accessToken, $url, $query);
+
+        //loop CabeCompras and save
+        //return $apiCabecCompras;
+        foreach($apiCabecCompras["DataSet"]["Table"] as $cabeccompra)
+        {
+            $newcabeccompra = new CabecCompras;
+
+            if (array_key_exists('Entidade', $cabeccompra))
+                $newcabeccompra->Entidade = strval($cabeccompra["Entidade"]);
+            if (array_key_exists('DataDoc', $cabeccompra))
+                $newcabeccompra->DataDoc = strval($cabeccompra["DataDoc"]);
+            if (array_key_exists('NumDocExterno', $cabeccompra))
+                $newcabeccompra->NumDocExterno = strval($cabeccompra["NumDocExterno"]);
+            if (array_key_exists('TotalMerc', $cabeccompra))
+                $newcabeccompra->TotalMerc = strval($cabeccompra["TotalMerc"]);
+            if (array_key_exists('TotalIva', $cabeccompra))
+                $newcabeccompra->TotalIva = strval($cabeccompra["TotalIva"]);
+            if (array_key_exists('TotalDesc', $cabeccompra))
+                $newcabeccompra->TotalDesc = strval($cabeccompra["TotalDesc"]);
+            if (array_key_exists('NumContribuinte', $cabeccompra))
+                $newcabeccompra->NumContribuinte = strval($cabeccompra["NumContribuinte"]);
+            if (array_key_exists('Nome', $cabeccompra))
+                $newcabeccompra->Nome = strval($cabeccompra["Nome"]);
+
+            $newcabeccompra->save();
+
+        }
+
+        //loop suppliers and save
+        foreach($apiSuppliers["DataSet"]["Table"] as $supplier)
+        {
+            $newsupplier = new Suppliers;
+
+            if (array_key_exists('Fornecedor', $supplier))
+                $newsupplier->SupplierID = strval($supplier["Fornecedor"]);
+            if (array_key_exists('NumContrib', $supplier))
+                $newsupplier->SupplierTaxID = strval($supplier["NumContrib"]);
+            if (array_key_exists('Nome', $supplier))
+                $newsupplier->CompanyName = strval($supplier["Nome"]);
+            if (array_key_exists('Morada', $supplier))
+                $newsupplier->BillingAddress_AddressDetail = strval($supplier["Morada"]);
+            if (array_key_exists('City', $supplier))
+                $newsupplier->BillingAddress_City = strval($supplier["City"]);
+            if (array_key_exists('Cp', $supplier))
+                $newsupplier->BillingAddress_PostalCode = strval($supplier["Cp"]);
+            if (array_key_exists('Pais', $supplier))
+                $newsupplier->BillingAddress_Country = strval($supplier["Pais"]);
+            if (array_key_exists('Tel', $supplier))
+                $newsupplier->Telephone = strval($supplier["Tel"]);
+            if (array_key_exists('Fax', $supplier))
+                $newsupplier->Fax = strval($supplier["Fax"]);
+            if (array_key_exists('TotalDeb', $supplier))
+                $newsupplier->TotalDeb = strval($supplier["TotalDeb"]);
+            if (array_key_exists('LimiteCred', $supplier))
+                $newsupplier->LimiteCred = strval($supplier["LimiteCred"]);
+
+
+            $newsupplier->save();
+
+
+        }
+
+
+
         //loop customers and save
         foreach ($array["MasterFiles"]["Customer"] as $customer){
 
@@ -125,9 +202,9 @@ class SaftController extends Controller
             if (array_key_exists('CustomerID', $customer))
                 $newCustomer->CustomerID = strval($customer["CustomerID"]);
             if (array_key_exists('AccountID', $customer))
-                $newCustomer->AccountID = intval($customer["AccountID"]);
+                $newCustomer->AccountID = strval($customer["AccountID"]);
             if (array_key_exists('CustomerTaxID', $customer))
-                $newCustomer->CustomerTaxID = intval($customer["CustomerTaxID"]);
+                $newCustomer->CustomerTaxID = strval($customer["CustomerTaxID"]);
             if (array_key_exists('CompanyName', $customer))
                 $newCustomer->CompanyName = strval($customer["CompanyName"]);
             if (array_key_exists('AddressDetail', $customer["BillingAddress"]))
@@ -177,16 +254,14 @@ class SaftController extends Controller
 
         }
 
-        //loop suppliers and save
-        foreach ($array["MasterFiles"]["Supplier"] as $supplier){
+        //loop suppliers and save   SAFT
+      /*  foreach ($array["MasterFiles"]["Supplier"] as $supplier){
 
 
             $newsupplier = new Suppliers;
 
             if (array_key_exists('SupplierID', $supplier))
                 $newsupplier->SupplierID = strval($supplier["SupplierID"]);
-            if (array_key_exists('AccountID', $supplier))
-                $newsupplier->AccountID = intval($supplier["AccountID"]);
             if (array_key_exists('SupplierTaxID', $supplier))
                 $newsupplier->SupplierTaxID = intval($supplier["SupplierTaxID"]);
             if (array_key_exists('CompanyName', $supplier))
@@ -199,26 +274,17 @@ class SaftController extends Controller
                 $newsupplier->BillingAddress_PostalCode = strval($supplier["BillingAddress"]["PostalCode"]);
             if (array_key_exists('Country', $supplier["BillingAddress"]))
                 $newsupplier->BillingAddress_Country = strval($supplier["BillingAddress"]["Country"]);
-            if (array_key_exists('AddressDetail', $supplier["ShipFromAddress"]))
-                $newsupplier->ShipFromAddress_AddressDetail = strval($supplier["ShipFromAddress"]["AddressDetail"]);
-            if (array_key_exists('City', $supplier["ShipFromAddress"]))
-                $newsupplier->ShipFromAddress_City = strval($supplier["ShipFromAddress"]["City"]);
-            if (array_key_exists('PostalCode', $supplier["ShipFromAddress"]))
-                $newsupplier->ShipFromAddress_PostalCode = strval($supplier["ShipFromAddress"]["PostalCode"]);
-            if (array_key_exists('Country', $supplier["ShipFromAddress"]))
-                $newsupplier->ShipFromAddress_Country = strval($supplier["ShipFromAddress"]["Country"]);
             if (array_key_exists('Telephone', $supplier))
                 $newsupplier->Telephone = intval($supplier["Telephone"]);
             if (array_key_exists('Fax', $supplier))
                 $newsupplier->Fax = intval($supplier["Fax"]);
-            if (array_key_exists('Website', $supplier))
-                $newsupplier->Website = strval($supplier["Website"]);
-            if (array_key_exists('SelfBillingIndicator', $supplier))
-                $newsupplier->SelfBillingIndicator = strval($supplier["SelfBillingIndicator"]);
+
+                $newsupplier->TotalDeb = strval(rand(0,50000));
+                $newsupplier->LimiteCred = '0';
 
             $newsupplier->save();
 
-        }
+        }*/
 
         //loop Invoices and save
         foreach ($array["SourceDocuments"]["SalesInvoices"]["Invoice"] as $invoice){
@@ -301,8 +367,54 @@ class SaftController extends Controller
             if (array_key_exists('WithholdingTaxAmount', $invoice["WithholdingTax"]))
                 $newinvoice->WithholdingTax_WithholdingTaxAmount = strval($invoice["WithholdingTax"]["WithholdingTaxAmount"]);
 
+
+/*
+        foreach ($invoice["Line"] as $line){
+            if(gettype($line) === 'array')
+            {
+                $newLine = new Lines;
+                $newLine->InvoiceNo = $newinvoice->InvoiceNo;
+
+                if (array_key_exists('ProductCode', $line))
+                    $newLine->ProductCode = strval($line["ProductCode"]);
+                if (array_key_exists('ProductDescription', $line))
+                    $newLine->ProductDescription = strval($line["ProductDescription"]);
+                if (array_key_exists('Quantity', $line))
+                    $newLine->Quantity = strval($line["Quantity"]);
+                if (array_key_exists('UnitOfMeasure', $line))
+                    $newLine->UnitOfMeasure = strval($line["UnitOfMeasure"]);
+                if (array_key_exists('UnitPrice', $line))
+                    $newLine->UnitPrice = strval($line["UnitPrice"]);
+                if (array_key_exists('TaxPointDate', $line))
+                    $newLine->TaxPointDate = strval($line["TaxPointDate"]);
+                if (array_key_exists('Description', $line))
+                    $newLine->Description = strval($line["Description"]);
+                if (array_key_exists('CreditAmount', $line))
+                    $newLine->CreditAmount = strval($line["CreditAmount"]);
+
+                if(array_key_exists('Tax', $line))
+                {
+                    if (array_key_exists('TaxType', $line["Tax"]))
+                        $newLine->Tax_TaxType = strval($line["Tax"]["TaxType"]);
+                    if (array_key_exists('TaxCountryRegion', $line["Tax"]))
+                        $newLine->Tax_TaxCountryRegion = strval($line["Tax"]["TaxCountryRegion"]);
+                    if (array_key_exists('TaxCode', $line["Tax"]))
+                        $newLine->Tax_TaxCode = strval($line["Tax"]["TaxCode"]);
+                    if (array_key_exists('TaxPercentage', $line["Tax"]))
+                        $newLine->Tax_TaxPercentage = strval($line["Tax"]["TaxPercentage"]);
+                }
+
+                if (array_key_exists('SettlementAmount', $line))
+                    $newLine->SettlementAmount = strval($line["SettlementAmount"]);
+
+                $newLine->save();
+
+            }
+        }*/
+
             $newinvoice->save();
         }
+
 
 
         //save XML in db

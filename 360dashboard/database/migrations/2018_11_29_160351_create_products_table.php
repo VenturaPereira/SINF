@@ -14,14 +14,19 @@ class CreateProductsTable extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->string('ProductType')->default(' ');
             $table->string('ProductCode')->default(' ');
-            $table->string('ProductGroup')->default(' ');
+            $table->string('ProductPrice')->default(' ');
             $table->string('ProductDescription')->default(' ');
-            $table->string('ProductNumberCode')->default(' ');
-            $table->string('ProductQuantity')->default(' ');
+            $table->string('ProductSupplier')->default(' ');
+            $table->string('StkMin')->default(' ');
+            $table->string('StkMax')->default(' ');
+            $table->string('StkReposition')->default(' ');
+            $table->string('StkCurrent')->default(' ');
+            $table->string('PCMed')->default(' ');
+            $table->string('PCLast')->default(' ');
+            $table->string('DateLastEntrance')->default(' ');
+            $table->string('DateLastOutput')->default(' ');
             $table->string('ProductSales')->default(' ');
-            $table->string('ProductUnitaryPrice')->default(' ');
         });
     }
 

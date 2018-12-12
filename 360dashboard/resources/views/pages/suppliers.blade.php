@@ -54,8 +54,8 @@
         <table class="company_table" id="productsTable">
     <tr>
       <th>Product Code</th>
-      <th>Product Group</th>
-      <th>Product Type</th>
+      <th>Product Description</th>
+      <th>Product Price</th>
     </tr>
     <?php $i=0; ?>
         @foreach($products as $product)
@@ -63,15 +63,15 @@
          @if($i < 5)
          <tr>
             <td>{{$product->ProductCode}}</td>
-            <td>{{$product->ProductGroup}}</td>
-            <td>{{$product->ProductType}}</td>
+            <td>{{$product->ProductDescription}}</td>
+            <td>{{$product->ProductPrice}}</td>
           </tr>
 
         @else
           <tr style="display: none ">
             <td>{{$product->ProductCode}}</td>
-            <td>{{$product->ProductGroup}}</td>
-            <td>{{$product->ProductType}}</td>
+            <td>{{$product->ProductDescription}}</td>
+            <td>{{$product->ProductPrice}}</td>
           </tr>
         @endif
         @endforeach

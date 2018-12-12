@@ -134,6 +134,49 @@ class SaftController extends Controller
         $query = "SELECT Id, IdCabecCompras, NumLinha, NumDocExterno, Artigo, Quantidade, PrecUnit, DataDoc, DataEntrada, DataEntrega, PrecoLiquido, TotalIva, TotalIliquido, Descricao FROM LinhasCompras";
         $apiLinhasCompras = self::apiRequest($accessToken, $url, $query);
 
+        //Api Call - Gives all Products
+        $query = "SELECT Artigo.Artigo, ArtigoMoeda.PVP1, Descricao, Fornecedor, StkMinimo, StkMaximo, StkReposicao, StkActual, PcMedio, PcUltimo, DataUltEntrada, DataUltSaida FROM Artigo, ArtigoMoeda where Artigo.Artigo like ArtigoMoeda.Artigo";
+        $apiProducts = self::apiRequest($accessToken, $url, $query);
+
+        //loop products and save
+        foreach ($apiProducts["DataSet"]["Table"] as $product){
+
+            $newProduct = new Products;
+
+            if (array_key_exists('Artigo', $product))
+                $newProduct->ProductCode = strval($product["Artigo"]);
+            if (array_key_exists('PVP1', $product))
+                $newProduct->ProductPrice = strval($product["PVP1"]);
+            if (array_key_exists('Descricao', $product))
+                $newProduct->ProductDescription = strval($product["Descricao"]);
+            if (array_key_exists('Fornecedor', $product))
+                $newProduct->ProductSupplier = strval($product["Fornecedor"]);
+            if (array_key_exists('StkMinimo', $product))
+                $newProduct->StkMin = strval($product["StkMinimo"]);
+            if (array_key_exists('StkMaximo', $product))
+                $newProduct->StkMax = strval($product["StkMaximo"]);
+            if (array_key_exists('StkReposicao', $product))
+                $newProduct->StkReposition = strval($product["StkReposicao"]);
+            if (array_key_exists('StkActual', $product))
+                $newProduct->StkCurrent = strval($product["StkActual"]);
+            if (array_key_exists('PcMedio', $product))
+                $newProduct->PCMed = strval($product["PcMedio"]);
+            if (array_key_exists('PCUltimo', $product))
+                $newProduct->PCLast = strval($product["PCUltimo"]);
+            if (array_key_exists('DataUltEntrada', $product))
+                $newProduct->DateLastEntrance = strval($product["DataUltEntrada"]);
+            if (array_key_exists('DataUltSaida', $product))
+                $newProduct->DateLastOutput = strval($product["DataUltSaida"]);
+
+
+                //??? talvez não ter esta coluna mas sim fazer uma query para obter esta info
+                $newProduct->ProductSales = strval(rand(4,50));
+                
+
+            $newProduct->save();
+
+
+        }
 
         //loop LinhasCompras and save
         foreach($apiLinhasCompras["DataSet"]["Table"] as $linhacompra)
@@ -269,31 +312,6 @@ class SaftController extends Controller
                 $newCustomer->ShipToAddress_Country = strval($customer["ShipToAddress"]["Country"]);
 
             $newCustomer->save();
-
-
-        }
-
-        //loop products and save
-        foreach ($array["MasterFiles"]["Product"] as $product){
-
-            $newProduct = new Products;
-
-            if (array_key_exists('ProductType', $product))
-                $newProduct->ProductType = strval($product["ProductType"]);
-            if (array_key_exists('ProductCode', $product))
-                $newProduct->ProductCode = strval($product["ProductCode"]);
-            if (array_key_exists('ProductGroup', $product))
-                $newProduct->ProductGroup = strval($product["ProductGroup"]);
-            if (array_key_exists('ProductDescription', $product))
-                $newProduct->ProductDescription = strval($product["ProductDescription"]);
-            if (array_key_exists('ProductNumberCode', $product))
-                $newProduct->ProductNumberCode = strval($product["ProductNumberCode"]);
-            //if (array_key_exists('ProductQuantity', $product))
-                $newProduct->ProductQuantity = strval(rand(10,100));
-                $newProduct->ProductSales = strval(rand(4,50));
-                $newProduct->ProductUnitaryPrice = strval(rand(2,10));
-
-            $newProduct->save();
 
 
         }

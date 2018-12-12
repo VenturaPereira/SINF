@@ -10,6 +10,7 @@ use App\Suppliers;
 use App\Invoices;
 use App\Lines;
 use App\CabecCompras;
+use App\LinhasCompras;
 use DB;
 use File;
 use Illuminate\Http\Request;
@@ -22,9 +23,9 @@ class SaftController extends Controller
         $filename=$file->getClientOriginalName();
         $file_path=$file->getRealPath();
         //windows1
-           // $file_content = File::get($file_path.'\SAFT.xml');
+            $file_content = File::get($file_path.'\SAFT.xml');
         //windows2
-            $file_content = File::get('C:\xampp\htdocs\SINF\360dashboard\public\SAFT.xml');
+            //$file_content = File::get('C:\xampp\htdocs\SINF\360dashboard\public\SAFT.xml');
         //unix
           //  $file_content = File::get('/opt/lampp/htdocs/SINF/360dashboard/public/SAFT.xml');
         $xml = simplexml_load_string($file_content);
@@ -122,21 +123,64 @@ class SaftController extends Controller
         $apiClients = self::apiRequest($accessToken, $url, $query);
 
         //Api Call - Gives all Suppliers
-     
         $query = "SELECT Fornecedor, Nome, Morada,Local,Cp,CpLoc,Tel,Fax,PrazoEnt,TotalDeb,LimiteCred,NumContrib,Pais FROM Fornecedores";
         $apiSuppliers = self::apiRequest($accessToken, $url, $query);
 
         //Api Call - Gives all CabecCompras
-      
-        $query = "SELECT Entidade, DataDoc, NumDocExterno, TotalMerc, TotalIva, TotalDesc, NumContribuinte, Nome FROM CabecCompras";
+        $query = "SELECT Id, Entidade, DataDoc, NumDocExterno, TotalMerc, TotalIva, TotalDesc, NumContribuinte, Nome FROM CabecCompras";
         $apiCabecCompras = self::apiRequest($accessToken, $url, $query);
 
+        //Api Call - Gives all LinhasCompras
+        $query = "SELECT Id, IdCabecCompras, NumLinha, NumDocExterno, Artigo, Quantidade, PrecUnit, DataDoc, DataEntrada, DataEntrega, PrecoLiquido, TotalIva, TotalIliquido, Descricao FROM LinhasCompras";
+        $apiLinhasCompras = self::apiRequest($accessToken, $url, $query);
+
+
+        //loop LinhasCompras and save
+        foreach($apiLinhasCompras["DataSet"]["Table"] as $linhacompra)
+        {
+            $newlinhacompra = new LinhasCompras;
+
+            if (array_key_exists('Id', $linhacompra))
+                $newlinhacompra->Id = strval($linhacompra["Id"]);
+            if (array_key_exists('IdCabecCompras', $linhacompra))
+                $newlinhacompra->IdCabecCompras = strval($linhacompra["IdCabecCompras"]);
+            if (array_key_exists('NumLinha', $linhacompra))
+                $newlinhacompra->NumLinha = strval($linhacompra["NumLinha"]);
+            if (array_key_exists('NumDocExterno', $linhacompra))
+                $newlinhacompra->NumDocExterno = strval($linhacompra["NumDocExterno"]);
+            if (array_key_exists('Artigo', $linhacompra))
+                $newlinhacompra->Artigo = strval($linhacompra["Artigo"]);
+            if (array_key_exists('Quantidade', $linhacompra))
+                $newlinhacompra->Quantidade = strval($linhacompra["Quantidade"]);
+            if (array_key_exists('PrecUnit', $linhacompra))
+                $newlinhacompra->PrecUnit = strval($linhacompra["PrecUnit"]);
+            if (array_key_exists('DataDoc', $linhacompra))
+                $newlinhacompra->DataDoc = strval($linhacompra["DataDoc"]);
+            if (array_key_exists('DataEntrada', $linhacompra))
+                $newlinhacompra->DataEntrada = strval($linhacompra["DataEntrada"]);
+            if (array_key_exists('DataEntrega', $linhacompra))
+                $newlinhacompra->DataEntrega = strval($linhacompra["DataEntrega"]);
+            if (array_key_exists('PrecoLiquido', $linhacompra))
+                $newlinhacompra->PrecoLiquido = strval($linhacompra["PrecoLiquido"]);
+            if (array_key_exists('TotalIva', $linhacompra))
+                $newlinhacompra->TotalIva = strval($linhacompra["TotalIva"]);
+            if (array_key_exists('TotalIliquido', $linhacompra))
+                $newlinhacompra->TotalIliquido = strval($linhacompra["TotalIliquido"]);
+            if (array_key_exists('Descricao', $linhacompra))
+                $newlinhacompra->Descricao = strval($linhacompra["Descricao"]);
+
+            $newlinhacompra->save();
+
+        }
+
+
         //loop CabeCompras and save
-        //return $apiCabecCompras;
         foreach($apiCabecCompras["DataSet"]["Table"] as $cabeccompra)
         {
             $newcabeccompra = new CabecCompras;
 
+            if (array_key_exists('Id', $cabeccompra))
+                $newcabeccompra->Id = strval($cabeccompra["Id"]);
             if (array_key_exists('Entidade', $cabeccompra))
                 $newcabeccompra->Entidade = strval($cabeccompra["Entidade"]);
             if (array_key_exists('DataDoc', $cabeccompra))

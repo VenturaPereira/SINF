@@ -28,6 +28,15 @@ class PagesController extends Controller
     }
 
 
+    public function getDetails(Request $request, $id)
+    {
+        
+      $user_data = DB::table('customers')
+      ->where('CustomerID', 'LIKE', '%' . $id . '%')
+      ->get();
+      
+      return response()->json($user_data);
+    }
     public function sales(){
         $customers = DB::select(
             'select *

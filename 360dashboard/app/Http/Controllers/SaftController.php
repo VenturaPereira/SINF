@@ -115,7 +115,7 @@ class SaftController extends Controller
         $url = "http://localhost:4001/WebApi/Administrador/Consulta";
         $query = "SELECT Cliente, Nome, Fac_Mor FROM Clientes";
         $apiClients = self::apiRequest($accessToken, $url, $query);
-        return $apiClients;
+        
         
         //loop customers and save
         foreach ($array["MasterFiles"]["Customer"] as $customer){

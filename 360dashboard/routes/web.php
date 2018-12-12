@@ -33,6 +33,7 @@ Route::get('/financial', 'PagesController@financial');
 Route::resource('posts', 'PostsController');
 Route::resource('saft', 'SaftController');
 
+Route::get('/sales/{id}','PagesController@getDetails')->name('sales.info');
 
 Route::post('/postajax','AjaxController@graphsData');
 Route::post('/postajaxRound','AjaxController@roundGraphsData');

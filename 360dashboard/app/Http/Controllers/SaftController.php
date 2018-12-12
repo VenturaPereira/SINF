@@ -19,11 +19,12 @@ ini_set('max_execution_time', 300);
 class SaftController extends Controller
 {
     function readSaft($request){
-        $file = $request->file('file');
-        $filename=$file->getClientOriginalName();
-        $file_path=$file->getRealPath();
+        $input = $request->file('file');
+        $filename = $input->getClientOriginalName(); 
+        $input->move(base_path(),$filename); // moving the file to specified dir 
+        $file_content = File::get(base_path().'/'.$filename);
         //windows1
-            $file_content = File::get($file_path.'\SAFT.xml');
+            //$file_content = File::get($file_path.'\SAFT.xml');
         //windows2
             //$file_content = File::get('C:\xampp\htdocs\SINF\360dashboard\public\SAFT.xml');
         //unix
@@ -108,9 +109,7 @@ class SaftController extends Controller
 
     public function store(Request $request)
     {
-
-
-        //read from SAFT.xml on /public folder
+        //read SAFT file
         $array = self::readSaft($request);
 
         //Api call - Gives access token for future api calls

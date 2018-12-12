@@ -92,8 +92,7 @@
     </div>
 
 
-
-      <div class="roundGraph d-inline-flex float-right" style="margin-top: 15%;" id="roundChartContainerSupplies-postajaxRound-Total Gross/Supplier-In $" style="height: 300px; width: 50%;"> </div>
+      <div class="roundGraph d-inline-flex float-right" style="margin-top: 0%;margin-right: 40%;" id="roundChartContainerSupplies-postajaxRound-Total Gross/Supplier-In $" style="height: 300px; width: 50%;"> </div>
 @endif
 
         </div>

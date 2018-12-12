@@ -31,14 +31,14 @@ class PagesController extends Controller
     public function sales(){
         $customers = DB::select(
             'select *
-            from customers 
+            from customers
             INNER JOIN
             (select CustomerID as cid, SUM(DocumentTotals_GrossTotal) as total
             from invoices
             GROUP BY cid) as temp
             ON temp.cid = customers.CustomerID
             ORDER BY temp.total DESC');
-            
+
         $monthSales = DB::select(
             'select distinct MONTH(invoiceDate) as month, SUM(DocumentTotals_GrossTotal) as total
              from invoices
@@ -49,8 +49,8 @@ class PagesController extends Controller
         $sales = \Lava::DataTable();
         $sales->addDateColumn('Month')
               ->addNumberColumn('Sales');
-    
-        
+
+
         foreach($monthSales as $monthsale){
             $sales->addRow([$year[0]->year.'-'.$monthsale->month.'-1',$monthsale->total]);
         }
@@ -64,8 +64,60 @@ class PagesController extends Controller
 
     public function suppliers(){
 
+
       $suppliers = Suppliers::all();
+
+    /*  $suppliers = DB::select(
+          'select *
+          from suppliers
+          INNER JOIN
+          (select CustomerID as cid, SUM(DocumentTotals_GrossTotal) as total
+          from invoices
+          GROUP BY cid) as temp
+          ON temp.cid = suppliers.SupplierID
+          ORDER BY temp.total DESC');
+
+      $monthSales = DB::select(
+          'select distinct MONTH(invoiceDate) as month, SUM(DocumentTotals_GrossTotal) as total
+           from invoices
+           GROUP BY MONTH(invoices.invoiceDate)'
+      );
+
+      $year = DB::select('select distinct YEAR(invoiceDate) as year from invoices');
+
+      $supplies = \Lava::DataTable();
+      $supplies->addDateColumn('Month')
+            ->addNumberColumn('Supplies');
+
+
+      foreach($monthSales as $monthsale){
+          $supplies->addRow([$year[0]->year.'-'.$monthsale->month.'-1',$monthsale->total]);
+      }
+      $Chart = \Lava::LineChart('Sales', $supplies,[
+          'title' => 'Supplies'
+      ]);*/
+
+    /*  $total_gross = \Lava::DataTable();
+      $total_gross->addStringColumn('total_gross')
+                  ->addNumberColumn('Value');
+
+
+
+      foreach($suppliers as $supplier){
+        $total_gross->addRow([$supplier->CompanyName, $supplier->TotalDeb]);
+    }
+
+
+      $Chart = \Lava::PieChart('total_gross', $total_gross,[
+          'title' => 'Total gross/supplier'
+      ]);*/
+
       $products = Products::all();
+
+
+
+
+
         return view('pages.suppliers')->with(compact('suppliers','products'));
     }
 

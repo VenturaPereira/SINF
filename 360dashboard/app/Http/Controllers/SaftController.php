@@ -26,7 +26,7 @@ class SaftController extends Controller
         //windows2
             //$file_content = File::get('C:\xampp\htdocs\SINF\360dashboard\public\SAFT.xml');
         //unix
-            //$file_contents = File::get('/opt/lampp/htdocs/SINF/360dashboard/public/SAFT.xml'); 
+          //  $file_content = File::get('/opt/lampp/htdocs/SINF/360dashboard/public/SAFT.xml');
         $xml = simplexml_load_string($file_content);
         $json = json_encode($xml);
         $array = json_decode($json,TRUE);
@@ -35,7 +35,7 @@ class SaftController extends Controller
 
     function apiRequestToken(){
         $curl = curl_init();
-        
+
         curl_setopt_array($curl, array(
           CURLOPT_PORT => "4001",
           CURLOPT_URL => "http://localhost:4001/WebApi/token",
@@ -52,12 +52,12 @@ class SaftController extends Controller
             "cache-control: no-cache"
           ),
         ));
-        
+
         $response = curl_exec($curl);
         $err = curl_error($curl);
-        
+
         curl_close($curl);
-        
+
         if ($err) {
           echo "cURL Error #:" . $err;
         } else {
@@ -86,12 +86,12 @@ class SaftController extends Controller
             "cache-control: no-cache"
           ),
         ));
-        
+
         $response = curl_exec($curl);
         $err = curl_error($curl);
-        
+
         curl_close($curl);
-        
+
         if ($err) {
           echo "cURL Error #:" . $err;
         } else {
@@ -108,7 +108,7 @@ class SaftController extends Controller
     public function store(Request $request)
     {
 
-    
+
         //read from SAFT.xml on /public folder
         $array = self::readSaft($request);
 
@@ -120,7 +120,7 @@ class SaftController extends Controller
         $url = "http://localhost:4001/WebApi/Administrador/Consulta";
         $query = "SELECT Cliente, Nome, Fac_Mor FROM Clientes";
         $apiClients = self::apiRequest($accessToken, $url, $query);
-        
+
         //Api Call - Gives all Suppliers
         $url = "http://localhost:4001/WebApi/Administrador/Consulta";
         $query = "SELECT Fornecedor, Nome, Morada,Local,Cp,CpLoc,Tel,Fax,PrazoEnt,TotalDeb,LimiteCred,NumContrib,Pais FROM Fornecedores";
@@ -189,9 +189,9 @@ class SaftController extends Controller
 
             $newsupplier->save();
 
-            
+
         }
-        
+
 
 
         //loop customers and save
@@ -254,16 +254,14 @@ class SaftController extends Controller
 
         }
 
-        //loop suppliers and save
-     /*   foreach ($array["MasterFiles"]["Supplier"] as $supplier){
+        //loop suppliers and save   SAFT
+      /*  foreach ($array["MasterFiles"]["Supplier"] as $supplier){
 
 
             $newsupplier = new Suppliers;
 
             if (array_key_exists('SupplierID', $supplier))
                 $newsupplier->SupplierID = strval($supplier["SupplierID"]);
-            if (array_key_exists('AccountID', $supplier))
-                $newsupplier->AccountID = intval($supplier["AccountID"]);
             if (array_key_exists('SupplierTaxID', $supplier))
                 $newsupplier->SupplierTaxID = intval($supplier["SupplierTaxID"]);
             if (array_key_exists('CompanyName', $supplier))
@@ -276,22 +274,13 @@ class SaftController extends Controller
                 $newsupplier->BillingAddress_PostalCode = strval($supplier["BillingAddress"]["PostalCode"]);
             if (array_key_exists('Country', $supplier["BillingAddress"]))
                 $newsupplier->BillingAddress_Country = strval($supplier["BillingAddress"]["Country"]);
-            if (array_key_exists('AddressDetail', $supplier["ShipFromAddress"]))
-                $newsupplier->ShipFromAddress_AddressDetail = strval($supplier["ShipFromAddress"]["AddressDetail"]);
-            if (array_key_exists('City', $supplier["ShipFromAddress"]))
-                $newsupplier->ShipFromAddress_City = strval($supplier["ShipFromAddress"]["City"]);
-            if (array_key_exists('PostalCode', $supplier["ShipFromAddress"]))
-                $newsupplier->ShipFromAddress_PostalCode = strval($supplier["ShipFromAddress"]["PostalCode"]);
-            if (array_key_exists('Country', $supplier["ShipFromAddress"]))
-                $newsupplier->ShipFromAddress_Country = strval($supplier["ShipFromAddress"]["Country"]);
             if (array_key_exists('Telephone', $supplier))
                 $newsupplier->Telephone = intval($supplier["Telephone"]);
             if (array_key_exists('Fax', $supplier))
                 $newsupplier->Fax = intval($supplier["Fax"]);
-            if (array_key_exists('Website', $supplier))
-                $newsupplier->Website = strval($supplier["Website"]);
-            if (array_key_exists('SelfBillingIndicator', $supplier))
-                $newsupplier->SelfBillingIndicator = strval($supplier["SelfBillingIndicator"]);
+
+                $newsupplier->TotalDeb = strval(rand(0,50000));
+                $newsupplier->LimiteCred = '0';
 
             $newsupplier->save();
 
@@ -377,8 +366,8 @@ class SaftController extends Controller
 
             if (array_key_exists('WithholdingTaxAmount', $invoice["WithholdingTax"]))
                 $newinvoice->WithholdingTax_WithholdingTaxAmount = strval($invoice["WithholdingTax"]["WithholdingTaxAmount"]);
-                
-                
+
+
 /*
         foreach ($invoice["Line"] as $line){
             if(gettype($line) === 'array')

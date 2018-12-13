@@ -66,12 +66,12 @@
           <td>{{$i}}</td>
           <td>{{$product->ProductCode}}</td>
           <td>{{$product->ProductDescription}}</td>
-          @if($product->ProductQuantity < 35)
-          <td style="color:red;">{{$product->ProductQuantity}}</td>
-          @elseif($product->ProductQuantity > 80)
-          <td style="color:green;">{{$product->ProductQuantity}}</td>
+          @if($product->ProductStkCurrent < 35)
+          <td style="color:red;">{{$product->ProductStkCurrent}}</td>
+          @elseif($product->ProductStkCurrent > 80)
+          <td style="color:green;">{{$product->ProductStkCurrent}}</td>
           @else
-          <td>{{$product->ProductQuantity}}</td>
+          <td>{{$product->ProductStkCurrent}}</td>
           @endif
         </tr>
 
@@ -81,11 +81,11 @@
           <td>{{$product->ProductCode}}</td>
           <td>{{$product->ProductDescription}}</td>
           @if($product->ProductQuantity < 35)
-          <td style="color:red;">{{$product->ProductQuantity}}</td>
-          @elseif($product->ProductQuantity > 80)
-          <td style="color:green;">{{$product->ProductQuantity}}</td>
+          <td style="color:red;">{{$product->ProductStkCurrent}}</td>
+          @elseif($product->ProductStkCurrent > 80)
+          <td style="color:green;">{{$product->ProductStkCurrent}}</td>
           @else
-          <td>{{$product->ProductQuantity}}</td>
+          <td>{{$product->ProductStkCurrent}}</td>
           @endif
         </tr>
       @endif

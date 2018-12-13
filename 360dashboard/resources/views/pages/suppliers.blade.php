@@ -64,14 +64,14 @@
          <tr>
             <td>{{$product->ProductCode}}</td>
             <td>{{$product->ProductDescription}}</td>
-            <td>{{$product->ProductPrice}}</td>
+            <td>{{$product->ProductUnitaryPrice}}</td>
           </tr>
 
         @else
           <tr style="display: none ">
             <td>{{$product->ProductCode}}</td>
             <td>{{$product->ProductDescription}}</td>
-            <td>{{$product->ProductPrice}}</td>
+            <td>{{$product->ProductUnitaryPrice}}</td>
           </tr>
         @endif
         @endforeach

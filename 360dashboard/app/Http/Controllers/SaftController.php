@@ -136,7 +136,7 @@ class SaftController extends Controller
         //Api Call - Gives all Products
         $query = "SELECT Artigo.Artigo, ArtigoMoeda.PVP1, Descricao, Fornecedor, StkMinimo, StkMaximo, StkReposicao, StkActual, PcMedio, PcUltimo, DataUltEntrada, DataUltSaida FROM Artigo, ArtigoMoeda where Artigo.Artigo like ArtigoMoeda.Artigo";
         $apiProducts = self::apiRequest($accessToken, $url, $query);
-
+/*
         //loop products and save
         foreach ($apiProducts["DataSet"]["Table"] as $product){
 
@@ -277,7 +277,7 @@ class SaftController extends Controller
 
 
         }
-
+*/
 
 
         //loop customers and save

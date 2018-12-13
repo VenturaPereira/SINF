@@ -1,9 +1,7 @@
 <?php
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
 class CreateProductsTable extends Migration
 {
     /**
@@ -14,22 +12,18 @@ class CreateProductsTable extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
+            $table->string('ProductType')->default(' ');
             $table->string('ProductCode')->default(' ');
-            $table->string('ProductPrice')->default(' ');
+            $table->string('ProductGroup')->default(' ');
             $table->string('ProductDescription')->default(' ');
-            $table->string('ProductSupplier')->default(' ');
-            $table->string('StkMin')->default(' ');
-            $table->string('StkMax')->default(' ');
-            $table->string('StkReposition')->default(' ');
-            $table->string('StkCurrent')->default(' ');
-            $table->string('PCMed')->default(' ');
-            $table->string('PCLast')->default(' ');
-            $table->string('DateLastEntrance')->default(' ');
-            $table->string('DateLastOutput')->default(' ');
+            $table->string('ProductNumberCode')->default(' ');
+            $table->string('ProductStkMin')->default(' ');
+            $table->string('ProductStkMax')->default(' ');
+            $table->string('ProductStkCurrent')->default(' ');
+            $table->string('ProductUnitaryPrice')->default(' ');
             $table->string('ProductSales')->default(' ');
         });
     }
-
     /**
      * Reverse the migrations.
      *

@@ -35,8 +35,23 @@ class PagesController extends Controller
       ->where('CustomerID', 'LIKE', '%' . $id . '%')
       ->get();
       
-      return response()->json($user_data);
+      $user_entries = DB::select("select COUNT(CustomerID) as entries from invoices where CustomerID='$id'");
+      return response()->json(array($user_data,$user_entries));
     }
+
+    public function getProductDetails(Request $request, $name){
+        
+        
+        $product_data = DB::select("Select * from products
+        JOIN (SELECT ProductDescription as name, SUM(CreditAmount) as totalPrice 
+        FROM `lines` GROUP BY ProductDescription) as temp 
+        ON temp.name=products.ProductDescription
+         WHERE products.ProductDescription ='$name'");
+        
+       
+        return response()->json($product_data);
+    }
+
     public function sales(){
         $customers = DB::select(
             'select *
@@ -66,7 +81,11 @@ class PagesController extends Controller
         $Chart = \Lava::LineChart('Sales', $sales,[
             'title' => 'Sales by current SAFT'
         ]);
-        $products = Products::all();
+        $products = DB::select('Select * from products
+         JOIN (SELECT ProductDescription as name, SUM(CreditAmount) as totalPrice 
+         FROM `lines` GROUP BY ProductDescription) as temp 
+         ON temp.name=products.ProductDescription
+          ORDER BY temp.totalPrice DESC');
         return view('pages.sales')->with(compact('customers','products','sales'));
     }
 

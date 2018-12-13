@@ -368,7 +368,7 @@ class SaftController extends Controller
                 $newinvoice->WithholdingTax_WithholdingTaxAmount = strval($invoice["WithholdingTax"]["WithholdingTaxAmount"]);
 
 
-/*
+
         foreach ($invoice["Line"] as $line){
             if(gettype($line) === 'array')
             {
@@ -410,7 +410,7 @@ class SaftController extends Controller
                 $newLine->save();
 
             }
-        }*/
+        }
 
             $newinvoice->save();
         }

@@ -17,7 +17,8 @@ Go to http://localhost/phpmyadmin/ and create database called "360dashboard"
 - DB_USERNAME=root
 - DB_PASSWORD=
 - Type on the sheel: php artisan migrate
-7. Go to 'http://localhost/SINF/360dashboard/public/index'
+7. Modify 'upload_max_filesize=2M' to 'upload_max_filesize=10M' on xampp/php/php.ini file(s)
+8. Go to 'http://localhost/SINF/360dashboard/public/index'
 
 
 ### Instructables for GUEST PC - Enable Port Forwarding (VBOX WINDOWS 7 with Primavera):

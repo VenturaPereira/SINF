@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CabecCompras extends Model
+class LinhasCompras extends Model
 {
-    protected $table ='cabec_compras';
+    protected $table ='linhas_compras';
     public $primaryKey ='Id';
     public $timestamps= false;
     public $incrementing = false;

@@ -13,8 +13,8 @@
         <table class="company_table" id="clientsTable">
         <tr>
             <th>ID</th>
-            <th>Account ID</th>
             <th>Supplier Name</th>
+            <th>Additional info</th>
           </tr>
 
          <?php $i=0; ?>
@@ -24,15 +24,15 @@
             @if($i < 5)
             <tr>
               <td>{{$supplier->SupplierID}}</td>
-              <td>{{$supplier->SupplierTaxID}}</td>
               <td>{{$supplier->CompanyName}}</td>
+              <td><button style="background-color: #4CAF50; color: white; cursor: pointer; border-radius: 4px;" type="button" class="viewPopLink" role="button" data-id="{{ $supplier->SupplierID }}" data-toggle="modal" data-target="#myModal">Additional Info</button></td>
             </tr>
 
             @else
             <tr style="display: none">
               <td>{{$supplier->SupplierID}}</td>
-              <td>{{$supplier->SupplierTaxID}}</td>
               <td>{{$supplier->CompanyName}}</td>
+              <td><button style="background-color: #4CAF50; color: white; cursor: pointer; border-radius: 4px;" type="button" class="viewPopLink" role="button" data-id="{{ $supplier->SupplierID }}" data-toggle="modal" data-target="#myModal">Additional Info</button></td>
             </tr>
             @endif
         @endforeach
@@ -53,25 +53,25 @@
         @if(count($products) > 1)
         <table class="company_table" id="productsTable">
     <tr>
-      <th>Product Code</th>
       <th>Product Description</th>
       <th>Product Price</th>
+      <th>Additional info</th>
     </tr>
     <?php $i=0; ?>
         @foreach($products as $product)
         <?php ++$i;?>
          @if($i < 5)
          <tr>
-            <td>{{$product->ProductCode}}</td>
             <td>{{$product->ProductDescription}}</td>
             <td>{{$product->ProductUnitaryPrice}}</td>
+            <td><button style="background-color: #4CAF50; color: white; cursor: pointer; border-radius: 4px;" type="button" class="viewPopLinkProduct" role="button" data-id="{{ $product->ProductDescription  }}" data-toggle="modal" data-target="#myModal">Additional Info</button></td>
           </tr>
 
         @else
           <tr style="display: none ">
-            <td>{{$product->ProductCode}}</td>
             <td>{{$product->ProductDescription}}</td>
             <td>{{$product->ProductUnitaryPrice}}</td>
+            <td><button style="background-color: #4CAF50; color: white; cursor: pointer; border-radius: 4px;" type="button" class="viewPopLinkProduct" role="button" data-id="{{ $product->ProductDescription  }}" data-toggle="modal" data-target="#myModal">Additional Info</button></td>
           </tr>
         @endif
         @endforeach
@@ -96,4 +96,165 @@
 @endif
 
         </div>
+
+
+     <!-- Modal content-->
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header" align ="center" >
+      <h3 class="modal-title" style="text-align: center; important!"></h3>
+    </div>
+    <div class="modal-body" id="body">
+    </div>
+    <div class="modal-footer">
+    <button type="button" class="btn btn-secondary close" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+
+  <!-- End of Modal -->
+
+ </div>
+
+<script>
+
+
+
+
+
+
+
+
+var modal = document.getElementById("myModal");
+
+$(document).on('click', '.close', function(){
+  $("#body").html("");
+  $('#myModal').modal('hide');
+
+
+});
+
+
+ $(document).on('click', '.viewPopLinkProduct', function() {
+    var product_name = $(this).data('id');
+
+    $.ajax({
+      url: '/SINF/360dashboard/public/sales/product/'+product_name,
+      type: 'GET',
+      dataType: 'JSON',
+      success: function(data, textStatus, jqXHR){
+
+        $('.modal-title').html('<span> Informacao Produto </span>');
+
+        var name = $("<p></p>").text("Descricao Produto");
+        var nameValue = $("<span></span>").text(data[0].ProductDescription);
+        var productGroup = $("<p></p>").text("Grupo Produto");
+        var productGroupValue = $("<span></span>").text(data[0].ProducGroup);
+        var productType = $("<p></p>").text("Tipo Produto");
+        var productTypeValue = $("<span></span>").text(data[0].ProductType);
+        var productCode = $("<p></p>").text("Codigo Produto");
+        var productCodeValue = $("<span></span>").text(data[0].ProductCode);
+        var productStock = $("<p></p>").text("Stock Atual");
+        var productStockValue = $("<span></span>").text(data[0].ProductQuantity);
+        var productPrice = $("<p></p>").text("Preco");
+        var productPriceValue = $("<span></span>").text(data[0].ProductUnitaryPrice);
+        var numberOfSales = $("<p></p>").text("Numero de vendas");
+        var numberOfSalesValue = $("<span></span>").text(data[0].ProductSales);
+        var moneyGenerated = $("<p></p>").text("Revenue Produto");
+        var moneyGeneratedValue = $("<span></span>").text(data[0].totalPrice +"€");
+
+        $('#body').append(name);
+        $('#body').append(nameValue);
+        $('#body').append(productGroup);
+        $('#body').append(productGroupValue);
+        $('#body').append(productType);
+        $('#body').append(productTypeValue);
+        $('#body').append(productCode);
+        $('#body').append(productCodeValue);
+        $('#body').append(productStock);
+        $('#body').append(productStockValue);
+        $('#body').append(productPrice);
+        $('#body').append(productPriceValue);
+        $('#body').append(moneyGenerated);
+        $('#body').append(moneyGeneratedValue);
+        $('#body').append(numberOfSales);
+        $('#body').append(numberOfSalesValue);
+
+
+        $('#myModal').modal('show');
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+
+      },
+    });
+  });
+
+
+ $(document).on('click', '.viewPopLink', function() {
+    var user_id = $(this).data('id');
+    $.ajax({
+      url: '/SINF/360dashboard/public/sales/'+user_id,
+      type: 'GET',
+      dataType: 'JSON',
+      success: function(data, textStatus, jqXHR){
+
+
+        $('.modal-title').html('<span> Informacao Fornecedor </span>');
+
+        var name = $("<p></p>").text("Name");
+        var nameValue = $("<span></span>").text(data[0][0].CompanyName);
+        var iDcliente = $("<p></p>").text("Id Cliente");
+        var iDclienteValue = $("<span></span>").text(data[0][0].CustomerID);
+        var iDconta = $("<p></p>").text("Id Conta");
+        var iDcontaValue = $("<span></span>").text(data[0][0].AccountID);
+        var nif = $("<p></p>").text("NIF");
+        var nifValue = $("<span></span>").text(data[0][0].CustomerTaxID);
+        var address = $("<p></p>").text("Morada Faturacao");
+        var addressValue = $("<span></span>").text(data[0][0].BillingAddress_AddressDetail);
+        var city = $("<p></p>").text("Cidade Faturacao");
+        var cityValue = $("<span></span>").text(data[0][0].BillingAddress_City);
+        var postalCode = $("<p></p>").text("Codigo Postal Faturacao");
+        var postalCodeValue = $("<span></span>").text(data[0][0].BillingAddress_PostalCode);
+        var country = $("<p></p>").text("Pais Faturacao");
+        var countryValue = $("<span></span>").text(data[0][0].BillingAddress_Country);
+        var numberOfPurchases =$("<p></p>").text("Numero de registos de compra");
+        var numberOfPurchasesValue = $("<span></span>").text(data[1][0].entries);
+
+        $('#body').append(name);
+        $('#body').append(nameValue);
+        $('#body').append(iDcliente);
+        $('#body').append(iDclienteValue);
+        $('#body').append(iDconta);
+        $('#body').append(iDcontaValue);
+        $('#body').append(nif);
+        $('#body').append(nifValue);
+        $('#body').append(address);
+        $('#body').append(addressValue);
+        $('#body').append(postalCode);
+        $('#body').append(postalCodeValue);
+        $('#body').append(country);
+        $('#body').append(countryValue);
+        $('#body').append(city);
+        $('#body').append(cityValue);
+        $('#body').append(numberOfPurchases);
+        $('#body').append(numberOfPurchasesValue);
+
+
+        $('#myModal').modal('show');
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+
+      },
+    });
+  });
+
+
+
+</script>
+
+<style>
+
+p {style=font: normal 20px 'Bitter', serif;
+color: #2A88AD;}
+</style>
+
 @endsection

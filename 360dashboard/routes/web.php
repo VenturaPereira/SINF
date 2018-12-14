@@ -27,7 +27,7 @@ Route::get('/sales', 'PagesController@sales');
 Route::get('/suppliers', 'PagesController@suppliers');
 Route::get('/inventory', 'PagesController@inventory');
 Route::get('/financial', 'PagesController@financial');
-
+Route::get('overview', 'OverviewController@getLaraChart');
 
 
 Route::resource('posts', 'PostsController');

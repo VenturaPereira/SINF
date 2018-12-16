@@ -17,14 +17,6 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Http\Request;
 ini_set('max_execution_time', 300);
 
-Customer::truncate();
-Products::truncate();
-Suppliers::truncate();
-Invoices::truncate();
-Lines::truncate();
-CabecCompras::truncate();
-LinhasCompras::truncate();
-
 class SaftController extends Controller
 {
     function readSaft($request){
@@ -118,6 +110,14 @@ class SaftController extends Controller
 
     public function store(Request $request)
     {
+        Customer::truncate();
+        Products::truncate();
+        Suppliers::truncate();
+        Invoices::truncate();
+        Lines::truncate();
+        CabecCompras::truncate();
+        LinhasCompras::truncate();
+
         //read SAFT file
         $array = self::readSaft($request);
 

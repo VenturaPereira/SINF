@@ -8,7 +8,7 @@ use App\Products;
 use App\Suppliers;
 use DB;
 use Khill\Lavacharts\Lavacharts;
-
+use DateTime;
 class PagesController extends Controller
 {
     public function index(){
@@ -36,7 +36,9 @@ class PagesController extends Controller
       ->get();
       
       $user_entries = DB::select("select COUNT(CustomerID) as entries from invoices where CustomerID='$id'");
-      return response()->json(array($user_data,$user_entries));
+
+      $user_purchases = DB::select("select ProductDescription, Quantity, temp.cid from `lines` JOIN (Select CustomerID as cid, InvoiceNo as id from `invoices` where CustomerID='$id') as temp ON temp.id=`lines`.`InvoiceNo`");
+      return response()->json(array($user_data,$user_entries,$user_purchases));
     }
 
     public function getProductDetails(Request $request, $name){
@@ -74,6 +76,7 @@ class PagesController extends Controller
         $sales->addDateColumn('Month')
               ->addNumberColumn('Sales');
 
+        $actifs = DB::select('select CompanyName, COUNT(invoices.CustomerID) as counter from `invoices` JOIN customers ON customers.CustomerID =invoices.CustomerID GROUP BY invoices.CustomerID ORDER BY counter DESC');
 
         foreach($monthSales as $monthsale){
             $sales->addRow([$year[0]->year.'-'.$monthsale->month.'-1',$monthsale->total]);
@@ -81,12 +84,45 @@ class PagesController extends Controller
         $Chart = \Lava::LineChart('Sales', $sales,[
             'title' => 'Sales by current SAFT'
         ]);
+        
+        $invoice = DB::select('select COUNT(CustomerID) as counter, CustomerID, MONTH(invoices.InvoiceDate) as month FROM invoices GROUP BY CustomerID');
+        $invoices = \Lava::DataTable();
+        $invoices->addStringColumn('Month');
+        $invoices->addNumberColumn('number of invoices by client and month');
+        foreach($invoice as $singleInvoice){
+            $dt = DateTime::createFromFormat('!m', $singleInvoice->month);
+            
+            $invoices->addRow(
+                [$dt->format('F'),$singleInvoice->counter]
+            );
+        }
+
+        $pieChart = \Lava::PieChart('Invoices', $invoices,[
+            'width'=>400,
+            'pieSliceText' => 'value'
+        ]);
+
+        $filter  = \Lava::NumberRangeFilter(1, [
+            'ui' => [
+                'labelStacking' => 'vertical'
+            ]
+        ]);
+
+
+        $control = \Lava::ControlWrapper($filter,'control');
+        $chartTwo = \Lava::ChartWrapper($pieChart,'chart');
+        \Lava::Dashboard('Invoices')->bind($control,$chartTwo); 
+
+
+
+
+
         $products = DB::select('Select * from products
          JOIN (SELECT ProductDescription as name, SUM(CreditAmount) as totalPrice 
          FROM `lines` GROUP BY ProductDescription) as temp 
          ON temp.name=products.ProductDescription
           ORDER BY temp.totalPrice DESC');
-        return view('pages.sales')->with(compact('customers','products','sales'));
+        return view('pages.sales')->with(compact('customers','products','sales','actifs','invoices'));
     }
 
 

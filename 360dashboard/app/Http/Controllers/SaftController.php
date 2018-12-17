@@ -24,12 +24,6 @@ class SaftController extends Controller
         $filename = $input->getClientOriginalName(); 
         $input->move(base_path(),$filename); // moving the file to specified dir 
         $file_content = File::get(base_path().'/'.$filename);
-        //windows1
-            //$file_content = File::get($file_path.'\SAFT.xml');
-        //windows2
-            //$file_content = File::get('C:\xampp\htdocs\SINF\360dashboard\public\SAFT.xml');
-        //unix
-          //  $file_content = File::get('/opt/lampp/htdocs/SINF/360dashboard/public/SAFT.xml');
         $xml = simplexml_load_string($file_content);
         $json = json_encode($xml);
         $array = json_decode($json,TRUE);
@@ -45,7 +39,7 @@ class SaftController extends Controller
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => "",
           CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 30,
+          CURLOPT_TIMEOUT => 100,
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => "POST",
           CURLOPT_POSTFIELDS => "username=FEUP&password=qualquer1&company=DEMOSINF&instance=DEFAULT&grant_type=password&line=line",
@@ -78,7 +72,7 @@ class SaftController extends Controller
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => "",
           CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 30,
+          CURLOPT_TIMEOUT => 100,
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => "GET",
           CURLOPT_POSTFIELDS => "\"$query\"\r\n",
@@ -91,10 +85,11 @@ class SaftController extends Controller
         ));
 
         $response = curl_exec($curl);
+        
         $err = curl_error($curl);
 
         curl_close($curl);
-
+      
         if ($err) {
           echo "cURL Error #:" . $err;
         } else {
@@ -124,6 +119,7 @@ class SaftController extends Controller
         //Api call - Gives access token for future api calls
         //IMPORTANT: Need to turn on VM with Primavera and enable Port Forwarding at port 4001
         $accessToken = self::apiRequestToken();
+        echo $accessToken;
 
         //Api Call - Gives all clients
         $url = "http://localhost:4001/WebApi/Administrador/Consulta";
@@ -170,7 +166,7 @@ class SaftController extends Controller
                 }
             }
 
-                $newProduct->ProductSales = strval(rand(4,50));
+                
 
             $newProduct->save();
         }

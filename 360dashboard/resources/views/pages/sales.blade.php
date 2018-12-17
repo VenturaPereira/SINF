@@ -86,34 +86,37 @@
 </table>
     </div>
 
-
+    <div id="my-dash">
+        <div id="chart">
+        </div>
+        <div id="control">
+        </div>
+    </div>
+  {{!! \Lava::render('Dashboard', 'Invoices', 'my-dash') !!}}
     <div class="container-fluid" id = "activesDiv">
       <h3>Most active Clients </h3>
       @if(count($customers) > 1)
       <table class="company_table" >
         <tr>
-            <th>ID</th>
-            <th>Account ID</th>
-            <th>Customer Name</th>
+            <th>Nome Consumidor</th>
+            <th>Numero de Faturas</th>
           </tr>
 
          <?php $i=0; ?>
 
 
-        @foreach($customers as $customer)
+        @foreach($actifs as $actif)
             <?php ++$i;?>
             @if($i < 5)
             <tr>
-              <td>{{$customer->CustomerID}}</td>
-              <td>{{$customer->AccountID}}</td>
-              <td>{{$customer->CompanyName}}</td>
+              <td>{{$actif->CompanyName}}</td>
+              <td>{{$actif->counter}}</td>
             </tr>
 
             @else
             <tr style="display: none">
-              <td>{{$customer->CustomerID}}</td>
-              <td>{{$customer->AccountID}}</td>
-              <td>{{$customer->CompanyName}}</td>
+              <td>{{$actif->CompanyName}}</td>
+              <td>{{$actif->counter}}</td>
             </tr>
             @endif
         @endforeach
@@ -121,6 +124,8 @@
           <h5>No Customers found</h5>
       @endif
 </table>
+
+
     </div>
 
 @if(count($customers) > 1)
@@ -129,6 +134,9 @@
   {!! \Lava::render('LineChart', 'Sales', 'salesGraph') !!}
 </div>
 @endif
+
+
+
 
     </div>
    
@@ -171,7 +179,7 @@ $(document).on('click', '.close', function(){
 
  $(document).on('click', '.viewPopLinkProduct', function() {    
     var product_name = $(this).data('id');
-    
+    $("#body").html("");
     $.ajax({
       url: '/SINF/360dashboard/public/sales/product/'+product_name,
       type: 'GET',
@@ -226,6 +234,7 @@ $(document).on('click', '.close', function(){
 
  $(document).on('click', '.viewPopLink', function() {    
     var user_id = $(this).data('id');
+    $("#body").html("");
     $.ajax({
       url: '/SINF/360dashboard/public/sales/'+user_id,
       type: 'GET',
@@ -253,6 +262,11 @@ $(document).on('click', '.close', function(){
         var countryValue = $("<span></span>").text(data[0][0].BillingAddress_Country);
         var numberOfPurchases =$("<p></p>").text("Numero de registos de compra");
         var numberOfPurchasesValue = $("<span></span>").text(data[1][0].entries);
+        var productsBought = $("<table class='products_bought' id='productsPurchased'>");
+        var header = $("<tr></tr>");
+        var headerLine=$("<th></th>").text("Produtos Comprados");
+        var headerLineTwo=$("<th></th>").text("Quantidade");
+               
 
         $('#body').append(name);
         $('#body').append(nameValue);
@@ -272,7 +286,18 @@ $(document).on('click', '.close', function(){
         $('#body').append(cityValue);
         $('#body').append(numberOfPurchases);
         $('#body').append(numberOfPurchasesValue);
-       
+        $('#body').append(productsBought);
+        $(productsBought).append(header);
+        $(header).append(headerLine);
+        $(header).append(headerLineTwo);
+        for(var i =0; i < data[2].length;i++){
+          var line = $("<tr></tr>");
+          var lineValue = $("<td></td>").text(data[2][i].ProductDescription);
+          var lineValueTwo = $("<td></td>").text(data[2][i].Quantity);
+          $(productsBought).append(line);
+          $(line).append(lineValue);
+          $(line).append(lineValueTwo);
+        }
 
         $('#myModal').modal('show');
       },
@@ -293,3 +318,7 @@ color: #2A88AD;}
 </style>
 
 @endsection
+
+
+<!-- query para atividade cliente -->
+<!--SELECT COUNT(CustomerID), CustomerID, MONTH(invoices.InvoiceDate) FROM `invoices` GROUP BY CustomerID-->

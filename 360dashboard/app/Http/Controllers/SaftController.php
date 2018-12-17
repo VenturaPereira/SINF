@@ -160,7 +160,7 @@ class SaftController extends Controller
             if (array_key_exists('ProductNumberCode', $product))
                 $newProduct->ProductNumberCode = strval($product["ProductNumberCode"]);
 
-            foreach ( $apiProducts["DataSet"]["Table"] as $element ) {
+            foreach ((array)$apiProducts["DataSet"]["Table"] as $element ) {
                 if ( $newProduct->ProductCode == $element["Artigo"] ) {
                     $newProduct->ProductUnitaryPrice = $element["PVP1"];
                     $newProduct->ProductStkMin = $element["StkMinimo"];
@@ -176,7 +176,7 @@ class SaftController extends Controller
         }
 
         //loop LinhasCompras and save
-        foreach($apiLinhasCompras["DataSet"]["Table"] as $linhacompra)
+        foreach((array)$apiLinhasCompras["DataSet"]["Table"] as $linhacompra)
         {
             $newlinhacompra = new LinhasCompras;
 
@@ -215,7 +215,7 @@ class SaftController extends Controller
 
 
         //loop CabeCompras and save
-        foreach($apiCabecCompras["DataSet"]["Table"] as $cabeccompra)
+        foreach((array)$apiCabecCompras["DataSet"]["Table"] as $cabeccompra)
         {
             $newcabeccompra = new CabecCompras;
 
@@ -243,7 +243,7 @@ class SaftController extends Controller
         }
 
         //loop suppliers and save
-        foreach($apiSuppliers["DataSet"]["Table"] as $supplier)
+        foreach((array)$apiSuppliers["DataSet"]["Table"] as $supplier)
         {
             $newsupplier = new Suppliers;
 
@@ -313,37 +313,7 @@ class SaftController extends Controller
 
         }
 
-        //loop suppliers and save   SAFT
-      /*  foreach ($array["MasterFiles"]["Supplier"] as $supplier){
-
-
-            $newsupplier = new Suppliers;
-
-            if (array_key_exists('SupplierID', $supplier))
-                $newsupplier->SupplierID = strval($supplier["SupplierID"]);
-            if (array_key_exists('SupplierTaxID', $supplier))
-                $newsupplier->SupplierTaxID = intval($supplier["SupplierTaxID"]);
-            if (array_key_exists('CompanyName', $supplier))
-                $newsupplier->CompanyName = strval($supplier["CompanyName"]);
-            if (array_key_exists('AddressDetail', $supplier["BillingAddress"]))
-                $newsupplier->BillingAddress_AddressDetail = strval($supplier["BillingAddress"]["AddressDetail"]);
-            if (array_key_exists('City', $supplier["BillingAddress"]))
-                $newsupplier->BillingAddress_City = strval($supplier["BillingAddress"]["City"]);
-            if (array_key_exists('PostalCode', $supplier["BillingAddress"]))
-                $newsupplier->BillingAddress_PostalCode = strval($supplier["BillingAddress"]["PostalCode"]);
-            if (array_key_exists('Country', $supplier["BillingAddress"]))
-                $newsupplier->BillingAddress_Country = strval($supplier["BillingAddress"]["Country"]);
-            if (array_key_exists('Telephone', $supplier))
-                $newsupplier->Telephone = intval($supplier["Telephone"]);
-            if (array_key_exists('Fax', $supplier))
-                $newsupplier->Fax = intval($supplier["Fax"]);
-
-                $newsupplier->TotalDeb = strval(rand(0,50000));
-                $newsupplier->LimiteCred = '0';
-
-            $newsupplier->save();
-
-        }*/
+        
 
         //loop Invoices and save
         foreach ($array["SourceDocuments"]["SalesInvoices"]["Invoice"] as $invoice){

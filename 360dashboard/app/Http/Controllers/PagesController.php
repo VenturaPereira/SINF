@@ -41,6 +41,7 @@ class PagesController extends Controller
       return response()->json(array($user_data,$user_entries,$user_purchases));
     }
 
+
     public function getProductDetails(Request $request, $name){
         
         
@@ -52,6 +53,17 @@ class PagesController extends Controller
         
        
         return response()->json($product_data);
+    }
+
+
+
+    
+    public function getInfoProduct(Request $request, $name){
+        $product_info = DB::select("select * from products where ProductDescription='$name'");
+        $product_revenue = DB::select("select ProductDescription, SUM(CreditAmount) as revenue from `lines` where ProductDescription='$name' GROUP BY ProductDescription");
+        $product_topBuyers = DB::select("select ProductDescription, SUM(Quantity) as totalQuantity, invoices.CustomerID as cid from `lines` JOIN invoices ON invoices.InvoiceNo=`lines`.`InvoiceNo` where ProductDescription='$name' GROUP BY CustomerID");
+        return response()->json(array($product_info,$product_revenue,$product_topBuyers));
+
     }
 
     public function sales(){
@@ -188,10 +200,8 @@ class PagesController extends Controller
 
     public function inventory(){
 
-        $products = Products::all();
-        $products_stock = $products->sortBy('ProductQuantity', SORT_REGULAR, true);
-        $products_sales = $products->sortBy('ProductSales', SORT_REGULAR, true);
-
+        $products_stock = DB::select('select ProductDescription, ProductStkCurrent from products order by ProductStkCurrent DESC');
+        $products_sales = DB::select('select ProductDescription, SUM(Quantity)as totals from `lines` GROUP BY ProductDescription ORDER BY totals DESC');
         return view('pages.inventory')->with(compact('products_sales','products_stock'));
     }
 

@@ -35,6 +35,7 @@ Route::resource('saft', 'SaftController');
 
 Route::get('/sales/{id}','PagesController@getDetails')->name('sales.info');
 Route::get('/sales/product/{name}', 'PagesController@getProductDetails')->name('sales.product');
+Route::get('/inventory/{name}', 'PagesController@getInfoProduct')->name('inventory.info');
 
 Route::post('/postajax','AjaxController@graphsData');
 Route::post('/postajaxRound','AjaxController@roundGraphsData');

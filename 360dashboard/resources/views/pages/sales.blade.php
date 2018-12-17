@@ -7,7 +7,7 @@
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <div>>
+    <div>
 
     <div class="container-fluid" id="clientsDiv">
       <h3>Top Clients </h3>
@@ -92,7 +92,7 @@
         <div id="control">
         </div>
     </div>
-  {{!! \Lava::render('Dashboard', 'Invoices', 'my-dash') !!}}
+  {!! \Lava::render('Dashboard', 'Invoices', 'my-dash') !!}
     <div class="container-fluid" id = "activesDiv">
       <h3>Most active Clients </h3>
       @if(count($customers) > 1)
@@ -191,7 +191,7 @@ $(document).on('click', '.close', function(){
         var name = $("<p></p>").text("Descricao Produto");
         var nameValue = $("<span></span>").text(data[0].ProductDescription);
         var productGroup = $("<p></p>").text("Grupo Produto");
-        var productGroupValue = $("<span></span>").text(data[0].ProducGroup);
+        var productGroupValue = $("<span></span>").text(data[0].ProductGroup);
         var productType = $("<p></p>").text("Tipo Produto");
         var productTypeValue = $("<span></span>").text(data[0].ProductType);
         var productCode = $("<p></p>").text("Codigo Produto");

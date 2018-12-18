@@ -21,7 +21,6 @@ class CreateProductsTable extends Migration
             $table->string('ProductStkMax')->default(' ');
             $table->string('ProductStkCurrent')->default(' ');
             $table->string('ProductUnitaryPrice')->default(' ');
-            $table->string('ProductSales')->default(' ');
         });
     }
     /**

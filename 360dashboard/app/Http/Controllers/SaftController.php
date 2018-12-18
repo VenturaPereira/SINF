@@ -17,14 +17,6 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Http\Request;
 ini_set('max_execution_time', 300);
 
-Customer::truncate();
-Products::truncate();
-Suppliers::truncate();
-Invoices::truncate();
-Lines::truncate();
-CabecCompras::truncate();
-LinhasCompras::truncate();
-
 class SaftController extends Controller
 {
     function readSaft($request){
@@ -32,12 +24,6 @@ class SaftController extends Controller
         $filename = $input->getClientOriginalName();
         $input->move(base_path(),$filename); // moving the file to specified dir
         $file_content = File::get(base_path().'/'.$filename);
-        //windows1
-            //$file_content = File::get($file_path.'\SAFT.xml');
-        //windows2
-            //$file_content = File::get('C:\xampp\htdocs\SINF\360dashboard\public\SAFT.xml');
-        //unix
-          //  $file_content = File::get('/opt/lampp/htdocs/SINF/360dashboard/public/SAFT.xml');
         $xml = simplexml_load_string($file_content);
         $json = json_encode($xml);
         $array = json_decode($json,TRUE);
@@ -53,7 +39,7 @@ class SaftController extends Controller
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => "",
           CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 30,
+          CURLOPT_TIMEOUT => 100,
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => "POST",
           CURLOPT_POSTFIELDS => "username=FEUP&password=qualquer1&company=DEMOSINF&instance=DEFAULT&grant_type=password&line=line",
@@ -86,7 +72,7 @@ class SaftController extends Controller
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => "",
           CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 30,
+          CURLOPT_TIMEOUT => 100,
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => "GET",
           CURLOPT_POSTFIELDS => "\"$query\"\r\n",
@@ -99,6 +85,7 @@ class SaftController extends Controller
         ));
 
         $response = curl_exec($curl);
+
         $err = curl_error($curl);
 
         curl_close($curl);
@@ -118,12 +105,21 @@ class SaftController extends Controller
 
     public function store(Request $request)
     {
+        Customer::truncate();
+        Products::truncate();
+        Suppliers::truncate();
+        Invoices::truncate();
+        Lines::truncate();
+        CabecCompras::truncate();
+        LinhasCompras::truncate();
+
         //read SAFT file
         $array = self::readSaft($request);
 
         //Api call - Gives access token for future api calls
         //IMPORTANT: Need to turn on VM with Primavera and enable Port Forwarding at port 4001
         $accessToken = self::apiRequestToken();
+        echo $accessToken;
 
         //return $accessToken;
 
@@ -161,10 +157,7 @@ class SaftController extends Controller
                 $newProduct->ProductDescription = strval($product["ProductDescription"]);
             if (array_key_exists('ProductNumberCode', $product))
                 $newProduct->ProductNumberCode = strval($product["ProductNumberCode"]);
-
-            //return $apiProducts;
-
-            foreach ( $apiProducts["DataSet"]["Table"] as $element ) {
+            foreach ((array)$apiProducts["DataSet"]["Table"] as $element ) {
                 if ( $newProduct->ProductCode == $element["Artigo"] ) {
                     $newProduct->ProductUnitaryPrice = $element["PVP1"];
                     $newProduct->ProductStkMin = $element["StkMinimo"];
@@ -174,13 +167,13 @@ class SaftController extends Controller
                 }
             }
 
-                $newProduct->ProductSales = strval(rand(4,50));
+
 
             $newProduct->save();
         }
 
         //loop LinhasCompras and save
-        foreach($apiLinhasCompras["DataSet"]["Table"] as $linhacompra)
+        foreach((array)$apiLinhasCompras["DataSet"]["Table"] as $linhacompra)
         {
             $newlinhacompra = new LinhasCompras;
 
@@ -219,7 +212,7 @@ class SaftController extends Controller
 
 
         //loop CabeCompras and save
-        foreach($apiCabecCompras["DataSet"]["Table"] as $cabeccompra)
+        foreach((array)$apiCabecCompras["DataSet"]["Table"] as $cabeccompra)
         {
             $newcabeccompra = new CabecCompras;
 
@@ -247,7 +240,7 @@ class SaftController extends Controller
         }
 
         //loop suppliers and save
-        foreach($apiSuppliers["DataSet"]["Table"] as $supplier)
+        foreach((array)$apiSuppliers["DataSet"]["Table"] as $supplier)
         {
             $newsupplier = new Suppliers;
 
@@ -317,37 +310,7 @@ class SaftController extends Controller
 
         }
 
-        //loop suppliers and save   SAFT
-      /*  foreach ($array["MasterFiles"]["Supplier"] as $supplier){
 
-
-            $newsupplier = new Suppliers;
-
-            if (array_key_exists('SupplierID', $supplier))
-                $newsupplier->SupplierID = strval($supplier["SupplierID"]);
-            if (array_key_exists('SupplierTaxID', $supplier))
-                $newsupplier->SupplierTaxID = intval($supplier["SupplierTaxID"]);
-            if (array_key_exists('CompanyName', $supplier))
-                $newsupplier->CompanyName = strval($supplier["CompanyName"]);
-            if (array_key_exists('AddressDetail', $supplier["BillingAddress"]))
-                $newsupplier->BillingAddress_AddressDetail = strval($supplier["BillingAddress"]["AddressDetail"]);
-            if (array_key_exists('City', $supplier["BillingAddress"]))
-                $newsupplier->BillingAddress_City = strval($supplier["BillingAddress"]["City"]);
-            if (array_key_exists('PostalCode', $supplier["BillingAddress"]))
-                $newsupplier->BillingAddress_PostalCode = strval($supplier["BillingAddress"]["PostalCode"]);
-            if (array_key_exists('Country', $supplier["BillingAddress"]))
-                $newsupplier->BillingAddress_Country = strval($supplier["BillingAddress"]["Country"]);
-            if (array_key_exists('Telephone', $supplier))
-                $newsupplier->Telephone = intval($supplier["Telephone"]);
-            if (array_key_exists('Fax', $supplier))
-                $newsupplier->Fax = intval($supplier["Fax"]);
-
-                $newsupplier->TotalDeb = strval(rand(0,50000));
-                $newsupplier->LimiteCred = '0';
-
-            $newsupplier->save();
-
-        }*/
 
         //loop Invoices and save
         foreach ($array["SourceDocuments"]["SalesInvoices"]["Invoice"] as $invoice){

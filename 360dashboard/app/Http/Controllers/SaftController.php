@@ -21,8 +21,8 @@ class SaftController extends Controller
 {
     function readSaft($request){
         $input = $request->file('file');
-        $filename = $input->getClientOriginalName(); 
-        $input->move(base_path(),$filename); // moving the file to specified dir 
+        $filename = $input->getClientOriginalName();
+        $input->move(base_path(),$filename); // moving the file to specified dir
         $file_content = File::get(base_path().'/'.$filename);
         $xml = simplexml_load_string($file_content);
         $json = json_encode($xml);
@@ -85,11 +85,11 @@ class SaftController extends Controller
         ));
 
         $response = curl_exec($curl);
-        
+
         $err = curl_error($curl);
 
         curl_close($curl);
-      
+
         if ($err) {
           echo "cURL Error #:" . $err;
         } else {
@@ -120,6 +120,8 @@ class SaftController extends Controller
         //IMPORTANT: Need to turn on VM with Primavera and enable Port Forwarding at port 4001
         $accessToken = self::apiRequestToken();
         echo $accessToken;
+
+        //return $accessToken;
 
         //Api Call - Gives all clients
         $url = "http://localhost:4001/WebApi/Administrador/Consulta";
@@ -155,7 +157,6 @@ class SaftController extends Controller
                 $newProduct->ProductDescription = strval($product["ProductDescription"]);
             if (array_key_exists('ProductNumberCode', $product))
                 $newProduct->ProductNumberCode = strval($product["ProductNumberCode"]);
-
             foreach ((array)$apiProducts["DataSet"]["Table"] as $element ) {
                 if ( $newProduct->ProductCode == $element["Artigo"] ) {
                     $newProduct->ProductUnitaryPrice = $element["PVP1"];
@@ -166,7 +167,7 @@ class SaftController extends Controller
                 }
             }
 
-                
+
 
             $newProduct->save();
         }
@@ -309,7 +310,7 @@ class SaftController extends Controller
 
         }
 
-        
+
 
         //loop Invoices and save
         foreach ($array["SourceDocuments"]["SalesInvoices"]["Invoice"] as $invoice){

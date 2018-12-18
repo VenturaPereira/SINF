@@ -3,8 +3,6 @@
 
 @section('content')
 
-<!DOCTYPE html>
-<html lang="en">
 
   <head>
 
@@ -54,7 +52,7 @@
                   <div class="card-body-icon">
                     <i class="fas fa-fw fa-money-check-alt"></i>
                   </div>
-                  <div class="mr-5">Cash</div>
+                  <div class="mr-5">Cash: <h3>{{$infoOverview[1]}}</h3></div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="#">
                   <span class="float-left">View Details</span>
@@ -70,7 +68,7 @@
                   <div class="card-body-icon">
                     <i class="fas fa-fw fa-sign-out-alt"></i>
                   </div>
-                  <div class="mr-5">New Expenditures</div>
+                  <div class="mr-5">New Expenditures: <h3>{{$infoOverview[2]}}</h3></div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="#">
                   <span class="float-left">View Details</span>
@@ -86,7 +84,7 @@
                   <div class="card-body-icon">
                     <i class="fas fa-fw fa-users"></i>
                   </div>
-                  <div class="mr-5">Clients</div>
+                  <div class="mr-5">Clients <h3>{{$infoOverview[3]}}</h3></div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="#">
                   <span class="float-left">View Details</span>
@@ -102,7 +100,7 @@
                   <div class="card-body-icon">
                     <i class="fas fa-fw fa-user-tie"></i>
                   </div>
-                  <div class="mr-5">Suppliers</div>
+                  <div class="mr-5">Suppliers <h3>{{$infoOverview[4]}}</h3></div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="#">
                   <span class="float-left">View Details</span>
@@ -131,7 +129,7 @@
               <i class="fas fa-chart-area"></i>
               Our Company Worldwide</div>
               <div id="pop-div" style="width:800px;border:1px solid black"></div>
-              <?= $lava->render('GeoChart', 'Popularity', 'pop-div') ?>
+              <?= $infoOverview[0]->render('GeoChart', 'Popularity', 'pop-div') ?>
             <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
           </div>
 

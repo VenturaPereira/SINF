@@ -62,7 +62,8 @@ class PagesController extends Controller
         $product_info = DB::select("select * from products where ProductDescription='$name'");
         $product_revenue = DB::select("select ProductDescription, SUM(CreditAmount) as revenue from `lines` where ProductDescription='$name' GROUP BY ProductDescription");
         $product_topBuyers = DB::select("select ProductDescription, SUM(Quantity) as totalQuantity, invoices.CustomerID as cid from `lines` JOIN invoices ON invoices.InvoiceNo=`lines`.`InvoiceNo` where ProductDescription='$name' GROUP BY CustomerID");
-        return response()->json(array($product_info,$product_revenue,$product_topBuyers));
+        $product_last_purchase = DB::select("select ProductDescription, InvoiceDate from `lines` JOIN invoices ON `lines`.InvoiceNo=invoices.InvoiceNo where ProductDescription='$name' ORDER BY InvoiceDate DESC");
+        return response()->json(array($product_info,$product_revenue,$product_topBuyers,$product_last_purchase));
 
     }
 
@@ -202,7 +203,38 @@ class PagesController extends Controller
 
         $products_stock = DB::select('select ProductDescription, ProductStkCurrent from products order by ProductStkCurrent DESC');
         $products_sales = DB::select('select ProductDescription, SUM(Quantity)as totals from `lines` GROUP BY ProductDescription ORDER BY totals DESC');
-        return view('pages.inventory')->with(compact('products_sales','products_stock'));
+
+
+
+        $inventoryTotals = DB::select('SELECT ProductDescription, ProductStkCurrent, ProductUnitaryPrice,  ProductStkCurrent*ProductUnitaryPrice as bruteValue FROM `products`');
+        $inventory = \Lava::DataTable();
+        $inventory->addStringColumn('Product');
+        $inventory->addNumberColumn('Gross Value in Stock');
+        foreach($inventoryTotals as $product_inventory_stock){
+            $inventory->addRow(
+                [$product_inventory_stock->ProductDescription,$product_inventory_stock->bruteValue]
+            );
+        }
+
+        $pieChart = \Lava::PieChart('Gross Value', $inventory,[
+            'width'=>400,
+            'pieSliceText' => 'value'
+        ]);
+
+        $filter  = \Lava::NumberRangeFilter(1, [
+            'ui' => [
+                'labelStacking' => 'vertical'
+            ]
+        ]);
+
+
+        $control = \Lava::ControlWrapper($filter,'control');
+        $chartTwo = \Lava::ChartWrapper($pieChart,'chart');
+        \Lava::Dashboard('Gross Value')->bind($control,$chartTwo);
+
+
+
+        return view('pages.inventory')->with(compact('products_sales','products_stock','inventory'));
     }
 
     public function financial(){
@@ -254,3 +286,6 @@ class PagesController extends Controller
       return view('pages.financial')->with(compact('finances'));
     }
 }
+
+
+

@@ -52,8 +52,6 @@
 
       <th>Product name</th>
       <th>Quantity</th>
-      <th>Additional info</th>
-
     </tr>
 
     <?php $i=0;?>
@@ -64,13 +62,10 @@
           <td>{{$product->ProductDescription}}</td>
           @if($product->ProductStkCurrent < 35)
           <td style="color:red;">{{$product->ProductStkCurrent}}</td>
-          <td><button style="background-color: #4CAF50; color: white; cursor: pointer; border-radius: 4px;" type="button" class="viewPopLink" role="button" data-id="{{ $product->ProductDescription }}" data-toggle="modal" data-target="#myModal">Additional Info</button></td> 
           @elseif($product->ProductStkCurrent > 80)
           <td style="color:green;">{{$product->ProductStkCurrent}}</td>
-          <td><button style="background-color: #4CAF50; color: white; cursor: pointer; border-radius: 4px;" type="button" class="viewPopLink" role="button" data-id="{{ $product->ProductDescription }}" data-toggle="modal" data-target="#myModal">Additional Info</button></td> 
           @else
           <td>{{$product->ProductStkCurrent}}</td>
-          <td><button style="background-color: #4CAF50; color: white; cursor: pointer; border-radius: 4px;" type="button" class="viewPopLink" role="button" data-id="{{ $product->ProductDescription}}" data-toggle="modal" data-target="#myModal">Additional Info</button></td> 
           @endif
         </tr>
 
@@ -79,13 +74,10 @@
           <td>{{$product->ProductDescription}}</td>
           @if($product->ProductStkCurrent < 35)
           <td style="color:red;">{{$product->ProductStkCurrent}}</td>
-          <td><button style="background-color: #4CAF50; color: white; cursor: pointer; border-radius: 4px;" type="button" class="viewPopLink" role="button" data-id="{{ $product->ProductDescription}}" data-toggle="modal" data-target="#myModal">Additional Info</button></td> 
           @elseif($product->ProductStkCurrent > 80)
           <td style="color:green;">{{$product->ProductStkCurrent}}</td>
-          <td><button style="background-color: #4CAF50; color: white; cursor: pointer; border-radius: 4px;" type="button" class="viewPopLink" role="button" data-id="{{ $product->ProductDescription }}" data-toggle="modal" data-target="#myModal">Additional Info</button></td> 
           @else
           <td>{{$product->ProductStkCurrent}}</td>
-          <td><button style="background-color: #4CAF50; color: white; cursor: pointer; border-radius: 4px;" type="button" class="viewPopLink" role="button" data-id="{{ $product->ProductDescription }}" data-toggle="modal" data-target="#myModal">Additional Info</button></td> 
           @endif
         </tr>
       @endif
@@ -103,6 +95,15 @@
 
     </div>
 
+
+
+  <div id="my-dash">
+        <div id="chart">
+        </div>
+        <div id="control">
+        </div>
+    </div>
+  {!! \Lava::render('Dashboard', 'Gross Value', 'my-dash') !!}
 
 
     <!-- Modal content-->
@@ -164,10 +165,13 @@ $(document).on('click', '.close', function(){
         var productPriceValue = $("<span></span>").text(data[0][0].ProductUnitaryPrice);
         var moneyGenerated = $("<p></p>").text("Revenue Produto");
         var moneyGeneratedValue = $("<span></span>").text(data[1][0].revenue +"€");
+        var lastdate = $("<p></p>").text("Ultima Compra");
+        var lasteDateValue = $("<span></span>").text(data[3][0].InvoiceDate);
         var topBuyers = $("<table class='top_buyers' id='topBuyers'>");
         var header = $("<tr></tr>");
         var headerLine=$("<th></th>").text("Comprador");
         var headerLineTwo=$("<th></th>").text("Quantidade");
+        
 
         $('#body').append(name);
         $('#body').append(nameValue);
@@ -183,6 +187,8 @@ $(document).on('click', '.close', function(){
         $('#body').append(productPriceValue);
         $('#body').append(moneyGenerated);
         $('#body').append(moneyGeneratedValue);
+        $('#body').append(lastdate);
+        $('#body').append(lasteDateValue);
         $('#body').append(topBuyers);
         $(topBuyers).append(header);
         $(header).append(headerLine);

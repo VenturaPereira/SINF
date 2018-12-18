@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use App\Customer;
 use App\Products;
 use App\Suppliers;
+use App\Invoices;
+use App\CabecCompras;
 
 class AjaxController extends Controller
 {
-  public function graphsData(Request $request){
+    public function graphsData(Request $request){
     $dataPoints = array(
     	array("y" => 25, "label" => "January"),
     	array("y" => 15, "label" => "February"),
@@ -26,44 +28,44 @@ class AjaxController extends Controller
     );
 
 
-$dataPoints = json_encode($dataPoints,JSON_NUMERIC_CHECK);
+    $dataPoints = json_encode($dataPoints,JSON_NUMERIC_CHECK);
     return response()->json($dataPoints);
- }
+  }
 
- public function roundGraphsStock(Request $request){
+     public function roundGraphsStock(Request $request){
 
-   $products = Products::all();
-   $products_price_stock = $products->sortBy('ProductQuantity*ProductUnitaryPrice', SORT_REGULAR, true);
-   $products_price_stock = $products_price_stock->take(10);
-   $dataPoints = array();
+       $products = Products::all();
+       $products_price_stock = $products->sortBy('ProductQuantity*ProductUnitaryPrice', SORT_REGULAR, true);
+       $products_price_stock = $products_price_stock->take(10);
+       $dataPoints = array();
 
-   foreach($products_price_stock as $product){
-     array_push($dataPoints,array("y" => ($product->ProductQuantity * $product->ProductUnitaryPrice),
-     "name" => $product->ProductDescription)
-   );
+       foreach($products_price_stock as $product){
+         array_push($dataPoints,array("y" => ($product->ProductQuantity * $product->ProductUnitaryPrice),
+         "name" => $product->ProductDescription)
+       );
 
- }
-
-
-$dataPoints = json_encode($dataPoints,JSON_NUMERIC_CHECK);
-   return response()->json($dataPoints);
-}
+     }
 
 
-public function roundGraphsData(Request $request){
-
-  $suppliers = Suppliers::all();
-  $dataPoints = array();
-
-
-  foreach($suppliers as $supplier){
-    array_push($dataPoints,array("y" => ($supplier->TotalDeb),
-    "name" => $supplier->CompanyName)
-  );
-}
+     $dataPoints = json_encode($dataPoints,JSON_NUMERIC_CHECK);
+     return response()->json($dataPoints);
+    }
 
 
-$dataPoints = json_encode($dataPoints,JSON_NUMERIC_CHECK);
-  return response()->json($dataPoints);
-}
+    public function roundGraphsData(Request $request){
+
+      $suppliers = Suppliers::all();
+      $dataPoints = array();
+
+
+      foreach($suppliers as $supplier){
+        array_push($dataPoints,array("y" => ($supplier->TotalDeb),
+        "name" => $supplier->CompanyName)
+      );
+    }
+
+
+    $dataPoints = json_encode($dataPoints,JSON_NUMERIC_CHECK);
+      return response()->json($dataPoints);
+    }
 }

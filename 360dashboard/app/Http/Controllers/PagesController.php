@@ -30,11 +30,11 @@ class PagesController extends Controller
 
     public function getDetails(Request $request, $id)
     {
-        
+
       $user_data = DB::table('customers')
       ->where('CustomerID', 'LIKE', '%' . $id . '%')
       ->get();
-      
+
       $user_entries = DB::select("select COUNT(CustomerID) as entries from invoices where CustomerID='$id'");
 
       $user_purchases = DB::select("select ProductDescription, Quantity, temp.cid from `lines` JOIN (Select CustomerID as cid, InvoiceNo as id from `invoices` where CustomerID='$id') as temp ON temp.id=`lines`.`InvoiceNo`");
@@ -43,21 +43,21 @@ class PagesController extends Controller
 
 
     public function getProductDetails(Request $request, $name){
-        
-        
+
+
         $product_data = DB::select("Select * from products
-        JOIN (SELECT ProductDescription as name, SUM(CreditAmount) as totalPrice 
-        FROM `lines` GROUP BY ProductDescription) as temp 
+        JOIN (SELECT ProductDescription as name, SUM(CreditAmount) as totalPrice
+        FROM `lines` GROUP BY ProductDescription) as temp
         ON temp.name=products.ProductDescription
          WHERE products.ProductDescription ='$name'");
-        
-       
+
+
         return response()->json($product_data);
     }
 
 
 
-    
+
     public function getInfoProduct(Request $request, $name){
         $product_info = DB::select("select * from products where ProductDescription='$name'");
         $product_revenue = DB::select("select ProductDescription, SUM(CreditAmount) as revenue from `lines` where ProductDescription='$name' GROUP BY ProductDescription");
@@ -96,14 +96,14 @@ class PagesController extends Controller
         $Chart = \Lava::LineChart('Sales', $sales,[
             'title' => 'Sales by current SAFT'
         ]);
-        
+
         $invoice = DB::select('select COUNT(CustomerID) as counter, CustomerID, MONTH(invoices.InvoiceDate) as month FROM invoices GROUP BY CustomerID');
         $invoices = \Lava::DataTable();
         $invoices->addStringColumn('Month');
         $invoices->addNumberColumn('number of invoices by client and month');
         foreach($invoice as $singleInvoice){
             $dt = DateTime::createFromFormat('!m', $singleInvoice->month);
-            
+
             $invoices->addRow(
                 [$dt->format('F'),$singleInvoice->counter]
             );
@@ -123,15 +123,15 @@ class PagesController extends Controller
 
         $control = \Lava::ControlWrapper($filter,'control');
         $chartTwo = \Lava::ChartWrapper($pieChart,'chart');
-        \Lava::Dashboard('Invoices')->bind($control,$chartTwo); 
+        \Lava::Dashboard('Invoices')->bind($control,$chartTwo);
 
 
 
 
 
         $products = DB::select('Select * from products
-         JOIN (SELECT ProductDescription as name, SUM(CreditAmount) as totalPrice 
-         FROM `lines` GROUP BY ProductDescription) as temp 
+         JOIN (SELECT ProductDescription as name, SUM(CreditAmount) as totalPrice
+         FROM `lines` GROUP BY ProductDescription) as temp
          ON temp.name=products.ProductDescription
           ORDER BY temp.totalPrice DESC');
         return view('pages.sales')->with(compact('customers','products','sales','actifs','invoices'));
@@ -206,7 +206,51 @@ class PagesController extends Controller
     }
 
     public function financial(){
+      $monthSales = DB::select(
+          'select distinct MONTH(invoiceDate) as month, SUM(DocumentTotals_GrossTotal) as total
+           from invoices
+           GROUP BY MONTH(invoices.invoiceDate)'
+      );
 
-        return view('pages.financial');
+      $monthShops = DB::select(
+          'select distinct MONTH(DataDoc) as month, SUM(TotalMerc) as total
+           from cabec_compras
+           WHERE YEAR(DataDoc) = 2018 AND MONTH(DataDoc) < 5
+           GROUP BY MONTH(cabec_compras.DataDoc)'
+      );
+
+      $months = DB::select('select distinct MONTH(invoiceDate) as month from invoices');
+
+      $finances = \Lava::DataTable();
+
+      $finances->addDateColumn('Month')
+               ->addNumberColumn('Income')
+               ->addNumberColumn('Expenses')
+               ->setDateTimeFormat('Y');
+
+      $index = 0;
+      $index2 = 0;
+
+      foreach($monthSales as $monthSale) {
+        if ($monthSale->month == $monthShops[$index2]->month) {
+          $finances->addRow(['2004', $monthSale->total, $monthShops[$index2]->total]); //$months[$index]->month
+          $index2++;
+        }
+        else {
+          $finances->addRow(['2004', $monthSale->total, 0]); //$months[$index]->month
+        }
+
+        $index++;
+      }
+
+      \Lava::ColumnChart('Finances', $finances, [
+          'title' => 'Company Performance',
+          'titleTextStyle' => [
+              'color'    => '#eb6b2c',
+              'fontSize' => 14
+          ]
+      ]);
+
+      return view('pages.financial')->with(compact('finances'));
     }
 }

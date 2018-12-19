@@ -157,39 +157,80 @@ class PagesController extends Controller
     public function suppliers(){
 
 
-      $suppliers = Suppliers::all();
+    //  $suppliers = Suppliers::all();
 
-    /*  $suppliers = DB::select(
-          'select *
-          from suppliers
-          INNER JOIN
-          (select CustomerID as cid, SUM(DocumentTotals_GrossTotal) as total
-          from invoices
-          GROUP BY cid) as temp
-          ON temp.cid = suppliers.SupplierID
-          ORDER BY temp.total DESC');
+    $suppliers = DB::select(
+        'select *
+        from suppliers
+        INNER JOIN
+        (select Entidade as sid, SUM(TotalMerc) as total
+        from cabec_compras
+        GROUP BY sid) as temp
+        ON temp.sid = suppliers.SupplierID
+        ORDER BY temp.total DESC');
 
-      $monthSales = DB::select(
-          'select distinct MONTH(invoiceDate) as month, SUM(DocumentTotals_GrossTotal) as total
-           from invoices
-           GROUP BY MONTH(invoices.invoiceDate)'
-      );
+    $monthSales = DB::select(
+        'select distinct MONTH(DataDoc) as month, SUM(TotalMerc) as total
+         from cabec_compras
+         GROUP BY MONTH(cabec_compras.DataDoc)'
+    );
 
-      $year = DB::select('select distinct YEAR(invoiceDate) as year from invoices');
+    $year = DB::select('select distinct YEAR(DataDoc) as year from cabec_compras');
+    $buys = \Lava::DataTable();
+    $buys->addDateColumn('Month')
+          ->addNumberColumn('Buys');
 
-      $supplies = \Lava::DataTable();
-      $supplies->addDateColumn('Month')
-            ->addNumberColumn('Supplies');
+    $actifs = DB::select('select CompanyName, COUNT(cabec_compras.Entidade) as counter from `cabec_compras` JOIN suppliers ON suppliers.SupplierID =cabec_compras.Entidade GROUP BY cabec_compras.Entidade ORDER BY counter DESC');
+
+    foreach($monthSales as $monthsale){
+        $buys->addRow([$year[0]->year.'-'.$monthsale->month.'-1',$monthsale->total]);
+    }
+    $Chart = \Lava::LineChart('Buys', $buys,[
+        'title' => 'Supplies'
+    ]);
+
+    /*
+
+    $invoice = DB::select('select COUNT(CustomerID) as counter, CustomerID, MONTH(invoices.InvoiceDate) as month FROM invoices GROUP BY CustomerID');
+    $invoices = \Lava::DataTable();
+    $invoices->addStringColumn('Month');
+    $invoices->addNumberColumn('number of invoices by client and month');
+    foreach($invoice as $singleInvoice){
+        $dt = DateTime::createFromFormat('!m', $singleInvoice->month);
+
+        $invoices->addRow(
+            [$dt->format('F'),$singleInvoice->counter]
+        );
+    }
+
+    $pieChart = \Lava::PieChart('Invoices', $invoices,[
+        'width'=>400,
+        'pieSliceText' => 'value'
+    ]);
+
+    $filter  = \Lava::NumberRangeFilter(1, [
+        'ui' => [
+            'labelStacking' => 'vertical'
+        ]
+    ]);
 
 
-      foreach($monthSales as $monthsale){
-          $supplies->addRow([$year[0]->year.'-'.$monthsale->month.'-1',$monthsale->total]);
-      }
-      $Chart = \Lava::LineChart('Sales', $supplies,[
-          'title' => 'Supplies'
-      ]);*/
+    $control = \Lava::ControlWrapper($filter,'control');
+    $chartTwo = \Lava::ChartWrapper($pieChart,'chart');
+    \Lava::Dashboard('Invoices')->bind($control,$chartTwo);
 
-    /*  $total_gross = \Lava::DataTable();
+
+
+
+
+    $products = DB::select('Select * from products
+     JOIN (SELECT ProductDescription as name, SUM(CreditAmount) as totalPrice
+     FROM `lines` GROUP BY ProductDescription) as temp
+     ON temp.name=products.ProductDescription
+      ORDER BY temp.totalPrice DESC');
+    return view('pages.sales')->with(compact('customers','products','sales','actifs','invoices'));
+
+      $total_gross = \Lava::DataTable();
       $total_gross->addStringColumn('total_gross')
                   ->addNumberColumn('Value');
 
@@ -210,7 +251,7 @@ class PagesController extends Controller
 
 
 
-        return view('pages.suppliers')->with(compact('suppliers','products'));
+        return view('pages.suppliers')->with(compact('suppliers','products','buys'));
     }
 
 

@@ -85,14 +85,16 @@
     </div>
 
 
+
+
 @if(count($suppliers) > 1)
-    <div class="container-fluid" id="salesGraph">
-      <h3>Supplies</h3>
-        <div class="graph d-inline-flex" id="chartContainerSupplies--Buys-postajax"></div>
-    </div>
+<div class="container-fluid float-left" id="salesGraph">
+  <h3>Supplies</h3>
+  {!! \Lava::render('LineChart', 'Buys', 'salesGraph') !!}
+</div>
 
 
-      <div class="roundGraph d-inline-flex float-right" style="margin-top: 0%;margin-right: 40%;" id="roundChartContainerSupplies-postajaxRound-Total Gross/Supplier-In $" style="height: 300px; width: 50%;"> </div>
+      <div class="roundGraph d-inline-flex float-right" style="margin-top: 20%;margin-right: 70%;" id="roundChartContainerSupplies-postajaxRound-Total Debt/Supplier-In $" style="height: 300px; width: 50%;"> </div>
 @endif
 
         </div>

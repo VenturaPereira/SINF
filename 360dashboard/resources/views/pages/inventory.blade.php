@@ -3,9 +3,11 @@
 @section('content')
 <script type="text/javascript" src="{{ URL::asset('js/roundGraphs.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/general.js') }}"></script>
+<link href="{{ URL::asset('css/inventory.css') }}" rel="stylesheet">
+
     <div>
 
-      <div class="mt-5 float-left">
+      <div class="productsSales">
         <h3>Top products by sales </h3>
 
         @if(count($products_sales) > 1)
@@ -44,7 +46,7 @@
   </table>
       </div>
 
-      <div class="mt-5 float-right">
+      <div class="stockProducts">
         <h3>Stock </h3>
         @if(count($products_stock) > 1)
         <table class="company_table" id="stockTable">
@@ -91,13 +93,7 @@
   </table>
 </div>
 
-      <div class="roundGraph d-inline-flex ml-auto mr-auto mt-5" id="roundChartContainerInventory-postajaxRoundStock-Total Value of current Stock-In $" style="height: 370px; width: 100%;"> </div>
-
-    </div>
-
-
-
-  <div id="my-dash">
+  <div class="graphC" id="my-dash">
         <div id="chart">
         </div>
         <div id="control">

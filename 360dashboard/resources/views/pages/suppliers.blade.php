@@ -192,7 +192,7 @@ $(document).on('click', '.close', function(){
  $(document).on('click', '.viewPopLink', function() {
     var user_id = $(this).data('id');
     $.ajax({
-      url: '/SINF/360dashboard/public/sales/'+user_id,
+      url: '/SINF/360dashboard/public/suppliers/'+user_id,
       type: 'GET',
       dataType: 'JSON',
       success: function(data, textStatus, jqXHR){
@@ -202,29 +202,30 @@ $(document).on('click', '.close', function(){
 
         var name = $("<p></p>").text("Name");
         var nameValue = $("<span></span>").text(data[0][0].CompanyName);
-        var iDcliente = $("<p></p>").text("Id Cliente");
-        var iDclienteValue = $("<span></span>").text(data[0][0].CustomerID);
-        var iDconta = $("<p></p>").text("Id Conta");
-        var iDcontaValue = $("<span></span>").text(data[0][0].AccountID);
+        var iDsupplier = $("<p></p>").text("Id Supplier");
+        var iDsupplierValue = $("<span></span>").text(data[0][0].SupplierID);
         var nif = $("<p></p>").text("NIF");
-        var nifValue = $("<span></span>").text(data[0][0].CustomerTaxID);
-        var address = $("<p></p>").text("Morada Faturacao");
+        var nifValue = $("<span></span>").text(data[0][0].SupplierTaxID);
+        var address = $("<p></p>").text("Billing Address");
         var addressValue = $("<span></span>").text(data[0][0].BillingAddress_AddressDetail);
-        var city = $("<p></p>").text("Cidade Faturacao");
+        var city = $("<p></p>").text("Billing City");
         var cityValue = $("<span></span>").text(data[0][0].BillingAddress_City);
-        var postalCode = $("<p></p>").text("Codigo Postal Faturacao");
+        var postalCode = $("<p></p>").text("Billing Postal Code");
         var postalCodeValue = $("<span></span>").text(data[0][0].BillingAddress_PostalCode);
-        var country = $("<p></p>").text("Pais Faturacao");
+        var country = $("<p></p>").text("Billing Country");
         var countryValue = $("<span></span>").text(data[0][0].BillingAddress_Country);
-        var numberOfPurchases =$("<p></p>").text("Numero de registos de compra");
+        var numberOfPurchases =$("<p></p>").text("Number of buys register");
         var numberOfPurchasesValue = $("<span></span>").text(data[1][0].entries);
+        var productsBought = $("<table class='products_bought' id='productsPurchased'>");
+        var header = $("<tr></tr>");
+        var headerLine=$("<th></th>").text("Bought products");
+        var headerLineTwo=$("<th></th>").text("Quantity");
+
 
         $('#body').append(name);
         $('#body').append(nameValue);
-        $('#body').append(iDcliente);
-        $('#body').append(iDclienteValue);
-        $('#body').append(iDconta);
-        $('#body').append(iDcontaValue);
+        $('#body').append(iDsupplier);
+        $('#body').append(iDsupplierValue);
         $('#body').append(nif);
         $('#body').append(nifValue);
         $('#body').append(address);
@@ -237,6 +238,18 @@ $(document).on('click', '.close', function(){
         $('#body').append(cityValue);
         $('#body').append(numberOfPurchases);
         $('#body').append(numberOfPurchasesValue);
+        $('#body').append(productsBought);
+        $(productsBought).append(header);
+        $(header).append(headerLine);
+        $(header).append(headerLineTwo);
+        for(var i =0; i < data[2].length;i++){
+          var line = $("<tr></tr>");
+          var lineValue = $("<td></td>").text(data[2][i].Descricao);
+          var lineValueTwo = $("<td></td>").text(data[2][i].Quantidade);
+          $(productsBought).append(line);
+          $(line).append(lineValue);
+          $(line).append(lineValueTwo);
+        }
 
 
         $('#myModal').modal('show');

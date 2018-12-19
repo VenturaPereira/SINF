@@ -42,6 +42,21 @@ class PagesController extends Controller
     }
 
 
+    public function getSupDetails(Request $request, $id)
+    {
+
+      $user_data = DB::table('suppliers')
+      ->where('SupplierID', 'LIKE', '%' . $id . '%')
+      ->get();
+
+
+      $user_entries = DB::select("select COUNT(Entidade) as entries from cabec_compras where Entidade='$id'");
+
+      $user_sells = DB::select("select Descricao, Quantidade, temp.sid from `linhas_compras` JOIN (Select Entidade as sid, Id as id from `cabec_compras` where Entidade='$id') as temp ON temp.id=`linhas_compras`.`IdCabecCompras`");
+      return response()->json(array($user_data,$user_entries,$user_sells));
+    }
+
+
     public function getProductDetails(Request $request, $name){
 
 
@@ -286,6 +301,3 @@ class PagesController extends Controller
       return view('pages.financial')->with(compact('finances'));
     }
 }
-
-
-

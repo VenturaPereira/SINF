@@ -7,8 +7,8 @@ body {
 }
 .containerC{
         display: grid;
-        grid-auto-columns: [col] 100%;
-        grid-auto-rows: [row] 20% [row] 20% [row] 20% [row] 10% [row] 30% [end]   ;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 20%  20% 20%  40%;
         margin: 1%; 
 }
 
@@ -16,32 +16,33 @@ body {
 
 
 .clientsDivC{
-    grid-column: col;
+    grid-column: column 1 span/2;
     grid-row: row 1;
 }
 .company_table{
     width: 150%;
 }
 .activesDivC{
-    grid-column: col;
+    grid-column: column 1 span/2;
     grid-row: row 2; 
 }
 
 .productsDivC{
-    grid-column: col;
+    grid-column: column 1 span/2;
     grid-row: row 3;
 }
 
 .dashC{
-    grid-column: col;
+    
+    width: 10%;  
     grid-row: row 4;  
 }
 
 .salesC{
-    grid-column: col;
-    grid-row: row 5;
-    width: 100%;
-    height: 200%;
+   
+    grid-row: row 4;
+    height: 800%;
+   
 }
 
 

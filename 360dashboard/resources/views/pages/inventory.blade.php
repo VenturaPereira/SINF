@@ -93,7 +93,7 @@
 </div>
 
   <div class="graphC" id="my-dash">
-        <div id="chart">
+        <div id="chart" class="graf">
         </div>
         <div id="control">
         </div>

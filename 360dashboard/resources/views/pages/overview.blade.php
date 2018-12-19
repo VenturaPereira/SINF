@@ -55,7 +55,7 @@
                   <div class="mr-5">Total Credit: <h3>{{$infoOverview[1]}}€</h3></div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="#">
-                  <span class="float-left">View Details</span>
+                  <span class="float-left"></span>
                   <span class="float-right">
                     <i class="fas fa-angle-right"></i>
                   </span>
@@ -71,7 +71,7 @@
                   <div class="mr-5">Total Debit: <h3>{{$infoOverview[2]}}€</h3></div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="#">
-                  <span class="float-left">View Details</span>
+                  <span class="float-left"></span>
                   <span class="float-right">
                     <i class="fas fa-angle-right"></i>
                   </span>
@@ -87,7 +87,7 @@
                   <div class="mr-5">Active Clients <h3>{{$infoOverview[3]}}</h3></div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="#">
-                  <span class="float-left">View Details</span>
+                  <span class="float-left"></span>
                   <span class="float-right">
                     <i class="fas fa-angle-right"></i>
                   </span>
@@ -103,7 +103,7 @@
                   <div class="mr-5">Active Suppliers <h3>{{$infoOverview[4]}}</h3></div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="#">
-                  <span class="float-left">View Details</span>
+                  <span class="float-left"></span>
                   <span class="float-right">
                     <i class="fas fa-angle-right"></i>
                   </span>

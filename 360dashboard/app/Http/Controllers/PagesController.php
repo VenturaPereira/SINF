@@ -130,7 +130,7 @@ class PagesController extends Controller
         $invoice = DB::select('select COUNT(CustomerID) as counter, MONTH(invoices.InvoiceDate) as month FROM invoices GROUP BY month');
         $invoices = \Lava::DataTable();
         $invoices->addStringColumn('Month');
-        $invoices->addNumberColumn('number of invoices month');
+        $invoices->addNumberColumn('number of invoices per month');
         foreach($invoice as $singleInvoice){
             $dt = DateTime::createFromFormat('!m', $singleInvoice->month);
 

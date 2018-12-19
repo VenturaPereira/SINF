@@ -7,8 +7,8 @@ body {
 }
 .containerC{
         display: grid;
-        grid-auto-columns: [col] 100%;
-        grid-auto-rows: [row] 40% [row] 40% [row] 20% [end];
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 20%  20% 20%  40%;
         margin: 1%; 
 }
 
@@ -16,19 +16,24 @@ body {
 
 
 .productsSales{
-    grid-column: col;
+    grid-column: column 1 span/2;
     grid-row: row 1;
 }
 .company_table{
     width: 150%;
 }
 .stockProducts{
-    grid-column: col;
-    grid-row: row 2; 
+    grid-column: column 1 span/2;
+    grid-row: row 2;
 }
 
 .graphC{
-    grid-column: col;
-    grid-row: row 3;
+    grid-column: column 4;
+    grid-row: row 2;
+    text-align: left !important;
 }
+
+
+
+
 

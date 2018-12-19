@@ -54,7 +54,8 @@
         <table class="company_table" id="productsTable">
     <tr>
       <th>Product Description</th>
-      <th>Product Price</th>
+      <th>Product Unitary Price</th>
+      <th>Total spent on Product</th>
       <th>Additional info</th>
     </tr>
     <?php $i=0; ?>
@@ -64,6 +65,7 @@
          <tr>
             <td>{{$product->ProductDescription}}</td>
             <td>{{$product->ProductUnitaryPrice}}</td>
+            <td>{{$product->totalPrice}}</td>
             <td><button style="background-color: #4CAF50; color: white; cursor: pointer; border-radius: 4px;" type="button" class="viewPopLinkProduct" role="button" data-id="{{ $product->ProductDescription  }}" data-toggle="modal" data-target="#myModal">Additional Info</button></td>
           </tr>
 
@@ -71,12 +73,13 @@
           <tr style="display: none ">
             <td>{{$product->ProductDescription}}</td>
             <td>{{$product->ProductUnitaryPrice}}</td>
+            <td>{{$product->totalPrice}}</td>
             <td><button style="background-color: #4CAF50; color: white; cursor: pointer; border-radius: 4px;" type="button" class="viewPopLinkProduct" role="button" data-id="{{ $product->ProductDescription  }}" data-toggle="modal" data-target="#myModal">Additional Info</button></td>
           </tr>
         @endif
         @endforeach
         <tr>
-             <td colspan=3> <span onclick="toggle('productsTable-5',event)"  style="cursor: pointer; color: blue" > View more </span> </td>
+             <td colspan=4> <span onclick="toggle('productsTable-5',event)"  style="cursor: pointer; color: blue" > View more </span> </td>
         </tr>
       @else
           <h5>No Products found</h5>
@@ -85,14 +88,24 @@
     </div>
 
 
+
+
 @if(count($suppliers) > 1)
-    <div class="container-fluid" id="salesGraph">
-      <h3>Supplies</h3>
-        <div class="graph d-inline-flex" id="chartContainerSupplies--Buys-postajax"></div>
-    </div>
+<div class="container-fluid float-left" id="salesGraph">
+  <h3>Supplies</h3>
+  {!! \Lava::render('LineChart', 'Buys', 'salesGraph') !!}
+</div>
 
+  <div class="roundGraph d-inline-flex float-right" style="margin-top: 20%;margin-right: 70%;" id="roundChartContainerSupplies-postajaxRound-Total Debt/Supplier-In $" style="height: 300px; width: 50%;"> </div>
 
-      <div class="roundGraph d-inline-flex float-right" style="margin-top: 0%;margin-right: 40%;" id="roundChartContainerSupplies-postajaxRound-Total Gross/Supplier-In $" style="height: 300px; width: 50%;"> </div>
+  <div id="my-dash">
+      <div id="chart">
+      </div>
+      <div id="control">
+      </div>
+  </div>
+{!! \Lava::render('Dashboard', 'Gross', 'my-dash') !!}
+
 @endif
 
         </div>
@@ -138,7 +151,7 @@ $(document).on('click', '.close', function(){
     var product_name = $(this).data('id');
 
     $.ajax({
-      url: '/SINF/360dashboard/public/sales/product/'+product_name,
+      url: '/SINF/360dashboard/public/suppliers/product/'+product_name,
       type: 'GET',
       dataType: 'JSON',
       success: function(data, textStatus, jqXHR){
@@ -155,11 +168,9 @@ $(document).on('click', '.close', function(){
         var productCodeValue = $("<span></span>").text(data[0].ProductCode);
         var productStock = $("<p></p>").text("Stock Atual");
         var productStockValue = $("<span></span>").text(data[0].ProductQuantity);
-        var productPrice = $("<p></p>").text("Preco");
+        var productPrice = $("<p></p>").text("Preco unitário");
         var productPriceValue = $("<span></span>").text(data[0].ProductUnitaryPrice);
-        var numberOfSales = $("<p></p>").text("Numero de vendas");
-        var numberOfSalesValue = $("<span></span>").text(data[0].ProductSales);
-        var moneyGenerated = $("<p></p>").text("Revenue Produto");
+        var moneyGenerated = $("<p></p>").text("Total gasto no Produto");
         var moneyGeneratedValue = $("<span></span>").text(data[0].totalPrice +"€");
 
         $('#body').append(name);
@@ -176,8 +187,6 @@ $(document).on('click', '.close', function(){
         $('#body').append(productPriceValue);
         $('#body').append(moneyGenerated);
         $('#body').append(moneyGeneratedValue);
-        $('#body').append(numberOfSales);
-        $('#body').append(numberOfSalesValue);
 
 
         $('#myModal').modal('show');
@@ -192,7 +201,7 @@ $(document).on('click', '.close', function(){
  $(document).on('click', '.viewPopLink', function() {
     var user_id = $(this).data('id');
     $.ajax({
-      url: '/SINF/360dashboard/public/sales/'+user_id,
+      url: '/SINF/360dashboard/public/suppliers/'+user_id,
       type: 'GET',
       dataType: 'JSON',
       success: function(data, textStatus, jqXHR){
@@ -202,29 +211,30 @@ $(document).on('click', '.close', function(){
 
         var name = $("<p></p>").text("Name");
         var nameValue = $("<span></span>").text(data[0][0].CompanyName);
-        var iDcliente = $("<p></p>").text("Id Cliente");
-        var iDclienteValue = $("<span></span>").text(data[0][0].CustomerID);
-        var iDconta = $("<p></p>").text("Id Conta");
-        var iDcontaValue = $("<span></span>").text(data[0][0].AccountID);
+        var iDsupplier = $("<p></p>").text("Id Supplier");
+        var iDsupplierValue = $("<span></span>").text(data[0][0].SupplierID);
         var nif = $("<p></p>").text("NIF");
-        var nifValue = $("<span></span>").text(data[0][0].CustomerTaxID);
-        var address = $("<p></p>").text("Morada Faturacao");
+        var nifValue = $("<span></span>").text(data[0][0].SupplierTaxID);
+        var address = $("<p></p>").text("Billing Address");
         var addressValue = $("<span></span>").text(data[0][0].BillingAddress_AddressDetail);
-        var city = $("<p></p>").text("Cidade Faturacao");
+        var city = $("<p></p>").text("Billing City");
         var cityValue = $("<span></span>").text(data[0][0].BillingAddress_City);
-        var postalCode = $("<p></p>").text("Codigo Postal Faturacao");
+        var postalCode = $("<p></p>").text("Billing Postal Code");
         var postalCodeValue = $("<span></span>").text(data[0][0].BillingAddress_PostalCode);
-        var country = $("<p></p>").text("Pais Faturacao");
+        var country = $("<p></p>").text("Billing Country");
         var countryValue = $("<span></span>").text(data[0][0].BillingAddress_Country);
-        var numberOfPurchases =$("<p></p>").text("Numero de registos de compra");
+        var numberOfPurchases =$("<p></p>").text("Number of buys register");
         var numberOfPurchasesValue = $("<span></span>").text(data[1][0].entries);
+        var productsBought = $("<table class='products_bought' id='productsPurchased'>");
+        var header = $("<tr></tr>");
+        var headerLine=$("<th></th>").text("Bought products");
+        var headerLineTwo=$("<th></th>").text("Quantity");
+
 
         $('#body').append(name);
         $('#body').append(nameValue);
-        $('#body').append(iDcliente);
-        $('#body').append(iDclienteValue);
-        $('#body').append(iDconta);
-        $('#body').append(iDcontaValue);
+        $('#body').append(iDsupplier);
+        $('#body').append(iDsupplierValue);
         $('#body').append(nif);
         $('#body').append(nifValue);
         $('#body').append(address);
@@ -237,6 +247,18 @@ $(document).on('click', '.close', function(){
         $('#body').append(cityValue);
         $('#body').append(numberOfPurchases);
         $('#body').append(numberOfPurchasesValue);
+        $('#body').append(productsBought);
+        $(productsBought).append(header);
+        $(header).append(headerLine);
+        $(header).append(headerLineTwo);
+        for(var i =0; i < data[2].length;i++){
+          var line = $("<tr></tr>");
+          var lineValue = $("<td></td>").text(data[2][i].Descricao);
+          var lineValueTwo = $("<td></td>").text(data[2][i].Quantidade);
+          $(productsBought).append(line);
+          $(line).append(lineValue);
+          $(line).append(lineValueTwo);
+        }
 
 
         $('#myModal').modal('show');

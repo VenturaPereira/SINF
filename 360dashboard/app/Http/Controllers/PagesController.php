@@ -30,11 +30,11 @@ class PagesController extends Controller
 
     public function getDetails(Request $request, $id)
     {
-        
+
       $user_data = DB::table('customers')
       ->where('CustomerID', 'LIKE', '%' . $id . '%')
       ->get();
-      
+
       $user_entries = DB::select("select COUNT(CustomerID) as entries from invoices where CustomerID='$id'");
 
       $user_purchases = DB::select("select ProductDescription, Quantity, temp.cid from `lines` JOIN (Select CustomerID as cid, InvoiceNo as id from `invoices` where CustomerID='$id') as temp ON temp.id=`lines`.`InvoiceNo`");
@@ -42,22 +42,51 @@ class PagesController extends Controller
     }
 
 
+    public function getSupDetails(Request $request, $id)
+    {
+
+      $user_data = DB::table('suppliers')
+      ->where('SupplierID', 'LIKE', '%' . $id . '%')
+      ->get();
+
+
+      $user_entries = DB::select("select COUNT(Entidade) as entries from cabec_compras where Entidade='$id'");
+
+      $user_sells = DB::select("select Descricao, Quantidade, temp.sid from `linhas_compras` JOIN (Select Entidade as sid, Id as id from `cabec_compras` where Entidade='$id') as temp ON temp.id=`linhas_compras`.`IdCabecCompras`");
+      return response()->json(array($user_data,$user_entries,$user_sells));
+    }
+
+
     public function getProductDetails(Request $request, $name){
-        
-        
+
+
         $product_data = DB::select("Select * from products
-        JOIN (SELECT ProductDescription as name, SUM(CreditAmount) as totalPrice 
-        FROM `lines` GROUP BY ProductDescription) as temp 
+        JOIN (SELECT ProductDescription as name, SUM(CreditAmount) as totalPrice
+        FROM `lines` GROUP BY ProductDescription) as temp
         ON temp.name=products.ProductDescription
          WHERE products.ProductDescription ='$name'");
-        
-       
+
+
+        return response()->json($product_data);
+    }
+
+
+    public function getProductSupDetails(Request $request, $name){
+
+
+        $product_data = DB::select("Select * from products
+        JOIN (SELECT Descricao as name, SUM(TotalIliquido) as totalPrice
+        FROM `linhas_compras` GROUP BY Descricao) as temp
+        ON temp.name=products.ProductDescription
+         WHERE products.ProductDescription ='$name'");
+
+
         return response()->json($product_data);
     }
 
 
 
-    
+
     public function getInfoProduct(Request $request, $name){
         $product_info = DB::select("select * from products where ProductDescription='$name'");
         $product_revenue = DB::select("select ProductDescription, SUM(CreditAmount) as revenue from `lines` where ProductDescription='$name' GROUP BY ProductDescription");
@@ -97,14 +126,14 @@ class PagesController extends Controller
         $Chart = \Lava::LineChart('Sales', $sales,[
             'title' => 'Sales by current SAFT'
         ]);
-        
+
         $invoice = DB::select('select COUNT(CustomerID) as counter, CustomerID, MONTH(invoices.InvoiceDate) as month FROM invoices GROUP BY CustomerID');
         $invoices = \Lava::DataTable();
         $invoices->addStringColumn('Month');
         $invoices->addNumberColumn('number of invoices by client and month');
         foreach($invoice as $singleInvoice){
             $dt = DateTime::createFromFormat('!m', $singleInvoice->month);
-            
+
             $invoices->addRow(
                 [$dt->format('F'),$singleInvoice->counter]
             );
@@ -124,15 +153,15 @@ class PagesController extends Controller
 
         $control = \Lava::ControlWrapper($filter,'control');
         $chartTwo = \Lava::ChartWrapper($pieChart,'chart');
-        \Lava::Dashboard('Invoices')->bind($control,$chartTwo); 
+        \Lava::Dashboard('Invoices')->bind($control,$chartTwo);
 
 
 
 
 
         $products = DB::select('Select * from products
-         JOIN (SELECT ProductDescription as name, SUM(CreditAmount) as totalPrice 
-         FROM `lines` GROUP BY ProductDescription) as temp 
+         JOIN (SELECT ProductDescription as name, SUM(CreditAmount) as totalPrice
+         FROM `lines` GROUP BY ProductDescription) as temp
          ON temp.name=products.ProductDescription
           ORDER BY temp.totalPrice DESC');
         return view('pages.sales')->with(compact('customers','products','sales','actifs','invoices'));
@@ -142,60 +171,74 @@ class PagesController extends Controller
     public function suppliers(){
 
 
-      $suppliers = Suppliers::all();
+    //  $suppliers = Suppliers::all();
 
-    /*  $suppliers = DB::select(
-          'select *
-          from suppliers
-          INNER JOIN
-          (select CustomerID as cid, SUM(DocumentTotals_GrossTotal) as total
-          from invoices
-          GROUP BY cid) as temp
-          ON temp.cid = suppliers.SupplierID
-          ORDER BY temp.total DESC');
+    $suppliers = DB::select(
+        'select *
+        from suppliers
+        INNER JOIN
+        (select Entidade as sid, SUM(TotalMerc) as total
+        from cabec_compras
+        GROUP BY sid) as temp
+        ON temp.sid = suppliers.SupplierID
+        ORDER BY temp.total DESC');
 
-      $monthSales = DB::select(
-          'select distinct MONTH(invoiceDate) as month, SUM(DocumentTotals_GrossTotal) as total
-           from invoices
-           GROUP BY MONTH(invoices.invoiceDate)'
-      );
+    $monthSales = DB::select(
+        'select distinct MONTH(DataDoc) as month, SUM(TotalMerc) as total
+         from cabec_compras
+         GROUP BY MONTH(cabec_compras.DataDoc)'
+    );
 
-      $year = DB::select('select distinct YEAR(invoiceDate) as year from invoices');
+    $year = DB::select('select distinct YEAR(DataDoc) as year from cabec_compras');
+    $buys = \Lava::DataTable();
+    $buys->addDateColumn('Month')
+          ->addNumberColumn('Buys');
 
-      $supplies = \Lava::DataTable();
-      $supplies->addDateColumn('Month')
-            ->addNumberColumn('Supplies');
+  //  $actifs = DB::select('select CompanyName, COUNT(cabec_compras.Entidade) as counter from `cabec_compras` JOIN suppliers ON suppliers.SupplierID =cabec_compras.Entidade GROUP BY cabec_compras.Entidade ORDER BY counter DESC');
 
+    foreach($monthSales as $monthsale){
+        $buys->addRow([$year[0]->year.'-'.$monthsale->month.'-1',$monthsale->total]);
+    }
+    $Chart = \Lava::LineChart('Buys', $buys,[
+        'title' => 'Supplies'
+    ]);
 
-      foreach($monthSales as $monthsale){
-          $supplies->addRow([$year[0]->year.'-'.$monthsale->month.'-1',$monthsale->total]);
-      }
-      $Chart = \Lava::LineChart('Sales', $supplies,[
-          'title' => 'Supplies'
-      ]);*/
+    $sups = \Lava::DataTable();
+    $sups->addStringColumn('Name');
+    $sups->addNumberColumn('');
 
-    /*  $total_gross = \Lava::DataTable();
-      $total_gross->addStringColumn('total_gross')
-                  ->addNumberColumn('Value');
-
-
-
-      foreach($suppliers as $supplier){
-        $total_gross->addRow([$supplier->CompanyName, $supplier->TotalDeb]);
+    foreach($suppliers as $sup){
+        $sups->addRow(
+            [$sup->CompanyName,$sup->total]
+        );
     }
 
+    $pieChart = \Lava::PieChart('Gross', $sups,[
+        'width'=>400,
+        'pieSliceText' => 'value'
+    ]);
 
-      $Chart = \Lava::PieChart('total_gross', $total_gross,[
-          'title' => 'Total gross/supplier'
-      ]);*/
-
-      $products = Products::all();
-
-
+    $filter  = \Lava::NumberRangeFilter(1, [
+        'ui' => [
+            'labelStacking' => 'vertical'
+        ]
+    ]);
 
 
+    $control = \Lava::ControlWrapper($filter,'control');
+    $chartTwo = \Lava::ChartWrapper($pieChart,'chart');
+    \Lava::Dashboard('Gross')->bind($control,$chartTwo);
 
-        return view('pages.suppliers')->with(compact('suppliers','products'));
+
+      $products = DB::select('Select * from products
+       JOIN (SELECT Descricao as name, SUM(TotalIliquido) as totalPrice
+       FROM `linhas_compras` GROUP BY Descricao) as temp
+       ON temp.name=products.ProductDescription
+        ORDER BY temp.totalPrice DESC');
+
+
+
+        return view('pages.suppliers')->with(compact('suppliers','products','buys','sups'));
     }
 
 
@@ -238,10 +281,55 @@ class PagesController extends Controller
     }
 
     public function financial(){
+      $monthSales = DB::select(
+          'select distinct MONTH(invoiceDate) as month, SUM(DocumentTotals_GrossTotal) as total
+           from invoices
+           GROUP BY MONTH(invoices.invoiceDate)'
+      );
 
-        return view('pages.financial');
+      $monthShops = DB::select(
+          'select distinct MONTH(DataDoc) as month, SUM(TotalMerc) as total
+           from cabec_compras
+           WHERE YEAR(DataDoc) = 2018 AND MONTH(DataDoc) < 5
+           GROUP BY MONTH(cabec_compras.DataDoc)'
+      );
+
+      $months = DB::select('select distinct MONTH(invoiceDate) as month from invoices');
+
+      $finances = \Lava::DataTable();
+
+      $finances->addDateColumn('Month')
+               ->addNumberColumn('Income')
+               ->addNumberColumn('Expenses')
+               ->setDateTimeFormat('Y');
+
+      $index = 0;
+      $index2 = 0;
+
+      foreach($monthSales as $monthSale) {
+        if ($index2 < count($monthShops)) {
+          if ($monthSale->month == $monthShops[$index2]->month) {
+            $finances->addRow(['2004', $monthSale->total, $monthShops[$index2]->total]); //$months[$index]->month
+            $index2++;
+          }
+          else {
+            $finances->addRow(['2004', $monthSale->total, 0]); //$months[$index]->month
+          }
+        } else {
+          $finances->addRow(['2004', $monthSale->total, 0]); //$months[$index]->month
+        }
+
+        $index++;
+      }
+
+      \Lava::ColumnChart('Finances', $finances, [
+          'title' => 'Company Performance',
+          'titleTextStyle' => [
+              'color'    => '#eb6b2c',
+              'fontSize' => 14
+          ]
+      ]);
+
+      return view('pages.financial')->with(compact('finances'));
     }
 }
-
-
-

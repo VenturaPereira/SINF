@@ -6,9 +6,12 @@
 <link href="{{ URL::asset('css/financial.css') }}" rel="stylesheet">
 
     <div class="text-center">
-
-        <div class="BarGraph" id="BarChartContainer-Income Vs Expenses (2017)-Thousands-Thousands-Income-Expenses-Income (thousand)-Expenses (thousand)-postajax" style="height: 370px; width: 100%;"></div>
-
+      <div class="BarGraph" id="inc_exp" >
+        // With Lava class alias
+        {!! \Lava::render('ColumnChart', 'Finances', 'inc_exp') !!}
+      </div>
+        <!--<div class="BarGraph" id="BarChartContainer-Income Vs Expenses (2017)-Thousands-Thousands-Income-Expenses-Income (thousand)-Expenses (thousand)-postajax" style="height: 370px; width: 100%;"></div>
+-->
         <div class="BarGraphFinance" id="BarChartFinanceContainer-Accounts receivable Vs Accounts payable (2017)-Thousands-Thousands-Accounts receivable-Accounts payable-Accounts receivable (thousand)-Accounts payable (thousand)-postajax" style="height: 370px; width: 100%;"></div>
     </div>
 

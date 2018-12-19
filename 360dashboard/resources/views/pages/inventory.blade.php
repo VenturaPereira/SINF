@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<script type="text/javascript" src="{{ URL::asset('js/roundGraphs.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/general.js') }}"></script>
 <link href="{{ URL::asset('css/inventory.css') }}" rel="stylesheet">
 

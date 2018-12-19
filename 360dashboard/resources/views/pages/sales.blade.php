@@ -92,8 +92,8 @@
       @if(count($customers) > 1)
       <table class="company_table" >
         <tr>
-            <th>Nome Consumidor</th>
-            <th>Numero de Faturas</th>
+            <th>Um grande mangalho</th>
+            <th>Numero de pilas pretas</th>
           </tr>
 
          <?php $i=0; ?>

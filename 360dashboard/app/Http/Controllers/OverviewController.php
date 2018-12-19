@@ -126,4 +126,40 @@ class OverviewController extends Controller
         return response()->json(['labels' => ["Jan", "Fev", "Mar", "April", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],'data' => $data], 200);
     }
 
+    public function getYearSupplies(Request $request){
+
+        $data = [];
+
+        $totalBuyCash = DB::select(" SELECT sum(TotalIva) FROM cabec_compras WHERE year(DataDoc) = 2018  ");
+        $totalSalesCash = DB::select(" SELECT sum(DocumentTotals_GrossTotal) FROM invoices WHERE year(InvoiceDate) = 2018  ");
+
+        $json_totalBuyCash = json_encode($totalBuyCash);
+        $json_totalSalesCash = json_encode($totalSalesCash);
+
+        $totalBuyCash = json_decode($json_totalBuyCash,TRUE);
+        $totalSalesCash = json_decode($json_totalSalesCash,TRUE);
+
+
+        $total = GeneralLedgerEntries::all('TotalDebit')->first();
+        $total = $total->TotalDebit - abs($totalBuyCash[0]['sum(TotalIva)']);
+
+        for ($month = 1; $month <= 12; $month++) {
+
+            $BuyMonth = DB::select(" SELECT sum(TotalIva) FROM cabec_compras WHERE year(DataDoc) = 2018 and month(DataDoc) = '$month' ");
+            $SalesMonth = DB::select(" SELECT sum(DocumentTotals_GrossTotal) FROM invoices WHERE year(InvoiceDate) = 2018 and month(InvoiceDate) = '$month' ");
+
+            $json_BuyMonth = json_encode($BuyMonth);
+            $json_SalesMonth = json_encode($SalesMonth);
+    
+            $BuyMonth = json_decode($json_BuyMonth,TRUE);
+            $SalesMonth = json_decode($json_SalesMonth,TRUE);
+         
+            $total = $total + abs($BuyMonth[0]['sum(TotalIva)']);
+
+            array_push($data, $total);
+        }
+
+        return response()->json(['labels' => ["Jan", "Fev", "Mar", "April", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],'data' => $data], 200);
+    }
+
 }

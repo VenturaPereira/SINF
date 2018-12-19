@@ -13,7 +13,7 @@ class CreateCountryUsersTable extends Migration
         Schema::create('country_users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('total_users');
+            $table->integer('total_sales');
             $table->timestamps();
         });
     }

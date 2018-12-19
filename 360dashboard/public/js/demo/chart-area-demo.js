@@ -9,10 +9,10 @@ $.ajaxSetup({
 });
 var request = $.ajax({
 method: 'GET',
-url: 'getYearProfit',
+url: 'getYearSales',
 data: {'number': 3},
 success: function( response ){
-  console.log(response);
+ //success
 },
 error: function( e ) {
   console.log(e);
@@ -72,7 +72,5 @@ request.done(function(response) {
     });
 
 });
-
-
 
 

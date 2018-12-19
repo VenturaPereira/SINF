@@ -116,11 +116,11 @@
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-chart-area"></i>
-              Company Growth</div>
+              Company Growth - Sales</div>
             <div class="card-body">
               <canvas id="myAreaChart" width="100%" height="30"></canvas>
             </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            <div class="card-footer small text-muted">By 360 Dashboard Company</div>
           </div>
 
           <!-- WorldMap Example-->
@@ -129,7 +129,7 @@
               <i class="fas fa-chart-area"></i>
               Our Company Worldwide</div>
               <div id="pop-div" style="width:800px;border:1px solid black"></div>
-              <?= $infoOverview[0]->render('GeoChart', 'Popularity', 'pop-div') ?>
+              <?= $infoOverview[0]->render('GeoChart', 'Sales', 'pop-div') ?>
             <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
           </div>
 

@@ -12,6 +12,7 @@ use App\Lines;
 use App\CabecCompras;
 use App\LinhasCompras;
 use App\Account;
+use App\GeneralLedgerEntries;
 use DB;
 use File;
 use Illuminate\Support\Facades\Schema;
@@ -121,7 +122,7 @@ class SaftController extends Controller
         //Api call - Gives access token for future api calls
         //IMPORTANT: Need to turn on VM with Primavera and enable Port Forwarding at port 4001
         $accessToken = self::apiRequestToken();
-        echo $accessToken;
+
 
         //return $accessToken;
 
@@ -147,7 +148,12 @@ class SaftController extends Controller
         $apiProducts = self::apiRequest($accessToken, $url, $query);
 
 
-
+        $newLedgerEntrie = new GeneralLedgerEntries;
+        $newLedgerEntrie->NumberOfEntries = strval($array["GeneralLedgerEntries"]["NumberOfEntries"]);
+        $newLedgerEntrie->TotalDebit = strval($array["GeneralLedgerEntries"]["TotalDebit"]);
+        $newLedgerEntrie->TotalCredit = strval($array["GeneralLedgerEntries"]["TotalCredit"]);
+        $newLedgerEntrie->save();
+        
 
         //loop accounts and save
         foreach ($array["MasterFiles"]["GeneralLedgerAccounts"]["Account"] as $account){

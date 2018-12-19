@@ -151,7 +151,7 @@ $(document).on('click', '.close', function(){
     var product_name = $(this).data('id');
 
     $.ajax({
-      url: '/SINF/360dashboard/public/sales/product/'+product_name,
+      url: '/SINF/360dashboard/public/suppliers/product/'+product_name,
       type: 'GET',
       dataType: 'JSON',
       success: function(data, textStatus, jqXHR){
@@ -168,11 +168,9 @@ $(document).on('click', '.close', function(){
         var productCodeValue = $("<span></span>").text(data[0].ProductCode);
         var productStock = $("<p></p>").text("Stock Atual");
         var productStockValue = $("<span></span>").text(data[0].ProductQuantity);
-        var productPrice = $("<p></p>").text("Preco");
+        var productPrice = $("<p></p>").text("Preco unitário");
         var productPriceValue = $("<span></span>").text(data[0].ProductUnitaryPrice);
-        var numberOfSales = $("<p></p>").text("Numero de vendas");
-        var numberOfSalesValue = $("<span></span>").text(data[0].ProductSales);
-        var moneyGenerated = $("<p></p>").text("Revenue Produto");
+        var moneyGenerated = $("<p></p>").text("Total gasto no Produto");
         var moneyGeneratedValue = $("<span></span>").text(data[0].totalPrice +"€");
 
         $('#body').append(name);
@@ -189,8 +187,6 @@ $(document).on('click', '.close', function(){
         $('#body').append(productPriceValue);
         $('#body').append(moneyGenerated);
         $('#body').append(moneyGeneratedValue);
-        $('#body').append(numberOfSales);
-        $('#body').append(numberOfSalesValue);
 
 
         $('#myModal').modal('show');

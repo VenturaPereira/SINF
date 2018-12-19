@@ -71,6 +71,20 @@ class PagesController extends Controller
     }
 
 
+    public function getProductSupDetails(Request $request, $name){
+
+
+        $product_data = DB::select("Select * from products
+        JOIN (SELECT Descricao as name, SUM(TotalIliquido) as totalPrice
+        FROM `linhas_compras` GROUP BY Descricao) as temp
+        ON temp.name=products.ProductDescription
+         WHERE products.ProductDescription ='$name'");
+
+
+        return response()->json($product_data);
+    }
+
+
 
 
     public function getInfoProduct(Request $request, $name){

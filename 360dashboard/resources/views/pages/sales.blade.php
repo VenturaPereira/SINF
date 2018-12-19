@@ -200,8 +200,6 @@ $(document).on('click', '.close', function(){
         var productStockValue = $("<span></span>").text(data[0].ProductQuantity);
         var productPrice = $("<p></p>").text("Preco");
         var productPriceValue = $("<span></span>").text(data[0].ProductUnitaryPrice);
-        var numberOfSales = $("<p></p>").text("Numero de vendas");
-        var numberOfSalesValue = $("<span></span>").text(data[0].ProductSales);
         var moneyGenerated = $("<p></p>").text("Revenue Produto");
         var moneyGeneratedValue = $("<span></span>").text(data[0].totalPrice +"€");
 
@@ -219,8 +217,7 @@ $(document).on('click', '.close', function(){
         $('#body').append(productPriceValue);
         $('#body').append(moneyGenerated);
         $('#body').append(moneyGeneratedValue);
-        $('#body').append(numberOfSales);
-        $('#body').append(numberOfSalesValue);
+      
         
         
         $('#myModal').modal('show');

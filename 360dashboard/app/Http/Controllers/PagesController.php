@@ -330,6 +330,18 @@ class PagesController extends Controller
           ]
       ]);
 
-      return view('pages.financial')->with(compact('finances'));
+      //Cash Querys
+
+      $debitCash = DB::select(
+        'SELECT SUM(ClosingDebitBalance) as deSum FROM `accounts` WHERE AccountID LIKE "1%"'
+      );
+
+      $creditCash = DB::select(
+        'SELECT SUM(ClosingCreditBalance) as creSum FROM `accounts` WHERE AccountID LIKE "1%"'
+      );
+
+      $cash = $debitCash[0]->deSum - $creditCash[0]->creSum;
+
+      return view('pages.financial')->with(compact('finances','cash'));
     }
 }

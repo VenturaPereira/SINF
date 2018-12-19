@@ -40,6 +40,7 @@ Route::get('/suppliers/{id}','PagesController@getSupDetails')->name('suppliers.i
 Route::get('/suppliers/product/{name}', 'PagesController@getProductSupDetails')->name('suppliers.product');
 
 Route::get('/getYearSales','OverviewController@getYearSales');
+//Route::get('/getYearSupplies','OverviewController@getYearSupplies');
 
 
 Route::post('/postajax','AjaxController@graphsData');

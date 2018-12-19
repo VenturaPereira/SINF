@@ -39,9 +39,9 @@ body {
 }
 
 .salesC{
-   
+    float: right !important;
     grid-row: row 4;
-    height: 800%;
+    height: 200%;
    
 }
 

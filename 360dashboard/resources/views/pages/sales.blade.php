@@ -317,5 +317,3 @@ color: #2A88AD;}
 @endsection
 
 
-<!-- query para atividade cliente -->
-<!--SELECT COUNT(CustomerID), CustomerID, MONTH(invoices.InvoiceDate) FROM `invoices` GROUP BY CustomerID-->

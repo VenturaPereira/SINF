@@ -11,29 +11,51 @@
       </div>
     </div>
 
-    <div class="container-fluid" id="debtDiv">
-      <h3>Cash</h3>
-      <h5>{{round($cash,1)}}</h5>
-    </div>
-
-    <div class="container-fluid" id="debtDiv">
-      <h3>Cash Ratio</h3>
-      <h5>{{round( ($cash/$total_liabilities), 2)}}</h5>
-    </div>
-
-    <div class="container-fluid" id="debtDiv">
-      <h3>Total Assets</h3>
-      <h5>{{round($total_assets,1)}}</h5>
-    </div>
-
-    <div class="container-fluid" id="debtDiv">
-      <h3>Total Liabilities</h3>
-      <h5>{{round($total_liabilities, 1)}}</h5>
-    </div>
-
-    <div class="container-fluid" id="debtDiv">
-      <h3>Current Ratio</h3>
-      <h5>{{round( ($total_assets/$total_liabilities), 2)}}</h5>
-    </div>
+    <div class="near_by_hotel_wrapper">
+      <div class="near_by_hotel_container">
+        <table class="table no-border custom_table dataTable no-footer dtr-inline">
+          <colgroup>
+          <col width="40%">
+          <col width="20%">
+          <col width="">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>CATEGORY</th>
+              <th class="text-center">SUB CATEGORY</th>
+              <th class="text-center">VALUE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>CASH</td>
+              <td class="text-center">1</td>
+              <td class="text-center">{{round($cash,1)}}</td>
+            </tr>
+            <tr>
+              <td>CASH RATIO</td>
+              <td class="text-center">1</td>
+              <td class="text-center">{{round( ($cash/$total_liabilities), 2)}}</td>
+            </tr>
+            <tr>
+              <td>TOTAL ASSETS</td>
+              <td class="text-center">1</td>
+              <td class="text-center">{{round($total_assets,1)}}</td>
+            </tr>
+            <tr>
+              <td>TOTAL LIABILITIES</td>
+              <td class="text-center">1</td>
+              <td class="text-center">{{round($total_liabilities, 1)}}</td>
+            </tr>
+          </tr>
+          <tr>
+            <td>CURRENT RATIO</td>
+            <td class="text-center">1</td>
+            <td class="text-center">{{round( ($total_assets/$total_liabilities), 2)}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
     
 @endsection

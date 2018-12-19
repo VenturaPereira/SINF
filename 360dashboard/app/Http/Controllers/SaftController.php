@@ -11,6 +11,7 @@ use App\Invoices;
 use App\Lines;
 use App\CabecCompras;
 use App\LinhasCompras;
+use App\Account;
 use DB;
 use File;
 use Illuminate\Support\Facades\Schema;
@@ -143,6 +144,36 @@ class SaftController extends Controller
         //Api Call - Gives all Products
         $query = "SELECT Artigo.Artigo, ArtigoMoeda.PVP1, Descricao, Fornecedor, StkMinimo, StkMaximo, StkReposicao, StkActual, PcMedio, PcUltimo, DataUltEntrada, DataUltSaida FROM Artigo, ArtigoMoeda where Artigo.Artigo like ArtigoMoeda.Artigo";
         $apiProducts = self::apiRequest($accessToken, $url, $query);
+
+
+
+
+        //loop accounts and save
+        foreach ($array["MasterFiles"]["GeneralLedgerAccounts"]["Account"] as $account){
+         
+            $newAccount = new Account;
+
+            if (array_key_exists('AccountID', $account))
+                $newAccount->AccountID = strval($account["AccountID"]);
+            if (array_key_exists('AccountDescription', $account))
+                $newAccount->AccountDescription = strval($account["AccountDescription"]);
+            if (array_key_exists('OpeningDebitBalance', $account))
+                $newAccount->OpeningDebitBalance = strval($account["OpeningDebitBalance"]);
+            if (array_key_exists('OpeningCreditBalance', $account))
+                $newAccount->OpeningCreditBalance = strval($account["OpeningCreditBalance"]);
+            if (array_key_exists('ClosingDebitBalance', $account))
+                $newAccount->ClosingDebitBalance = strval($account["ClosingDebitBalance"]);
+            if (array_key_exists('ClosingCreditBalance', $account))
+                $newAccount->ClosingCreditBalance = strval($account["ClosingCreditBalance"]);
+            if (array_key_exists('GroupingCategory', $account))
+                $newAccount->GroupingCategory = strval($account["GroupingCategory"]);
+            if (array_key_exists('GroupingCode', $account))
+                $newAccount->GroupingCode = strval($account["GroupingCode"]);
+            if (array_key_exists('TaxonomyCode', $account))
+                $newAccount->TaxonomyCode = strval($account["TaxonomyCode"]);
+ 
+            $newAccount->save();
+        }
 
         //loop products and save
         foreach ($array["MasterFiles"]["Product"] as $product){

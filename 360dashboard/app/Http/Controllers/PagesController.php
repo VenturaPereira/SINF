@@ -307,11 +307,15 @@ class PagesController extends Controller
       $index2 = 0;
 
       foreach($monthSales as $monthSale) {
-        if ($monthSale->month == $monthShops[$index2]->month) {
-          $finances->addRow(['2004', $monthSale->total, $monthShops[$index2]->total]); //$months[$index]->month
-          $index2++;
-        }
-        else {
+        if ($index2 < count($monthShops)) {
+          if ($monthSale->month == $monthShops[$index2]->month) {
+            $finances->addRow(['2004', $monthSale->total, $monthShops[$index2]->total]); //$months[$index]->month
+            $index2++;
+          }
+          else {
+            $finances->addRow(['2004', $monthSale->total, 0]); //$months[$index]->month
+          }
+        } else {
           $finances->addRow(['2004', $monthSale->total, 0]); //$months[$index]->month
         }
 

@@ -113,6 +113,7 @@ class SaftController extends Controller
         Lines::truncate();
         CabecCompras::truncate();
         LinhasCompras::truncate();
+        Account::truncate();
 
         //read SAFT file
         $array = self::readSaft($request);

@@ -43,7 +43,7 @@ class SaftController extends Controller
           CURLOPT_TIMEOUT => 100,
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => "POST",
-          CURLOPT_POSTFIELDS => "username=FEUP&password=qualquer1&company=DEMOSINF&instance=DEFAULT&grant_type=password&line=line",
+          CURLOPT_POSTFIELDS => "username=FEUP&password=qualquer1&company=DEMO&instance=DEFAULT&grant_type=password&line=line",
           CURLOPT_HTTPHEADER => array(
             "Content-Type: application/x-www-form-urlencoded",
             "Postman-Token: 948d5039-3e3b-4094-9638-99a7ca64e508",

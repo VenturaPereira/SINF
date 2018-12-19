@@ -21,6 +21,7 @@ class CreateAccountsTable extends Migration
             $table->string('ClosingDebitBalance');
             $table->string('ClosingCreditBalance');
             $table->string('GroupingCategory');
+
         });
     }
 

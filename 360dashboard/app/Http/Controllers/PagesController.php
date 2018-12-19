@@ -194,7 +194,6 @@ class PagesController extends Controller
     $buys->addDateColumn('Month')
           ->addNumberColumn('Buys');
 
-  //  $actifs = DB::select('select CompanyName, COUNT(cabec_compras.Entidade) as counter from `cabec_compras` JOIN suppliers ON suppliers.SupplierID =cabec_compras.Entidade GROUP BY cabec_compras.Entidade ORDER BY counter DESC');
 
     foreach($monthSales as $monthsale){
         $buys->addRow([$year[0]->year.'-'.$monthsale->month.'-1',$monthsale->total]);
@@ -203,31 +202,6 @@ class PagesController extends Controller
         'title' => 'Supplies'
     ]);
 
-    $sups = \Lava::DataTable();
-    $sups->addStringColumn('Name');
-    $sups->addNumberColumn('');
-
-    foreach($suppliers as $sup){
-        $sups->addRow(
-            [$sup->CompanyName,$sup->total]
-        );
-    }
-
-    $pieChart = \Lava::PieChart('Gross', $sups,[
-        'width'=>400,
-        'pieSliceText' => 'value'
-    ]);
-
-    $filter  = \Lava::NumberRangeFilter(1, [
-        'ui' => [
-            'labelStacking' => 'vertical'
-        ]
-    ]);
-
-
-    $control = \Lava::ControlWrapper($filter,'control');
-    $chartTwo = \Lava::ChartWrapper($pieChart,'chart');
-    \Lava::Dashboard('Gross')->bind($control,$chartTwo);
 
 
       $products = DB::select('Select * from products
@@ -238,7 +212,7 @@ class PagesController extends Controller
 
 
 
-        return view('pages.suppliers')->with(compact('suppliers','products','buys','sups'));
+        return view('pages.suppliers')->with(compact('suppliers','products','buys'));
     }
 
 
@@ -301,22 +275,24 @@ class PagesController extends Controller
       $finances->addDateColumn('Month')
                ->addNumberColumn('Income')
                ->addNumberColumn('Expenses')
-               ->setDateTimeFormat('Y');
+               ->setDateTimeFormat('M');
 
       $index = 0;
       $index2 = 0;
 
       foreach($monthSales as $monthSale) {
+        $dt = DateTime::createFromFormat('!m', $monthSale->month);
+
         if ($index2 < count($monthShops)) {
           if ($monthSale->month == $monthShops[$index2]->month) {
-            $finances->addRow(['2004', $monthSale->total, $monthShops[$index2]->total]); //$months[$index]->month
+            $finances->addRow([$dt->format('F'), $monthSale->total, $monthShops[$index2]->total]); //$months[$index]->month
             $index2++;
           }
           else {
-            $finances->addRow(['2004', $monthSale->total, 0]); //$months[$index]->month
+            $finances->addRow([$dt->format('F'), $monthSale->total, 0]); //$months[$index]->month
           }
         } else {
-          $finances->addRow(['2004', $monthSale->total, 0]); //$months[$index]->month
+          $finances->addRow([$dt->format('F'), $monthSale->total, 0]); //$months[$index]->month
         }
 
         $index++;
@@ -342,6 +318,69 @@ class PagesController extends Controller
 
       $cash = $debitCash[0]->deSum - $creditCash[0]->creSum;
 
-      return view('pages.financial')->with(compact('finances','cash'));
+      //Total TotalAssets
+      $accounts2deb = DB::select(
+        'SELECT SUM(ClosingDebitBalance) as deSum FROM `accounts` WHERE AccountID LIKE "2%"'
+      );
+
+      $accounts2cred = DB::select(
+        'SELECT SUM(ClosingCreditBalance) as creSum FROM `accounts` WHERE AccountID LIKE "2%"'
+      );
+
+      $accounts2 = $accounts2deb[0]->deSum - $accounts2cred[0]->creSum;
+
+      $accounts3deb = DB::select(
+        'SELECT SUM(ClosingDebitBalance) as deSum FROM `accounts` WHERE AccountID LIKE "3%"'
+      );
+
+      $accounts3cred = DB::select(
+        'SELECT SUM(ClosingCreditBalance) as creSum FROM `accounts` WHERE AccountID LIKE "3%"'
+      );
+
+      $total_assets = $cash + $accounts2 + $accounts3deb[0]->deSum - $accounts3cred[0]->creSum;
+
+      //Liabilities
+
+      $liabilities22deb = DB::select(
+        'SELECT SUM(ClosingDebitBalance) as deSum FROM `accounts` WHERE AccountID LIKE "22%"'
+      );
+
+      $liabilities22cre = DB::select(
+        'SELECT SUM(ClosingCreditBalance) as creSum FROM `accounts` WHERE AccountID LIKE "22%"'
+      );
+
+      $liabilities1 = $liabilities22deb[0]->deSum - $liabilities22cre[0]->creSum;
+
+      $liabilities23deb = DB::select(
+        'SELECT SUM(ClosingDebitBalance) as deSum FROM `accounts` WHERE AccountID LIKE "23%"'
+      );
+
+      $liabilities23cre = DB::select(
+        'SELECT SUM(ClosingCreditBalance) as creSum FROM `accounts` WHERE AccountID LIKE "23%"'
+      );
+
+      $liabilities2 = $liabilities23deb[0]->deSum - $liabilities23cre[0]->creSum;
+
+      $liabilities24deb = DB::select(
+        'SELECT SUM(ClosingDebitBalance) as deSum FROM `accounts` WHERE AccountID LIKE "24%"'
+      );
+
+      $liabilities24cre = DB::select(
+        'SELECT SUM(ClosingCreditBalance) as creSum FROM `accounts` WHERE AccountID LIKE "24%"'
+      );
+
+      $liabilities3 = $liabilities24deb[0]->deSum - $liabilities24cre[0]->creSum;
+
+      $liabilities25deb = DB::select(
+        'SELECT SUM(ClosingDebitBalance) as deSum FROM `accounts` WHERE AccountID LIKE "25%"'
+      );
+
+      $liabilities25cre = DB::select(
+        'SELECT SUM(ClosingCreditBalance) as creSum FROM `accounts` WHERE AccountID LIKE "25%"'
+      );
+
+      $total_liabilities = abs($liabilities1 + $liabilities2 + $liabilities3 + $liabilities25deb[0]->deSum - $liabilities25cre[0]->creSum);
+
+      return view('pages.financial')->with(compact('finances','cash','total_assets','total_liabilities'));
     }
 }

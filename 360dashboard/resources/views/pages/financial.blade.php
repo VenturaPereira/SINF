@@ -10,59 +10,31 @@
         // With Lava class alias
         {!! \Lava::render('ColumnChart', 'Finances', 'inc_exp') !!}
       </div>
-        <!--<div class="BarGraph" id="BarChartContainer-Income Vs Expenses (2017)-Thousands-Thousands-Income-Expenses-Income (thousand)-Expenses (thousand)-postajax" style="height: 370px; width: 100%;"></div>
--->
-        <div class="BarGraphFinance" id="BarChartFinanceContainer-Accounts receivable Vs Accounts payable (2017)-Thousands-Thousands-Accounts receivable-Accounts payable-Accounts receivable (thousand)-Accounts payable (thousand)-postajax" style="height: 370px; width: 100%;"></div>
     </div>
 
     <div class="container-fluid" id="debtDiv">
-      <h3>Debt-To-Equity </h3>
-      <table class="company_table" id="CashTable">
-        <tr>
-            <th>Cash</th>
-            <th>TotalAssets</th>
-            <th>Total Liabilities</th>
-        </tr>
-        <tr>
-             <td colspan=1>{{$cash}}</td>
-             <td colspan=1>30 milhões</td>
-             <td colspan=1>33,3%</td>
-        </tr>
-      </table>
+      <h3>Cash</h3>
+      <h5>{{round($cash,1)}}</h5>
     </div>
 
     <div class="container-fluid" id="debtDiv">
-      <h3>Debt-To-Equity </h3>
-      <table class="company_table" id="debtTable">
-        <tr>
-            <th>Debt</th>
-            <th>Equity</th>
-            <th>Debt to Equity</th>
-        </tr>
-        <tr>
-             <td colspan=1>10 milhões</td>
-             <td colspan=1>30 milhões</td>
-             <td colspan=1>33,3%</td>
-        </tr>
-      </table>
+      <h3>Cash Ratio</h3>
+      <h5>{{round( ($cash/$total_liabilities), 2)}}</h5>
     </div>
 
-    <div class="container-fluid" id="invDiv">
-
-      <h3>Costs and Inventory </h3>
-      <table class="company_table" id="invTable">
-        <tr>
-          <th>Cost of goods sold</th>
-          <th>Average Inventory</th>
-          <th>Inventory turnover</th>
-        </tr>
-        <tr>
-             <td colspan=1>40 milhões</td>
-             <td colspan=1>15 milhões</td>
-             <td colspan=1>2.67</td>
-        </tr>
-      </table>
+    <div class="container-fluid" id="debtDiv">
+      <h3>Total Assets</h3>
+      <h5>{{round($total_assets,1)}}</h5>
     </div>
 
+    <div class="container-fluid" id="debtDiv">
+      <h3>Total Liabilities</h3>
+      <h5>{{round($total_liabilities, 1)}}</h5>
+    </div>
 
+    <div class="container-fluid" id="debtDiv">
+      <h3>Current Ratio</h3>
+      <h5>{{round( ($total_assets/$total_liabilities), 2)}}</h5>
+    </div>
+    
 @endsection

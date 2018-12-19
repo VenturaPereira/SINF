@@ -16,25 +16,54 @@ class OverviewController extends Controller
 {
     public function getLaraChart()
     {
-        $newCountry = new CountryUser;
-        $newCountry->name = 'India';
-        $newCountry->total_users = 1000;
-        $newCountry->save();
+        $COUNTRY = array(
+            "AO" => "Angola",
+            "ES" => "Spain",
+            "PT" => "Portugal",
+            "GB" => "United Kingdom",
+            "Desconhecido" => "Antarctica"
+          );
 
-        $newCountry = new CountryUser;
-        $newCountry->name = 'Portugal';
-        $newCountry->total_users = 200;
-        $newCountry->save();
+        $customers = DB::select('SELECT CustomerID,DocumentTotals_GrossTotal FROM invoices');
+        $json = json_encode($customers);
+        $customers = json_decode($json,TRUE);
+ 
+
+        foreach($customers as $customer){
+            $customerID =  $customer['CustomerID'];
+            $customerGrossTotal =  $customer['DocumentTotals_GrossTotal'];
+            $customerCountry = DB::select("SELECT BillingAddress_Country FROM customers where CustomerID = '$customerID' ");
+
+            $json = json_encode($customerCountry);
+            $customerCountry = json_decode($json,TRUE);
+
+            $country = $COUNTRY[$customerCountry[0]["BillingAddress_Country"]];
+            $existsCountry = DB::select("SELECT name FROM country_users where name = '$country'");
+
+            if(!empty($existsCountry)){
+                $row = CountryUser::where('name', $country)->get();
+                $row_newGrossTotal = $row[0]["total_sales"] + $customerGrossTotal;
+                DB::select("UPDATE country_users SET total_sales = '$row_newGrossTotal' where name = '$country'");
+            }
+            else{
+                $newCountry = new CountryUser;
+                $countryAbrev = $customerCountry[0]["BillingAddress_Country"];
+                $newCountry->name = $COUNTRY[$countryAbrev];
+                $newCountry->total_sales = $newCountry->total_sales + $customerGrossTotal;
+                $newCountry->save();
+            }
+        }
 
         
     	$lava = new Lavacharts; // See note below for Laravel
 
-		$popularity = $lava->DataTable();
-		$data = CountryUser::select("name as 0","total_users as 1")->get()->toArray();
+		$sales = $lava->DataTable();
+		$data = CountryUser::select("name as 0","total_sales as 1")->get()->toArray();
 
-		$popularity->addStringColumn('Country')->addNumberColumn('Popularity')->addRows($data);
+		$sales->addStringColumn('Country')->addNumberColumn('Sales(€)')->addRows($data);
 
-        $lava->GeoChart('Popularity', $popularity);
+        $lava->GeoChart('Sales', $sales);
+
     /*
         //tudo
         $posts = Post::all();
@@ -61,7 +90,7 @@ class OverviewController extends Controller
         return view('pages.overview')->with('infoOverview',$infoOverview);
     }
 
-    public function getYearProfit(Request $request){
+    public function getYearSales(Request $request){
 
         $data = [];
 

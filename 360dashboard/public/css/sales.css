@@ -1,63 +1,39 @@
-#productsDiv{
-    margin-right: 10px;
-    width: 50%;
-    float: right;
-    margin-top: 5%;
-    margin-left: 0;
-    margin-right: 0;
-    padding: 0;
-    border: 0;
-}
+body {
+    margin: 0%;
+  }
 
-
-#clientsDiv{
-    margin-right: 10px;
-    width: 50%;
-    float: left;
-    margin-top: 5%;
-    margin-left: 0;
-    margin-right: 0;
-    padding: 0;
-    border: 0;
+.containerC{
+        display: grid;
+        grid-auto-columns: [col] 50%  [col] 50%;
+        grid-auto-rows: [row] 20% [row] 20% [row] 20% [row] 10% [row] 30% [end]    
 }
 
 
 
-#activesDiv{
-    margin-right: 10px !important;
-    width: 50% !important;
-    float: right !important;
-    margin-top: 5% !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding: 0 !important;
-    border: 0 !important;
+
+.clientsDivC{
+    grid-column: col;
+    grid-row: row 1 span/1;
 }
 
-
-#salesGraph{
-    margin-right: 10px !important;
-    width: 100% !important;
-    height: 0 !important;
-    float: left !important;
-    margin-top: 10% !important;
-    margin-left: 0 !important;
-    margin-right: 5% !important;
-    padding: 0 !important;
-    border: 0 !important;
+.activesDivC{
+    grid-column: col 2;
+    grid-row: row 1 span/1; 
 }
 
-#my-dash{
+.productsDivC{
+    grid-column: col;
+    grid-row: row 3;
+}
 
-    margin-right: 10px !important;
-    width: 100% !important;
-    height: 0 !important;
-    float: left !important;
-    margin-top: 15% !important;
-    margin-left: 0 !important;
-    margin-right: 0% !important;
-    padding: 0 !important;
-    border: 0 !important;
+.dashC{
+    grid-column: col;
+    grid-row: row 4;  
+}
+
+.salesC{
+    grid-column: col;
+    grid-row: row 5;
 }
 
 

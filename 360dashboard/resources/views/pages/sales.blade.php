@@ -6,10 +6,10 @@
 <link href="{{ URL::asset('css/sales.css') }}" rel="stylesheet">
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <div>
+<!--<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+--> <div class="containerC">
 
-    <div class="container-fluid" id="clientsDiv">
+    <div id="clientsDiv" class="clientsDivC">
       <h3>Top Clients </h3>
       @if(count($customers) > 1)
       <table class="company_table" id="clientsTable">
@@ -47,7 +47,7 @@
       </table>
     </div>
 
-    <div class="container-fluid" id="productsDiv">
+    <div id="productsDiv"  class="productsDivC">
 
       <h3>Top Products </h3>
       @if(count($products) > 1)
@@ -86,14 +86,8 @@
 </table>
     </div>
 
-    <div id="my-dash">
-        <div id="chart">
-        </div>
-        <div id="control">
-        </div>
-    </div>
-  {!! \Lava::render('Dashboard', 'Invoices', 'my-dash') !!}
-    <div class="container-fluid" id = "activesDiv">
+    
+    <div id = "activesDiv" class ="activesDivC">
       <h3>Most active Clients </h3>
       @if(count($customers) > 1)
       <table class="company_table" >
@@ -127,9 +121,15 @@
 
 
     </div>
-
+    <div id="my-dash" class="dashC">
+        <div id="chart">
+        </div>
+        <div id="control">
+        </div>
+    </div>
+  {!! \Lava::render('Dashboard', 'Invoices', 'my-dash') !!}
 @if(count($customers) > 1)
-<div class="container-fluid" id="salesGraph">
+<div  id="salesGraph" class="salesC">
   <h3>Sales</h3>
   {!! \Lava::render('LineChart', 'Sales', 'salesGraph') !!}
 </div>

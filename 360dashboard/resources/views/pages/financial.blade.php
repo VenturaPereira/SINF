@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<script type="text/javascript" src="{{ URL::asset('js/BarsGraph.js') }}"></script>
-<script type="text/javascript" src="{{ URL::asset('js/BarsGraphFinance.js') }}"></script>
+
 <link href="{{ URL::asset('css/financial.css') }}" rel="stylesheet">
 
     <div class="text-center">

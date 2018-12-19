@@ -167,10 +167,6 @@ class SaftController extends Controller
                 $newAccount->ClosingCreditBalance = strval($account["ClosingCreditBalance"]);
             if (array_key_exists('GroupingCategory', $account))
                 $newAccount->GroupingCategory = strval($account["GroupingCategory"]);
-            if (array_key_exists('GroupingCode', $account))
-                $newAccount->GroupingCode = strval($account["GroupingCode"]);
-            if (array_key_exists('TaxonomyCode', $account))
-                $newAccount->TaxonomyCode = strval($account["TaxonomyCode"]);
  
             $newAccount->save();
         }

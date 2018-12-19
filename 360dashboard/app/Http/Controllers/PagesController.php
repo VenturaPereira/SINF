@@ -180,7 +180,7 @@ class PagesController extends Controller
     $buys->addDateColumn('Month')
           ->addNumberColumn('Buys');
 
-    $actifs = DB::select('select CompanyName, COUNT(cabec_compras.Entidade) as counter from `cabec_compras` JOIN suppliers ON suppliers.SupplierID =cabec_compras.Entidade GROUP BY cabec_compras.Entidade ORDER BY counter DESC');
+  //  $actifs = DB::select('select CompanyName, COUNT(cabec_compras.Entidade) as counter from `cabec_compras` JOIN suppliers ON suppliers.SupplierID =cabec_compras.Entidade GROUP BY cabec_compras.Entidade ORDER BY counter DESC');
 
     foreach($monthSales as $monthsale){
         $buys->addRow([$year[0]->year.'-'.$monthsale->month.'-1',$monthsale->total]);
@@ -189,21 +189,17 @@ class PagesController extends Controller
         'title' => 'Supplies'
     ]);
 
-    /*
+    $sups = \Lava::DataTable();
+    $sups->addStringColumn('Name');
+    $sups->addNumberColumn('');
 
-    $invoice = DB::select('select COUNT(CustomerID) as counter, CustomerID, MONTH(invoices.InvoiceDate) as month FROM invoices GROUP BY CustomerID');
-    $invoices = \Lava::DataTable();
-    $invoices->addStringColumn('Month');
-    $invoices->addNumberColumn('number of invoices by client and month');
-    foreach($invoice as $singleInvoice){
-        $dt = DateTime::createFromFormat('!m', $singleInvoice->month);
-
-        $invoices->addRow(
-            [$dt->format('F'),$singleInvoice->counter]
+    foreach($suppliers as $sup){
+        $sups->addRow(
+            [$sup->CompanyName,$sup->total]
         );
     }
 
-    $pieChart = \Lava::PieChart('Invoices', $invoices,[
+    $pieChart = \Lava::PieChart('Gross', $sups,[
         'width'=>400,
         'pieSliceText' => 'value'
     ]);
@@ -217,41 +213,18 @@ class PagesController extends Controller
 
     $control = \Lava::ControlWrapper($filter,'control');
     $chartTwo = \Lava::ChartWrapper($pieChart,'chart');
-    \Lava::Dashboard('Invoices')->bind($control,$chartTwo);
+    \Lava::Dashboard('Gross')->bind($control,$chartTwo);
+
+
+      $products = DB::select('Select * from products
+       JOIN (SELECT Descricao as name, SUM(TotalIliquido) as totalPrice
+       FROM `linhas_compras` GROUP BY Descricao) as temp
+       ON temp.name=products.ProductDescription
+        ORDER BY temp.totalPrice DESC');
 
 
 
-
-
-    $products = DB::select('Select * from products
-     JOIN (SELECT ProductDescription as name, SUM(CreditAmount) as totalPrice
-     FROM `lines` GROUP BY ProductDescription) as temp
-     ON temp.name=products.ProductDescription
-      ORDER BY temp.totalPrice DESC');
-    return view('pages.sales')->with(compact('customers','products','sales','actifs','invoices'));
-
-      $total_gross = \Lava::DataTable();
-      $total_gross->addStringColumn('total_gross')
-                  ->addNumberColumn('Value');
-
-
-
-      foreach($suppliers as $supplier){
-        $total_gross->addRow([$supplier->CompanyName, $supplier->TotalDeb]);
-    }
-
-
-      $Chart = \Lava::PieChart('total_gross', $total_gross,[
-          'title' => 'Total gross/supplier'
-      ]);*/
-
-      $products = Products::all();
-
-
-
-
-
-        return view('pages.suppliers')->with(compact('suppliers','products','buys'));
+        return view('pages.suppliers')->with(compact('suppliers','products','buys','sups'));
     }
 
 

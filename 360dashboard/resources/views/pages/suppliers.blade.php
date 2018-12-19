@@ -54,7 +54,8 @@
         <table class="company_table" id="productsTable">
     <tr>
       <th>Product Description</th>
-      <th>Product Price</th>
+      <th>Product Unitary Price</th>
+      <th>Total spent on Product</th>
       <th>Additional info</th>
     </tr>
     <?php $i=0; ?>
@@ -64,6 +65,7 @@
          <tr>
             <td>{{$product->ProductDescription}}</td>
             <td>{{$product->ProductUnitaryPrice}}</td>
+            <td>{{$product->totalPrice}}</td>
             <td><button style="background-color: #4CAF50; color: white; cursor: pointer; border-radius: 4px;" type="button" class="viewPopLinkProduct" role="button" data-id="{{ $product->ProductDescription  }}" data-toggle="modal" data-target="#myModal">Additional Info</button></td>
           </tr>
 
@@ -71,12 +73,13 @@
           <tr style="display: none ">
             <td>{{$product->ProductDescription}}</td>
             <td>{{$product->ProductUnitaryPrice}}</td>
+            <td>{{$product->totalPrice}}</td>
             <td><button style="background-color: #4CAF50; color: white; cursor: pointer; border-radius: 4px;" type="button" class="viewPopLinkProduct" role="button" data-id="{{ $product->ProductDescription  }}" data-toggle="modal" data-target="#myModal">Additional Info</button></td>
           </tr>
         @endif
         @endforeach
         <tr>
-             <td colspan=3> <span onclick="toggle('productsTable-5',event)"  style="cursor: pointer; color: blue" > View more </span> </td>
+             <td colspan=4> <span onclick="toggle('productsTable-5',event)"  style="cursor: pointer; color: blue" > View more </span> </td>
         </tr>
       @else
           <h5>No Products found</h5>
@@ -93,8 +96,16 @@
   {!! \Lava::render('LineChart', 'Buys', 'salesGraph') !!}
 </div>
 
+  <div class="roundGraph d-inline-flex float-right" style="margin-top: 20%;margin-right: 70%;" id="roundChartContainerSupplies-postajaxRound-Total Debt/Supplier-In $" style="height: 300px; width: 50%;"> </div>
 
-      <div class="roundGraph d-inline-flex float-right" style="margin-top: 20%;margin-right: 70%;" id="roundChartContainerSupplies-postajaxRound-Total Debt/Supplier-In $" style="height: 300px; width: 50%;"> </div>
+  <div id="my-dash">
+      <div id="chart">
+      </div>
+      <div id="control">
+      </div>
+  </div>
+{!! \Lava::render('Dashboard', 'Gross', 'my-dash') !!}
+
 @endif
 
         </div>

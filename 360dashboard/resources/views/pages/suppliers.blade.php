@@ -12,8 +12,8 @@
         @if(count($suppliers) > 1)
         <table class="company_table" id="clientsTable">
         <tr>
-            <th>ID</th>
             <th>Supplier Name</th>
+            <th>Spent on Supplier</th>
             <th>Additional info</th>
           </tr>
 
@@ -23,15 +23,15 @@
             <?php ++$i;?>
             @if($i < 5)
             <tr>
-              <td>{{$supplier->SupplierID}}</td>
               <td>{{$supplier->CompanyName}}</td>
+              <td>{{$supplier->total}}</td>
               <td><button style="background-color: #4CAF50; color: white; cursor: pointer; border-radius: 4px;" type="button" class="viewPopLink" role="button" data-id="{{ $supplier->SupplierID }}" data-toggle="modal" data-target="#myModal">Additional Info</button></td>
             </tr>
 
             @else
             <tr style="display: none">
-              <td>{{$supplier->SupplierID}}</td>
               <td>{{$supplier->CompanyName}}</td>
+              <td>{{$supplier->total}}</td>
               <td><button style="background-color: #4CAF50; color: white; cursor: pointer; border-radius: 4px;" type="button" class="viewPopLink" role="button" data-id="{{ $supplier->SupplierID }}" data-toggle="modal" data-target="#myModal">Additional Info</button></td>
             </tr>
             @endif
@@ -78,9 +78,11 @@
           </tr>
         @endif
         @endforeach
+        @if(count($products) >= 5)
         <tr>
              <td colspan=4> <span onclick="toggle('productsTable-5',event)"  style="cursor: pointer; color: blue" > View more </span> </td>
         </tr>
+        @endif
       @else
           <h5>No Products found</h5>
     @endif
@@ -96,15 +98,9 @@
   {!! \Lava::render('LineChart', 'Buys', 'salesGraph') !!}
 </div>
 
-  <div class="roundGraph d-inline-flex float-right" style="margin-top: 20%;margin-right: 70%;" id="roundChartContainerSupplies-postajaxRound-Total Debt/Supplier-In $" style="height: 300px; width: 50%;"> </div>
+ <div class="roundGraph d-inline-flex float-right" style="margin-top: 20%;margin-right: 70%;" id="roundChartContainerSupplies-postajaxRound-Total Debt/Supplier-In $" style="height: 300px; width: 50%;"> </div>
 
-  <div id="my-dash">
-      <div id="chart">
-      </div>
-      <div id="control">
-      </div>
-  </div>
-{!! \Lava::render('Dashboard', 'Gross', 'my-dash') !!}
+
 
 @endif
 

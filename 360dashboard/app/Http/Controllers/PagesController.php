@@ -194,7 +194,6 @@ class PagesController extends Controller
     $buys->addDateColumn('Month')
           ->addNumberColumn('Buys');
 
-  //  $actifs = DB::select('select CompanyName, COUNT(cabec_compras.Entidade) as counter from `cabec_compras` JOIN suppliers ON suppliers.SupplierID =cabec_compras.Entidade GROUP BY cabec_compras.Entidade ORDER BY counter DESC');
 
     foreach($monthSales as $monthsale){
         $buys->addRow([$year[0]->year.'-'.$monthsale->month.'-1',$monthsale->total]);
@@ -203,31 +202,6 @@ class PagesController extends Controller
         'title' => 'Supplies'
     ]);
 
-    $sups = \Lava::DataTable();
-    $sups->addStringColumn('Name');
-    $sups->addNumberColumn('');
-
-    foreach($suppliers as $sup){
-        $sups->addRow(
-            [$sup->CompanyName,$sup->total]
-        );
-    }
-
-    $pieChart = \Lava::PieChart('Gross', $sups,[
-        'width'=>400,
-        'pieSliceText' => 'value'
-    ]);
-
-    $filter  = \Lava::NumberRangeFilter(1, [
-        'ui' => [
-            'labelStacking' => 'vertical'
-        ]
-    ]);
-
-
-    $control = \Lava::ControlWrapper($filter,'control');
-    $chartTwo = \Lava::ChartWrapper($pieChart,'chart');
-    \Lava::Dashboard('Gross')->bind($control,$chartTwo);
 
 
       $products = DB::select('Select * from products
@@ -238,7 +212,7 @@ class PagesController extends Controller
 
 
 
-        return view('pages.suppliers')->with(compact('suppliers','products','buys','sups'));
+        return view('pages.suppliers')->with(compact('suppliers','products','buys'));
     }
 
 

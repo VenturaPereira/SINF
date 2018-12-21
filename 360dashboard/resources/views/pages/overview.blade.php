@@ -52,13 +52,9 @@
                   <div class="card-body-icon">
                     <i class="fas fa-fw fa-money-check-alt"></i>
                   </div>
-                  <div class="mr-5">Total Credit: <h3>{{$infoOverview[1]}}€</h3></div>
+                  <div class="mr-5">Sales: <h3>{{$infoOverview[1]}}€</h3></div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="#">
-                  <span class="float-left"></span>
-                  <span class="float-right">
-                    <i class="fas fa-angle-right"></i>
-                  </span>
                 </a>
               </div>
             </div>
@@ -68,13 +64,9 @@
                   <div class="card-body-icon">
                     <i class="fas fa-fw fa-sign-out-alt"></i>
                   </div>
-                  <div class="mr-5">Total Debit: <h3>{{$infoOverview[2]}}€</h3></div>
+                  <div class="mr-5">Expenditures: <h3>{{$infoOverview[2]}}€</h3></div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="#">
-                  <span class="float-left"></span>
-                  <span class="float-right">
-                    <i class="fas fa-angle-right"></i>
-                  </span>
                 </a>
               </div>
             </div>
@@ -84,13 +76,9 @@
                   <div class="card-body-icon">
                     <i class="fas fa-fw fa-users"></i>
                   </div>
-                  <div class="mr-5">Active Clients <h3>{{$infoOverview[3]}}</h3></div>
+                  <div class="mr-5">Clients <h3>{{$infoOverview[3]}}</h3></div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="#">
-                  <span class="float-left"></span>
-                  <span class="float-right">
-                    <i class="fas fa-angle-right"></i>
-                  </span>
                 </a>
               </div>
             </div>
@@ -100,13 +88,9 @@
                   <div class="card-body-icon">
                     <i class="fas fa-fw fa-user-tie"></i>
                   </div>
-                  <div class="mr-5">Active Suppliers <h3>{{$infoOverview[4]}}</h3></div>
+                  <div class="mr-5">Suppliers <h3>{{$infoOverview[4]}}</h3></div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="#">
-                  <span class="float-left"></span>
-                  <span class="float-right">
-                    <i class="fas fa-angle-right"></i>
-                  </span>
                 </a>
               </div>
             </div>
@@ -116,11 +100,11 @@
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-chart-area"></i>
-              Company Growth - Sales</div>
+              Company Growth</div>
             <div class="card-body">
               <canvas id="myAreaChart" width="100%" height="30"></canvas>
             </div>
-            <div class="card-footer small text-muted">By 360 Dashboard Company</div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
           </div>
 
           <!-- WorldMap Example-->

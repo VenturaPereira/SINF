@@ -79,13 +79,12 @@ class OverviewController extends Controller
         colocar     {{ $posts->links() }}  depois do @endforeach em index.blade
     */
 
-
-        $debit = GeneralLedgerEntries::all('TotalDebit')->first();
-        $credit = GeneralLedgerEntries::all('TotalCredit')->first();
+        $cash = Invoices::all()->sum('DocumentTotals_GrossTotal');
+        $expenditures = CabecCompras::all()->sum('TotalIva');
         $clients = Customer::count();
         $suppliers = Suppliers::count();
 
-        $infoOverview = array($lava, $credit->TotalCredit, $debit->TotalDebit, $clients, $suppliers);
+        $infoOverview = array($lava, $cash, $expenditures, $clients, $suppliers);
 
         return view('pages.overview')->with('infoOverview',$infoOverview);
     }

@@ -12,6 +12,7 @@ use App\CabecCompras;
 use App\LinhasCompras;
 use App\Account;
 use App\GeneralLedgerEntries;
+use App\CountryUser;
 use DB;
 use File;
 use Illuminate\Support\Facades\Schema;
@@ -62,7 +63,7 @@ class SaftController extends Controller
         curl_close($curl);
 
         if ($err) {
-          echo "cURL Error #:" . $err;
+          return -1;
         } else {
           $jsondata = json_decode($response, TRUE);
           return $jsondata["access_token"];
@@ -119,14 +120,19 @@ class SaftController extends Controller
         CabecCompras::truncate();
         LinhasCompras::truncate();
         Account::truncate();
-
-        //read SAFT file
-        $array = self::readSaft($request);
+        CountryUser::truncate();
+        GeneralLedgerEntries::truncate();
+        Post::truncate();
 
         //Api call - Gives access token for future api calls
         //IMPORTANT: Need to turn on VM with Primavera and enable Port Forwarding at port 4001
         $accessToken = self::apiRequestToken();
 
+        if($accessToken == -1)
+            return redirect('/home')->with('error', 'Please connect to VM (API) on port 4001');
+
+        //read SAFT file
+        $array = self::readSaft($request);
 
         //return $accessToken;
 

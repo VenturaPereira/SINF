@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Invoices;
 
 session_start();
 
-if (isset($_SESSION['saftUploaded']))
+if (isset($_SESSION['saftUploaded']) && Invoices::count() > 0 )
 {
     //Do nothing
 }
 else{
     $_SESSION["saftUploaded"] = "false";
 }
+
 
 class HomeController extends Controller
 {

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Customer;
 use App\Products;
 use App\Suppliers;
+use App\Invoices;
 use DB;
 use Khill\Lavacharts\Lavacharts;
 use DateTime;
@@ -100,6 +101,13 @@ class PagesController extends Controller
     }
 
     public function sales(){
+        if (isset($_SESSION['saftUploaded']) && Invoices::count() > 0 )
+        {
+        //Do nothing
+        }
+        else{
+        $_SESSION["saftUploaded"] = "false";
+        }
         if(strcmp($_SESSION["saftUploaded"], "false")==0)
             return redirect('/saft')->with('error', 'Please upload SAFT and turn on VM');
         $customers = DB::select(
@@ -175,6 +183,14 @@ class PagesController extends Controller
 
     public function suppliers(){
 
+        if (isset($_SESSION['saftUploaded']) && Invoices::count() > 0 )
+        {
+        //Do nothing
+        }
+        else{
+        $_SESSION["saftUploaded"] = "false";
+        }
+
     if(strcmp($_SESSION["saftUploaded"], "false")==0)
         return redirect('/saft')->with('error', 'Please upload SAFT and turn on VM');
 
@@ -223,6 +239,14 @@ class PagesController extends Controller
 
 
     public function inventory(){
+        if (isset($_SESSION['saftUploaded']) && Invoices::count() > 0 )
+        {
+        //Do nothing
+        }
+        else{
+        $_SESSION["saftUploaded"] = "false";
+        }
+
         if(strcmp($_SESSION["saftUploaded"], "false")==0)
             return redirect('/saft')->with('error', 'Please upload SAFT and turn on VM');
 
@@ -263,6 +287,14 @@ class PagesController extends Controller
     }
 
     public function financial(){
+        if (isset($_SESSION['saftUploaded']) && Invoices::count() > 0 )
+        {
+        //Do nothing
+        }
+        else{
+        $_SESSION["saftUploaded"] = "false";
+        }
+
         if(strcmp($_SESSION["saftUploaded"], "false")==0)
             return redirect('/saft')->with('error', 'Please upload SAFT and turn on VM');
 

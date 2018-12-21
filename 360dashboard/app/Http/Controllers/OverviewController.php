@@ -19,6 +19,14 @@ class OverviewController extends Controller
     public function getLaraChart()
     {
 
+        if (isset($_SESSION['saftUploaded']) && Invoices::count() > 0 )
+        {
+        //Do nothing
+        }
+        else{
+        $_SESSION["saftUploaded"] = "false";
+        }
+
         if(strcmp($_SESSION["saftUploaded"], "false")==0)
             return redirect('/saft')->with('error', 'Please upload SAFT and turn on VM');
 
@@ -97,6 +105,14 @@ class OverviewController extends Controller
 
     public function getYearSales(Request $request){
 
+        if (isset($_SESSION['saftUploaded']) && Invoices::count() > 0 )
+        {
+        //Do nothing
+        }
+        else{
+        $_SESSION["saftUploaded"] = "false";
+        }
+
         if(strcmp($_SESSION["saftUploaded"], "false")==0)
             return redirect('/saft')->with('error', 'Please upload SAFT and turn on VM');
 
@@ -135,6 +151,14 @@ class OverviewController extends Controller
     }
 
     public function getYearSupplies(Request $request){
+
+        if (isset($_SESSION['saftUploaded']) && Invoices::count() > 0 )
+        {
+        //Do nothing
+        }
+        else{
+        $_SESSION["saftUploaded"] = "false";
+        }
 
         if(strcmp($_SESSION["saftUploaded"], "false")==0)
             return redirect('/saft')->with('error', 'Please upload SAFT and turn on VM');

@@ -129,12 +129,10 @@ class SaftController extends Controller
         $accessToken = self::apiRequestToken();
 
         if($accessToken == -1)
-            return redirect('/home')->with('error', 'Please connect to VM (API) on port 4001');
+            return redirect('/home')->with('error', 'Please connect to VM (Primavera API) on port 4001');
 
         //read SAFT file
         $array = self::readSaft($request);
-
-        //return $accessToken;
 
         //Api Call - Gives all clients
         $url = "http://localhost:4001/WebApi/Administrador/Consulta";

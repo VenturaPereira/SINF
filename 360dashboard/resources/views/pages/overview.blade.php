@@ -76,7 +76,7 @@
                   <div class="card-body-icon">
                     <i class="fas fa-fw fa-users"></i>
                   </div>
-                  <div class="mr-5">Clients <h3>{{$infoOverview[3]}}</h3></div>
+                  <div class="mr-5">Active Clients: <h3>{{$infoOverview[3]}}</h3></div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="#">
                 </a>
@@ -88,7 +88,7 @@
                   <div class="card-body-icon">
                     <i class="fas fa-fw fa-user-tie"></i>
                   </div>
-                  <div class="mr-5">Suppliers <h3>{{$infoOverview[4]}}</h3></div>
+                  <div class="mr-5">Active Suppliers: <h3>{{$infoOverview[4]}}</h3></div>
                 </div>
                 <a class="card-footer text-white clearfix small z-1" href="#">
                 </a>

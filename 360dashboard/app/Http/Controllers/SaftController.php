@@ -166,7 +166,8 @@ class SaftController extends Controller
         
 
         //loop accounts and save
-        foreach ($array["MasterFiles"]["GeneralLedgerAccounts"]["Account"] as $account){
+        if (array_key_exists('GeneralLedgerAccounts', $array["MasterFiles"])){
+            foreach ($array["MasterFiles"]["GeneralLedgerAccounts"]["Account"] as $account){
          
             $newAccount = new Account;
 
@@ -187,7 +188,7 @@ class SaftController extends Controller
  
             $newAccount->save();
         }
-
+    }
         //loop products and save
         foreach ($array["MasterFiles"]["Product"] as $product){
             $newProduct = new Products;

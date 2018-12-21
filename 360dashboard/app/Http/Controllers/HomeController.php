@@ -4,6 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+session_start();
+
+if (isset($_SESSION['saftUploaded']))
+{
+    //Do nothing
+}
+else{
+    $_SESSION["saftUploaded"] = "false";
+}
+
 class HomeController extends Controller
 {
     /**

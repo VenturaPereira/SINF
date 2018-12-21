@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Post;
 use App\Customer;
 use App\Products;
@@ -17,7 +16,11 @@ use DB;
 use File;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Http\Request;
+
 ini_set('max_execution_time', 300);
+
+session_start();
+
 
 class SaftController extends Controller
 {
@@ -29,6 +32,7 @@ class SaftController extends Controller
         $xml = simplexml_load_string($file_content);
         $json = json_encode($xml);
         $array = json_decode($json,TRUE);
+        $_SESSION["saftUploaded"] = "true";
         return $array;
     }
 

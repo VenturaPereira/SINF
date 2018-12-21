@@ -33,6 +33,10 @@
 
           <!-- Right Side Of Navbar -->
           <ul class="navbar-nav ml-auto">
+            @guest
+              <li><a style="color: white" href="{{ route('login') }}">Login</a></li>
+              <li><a style="color: white" href="{{ route('register') }}">&ensp;Register</a></li>
+            @endguest
             @auth
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

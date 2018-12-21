@@ -22,12 +22,12 @@ Route::get('/', 'PagesController@index');
 Route::get('/about', 'PagesController@about');
 
 //Pages
-Route::get('/overview', 'PagesController@overview');
-Route::get('/sales', 'PagesController@sales');
-Route::get('/suppliers', 'PagesController@suppliers');
-Route::get('/inventory', 'PagesController@inventory');
-Route::get('/financial', 'PagesController@financial');
-Route::get('overview', 'OverviewController@getLaraChart');
+Route::get('/overview', 'PagesController@overview')->middleware('auth');
+Route::get('/sales', 'PagesController@sales')->middleware('auth');
+Route::get('/suppliers', 'PagesController@suppliers')->middleware('auth');
+Route::get('/inventory', 'PagesController@inventory')->middleware('auth');
+Route::get('/financial', 'PagesController@financial')->middleware('auth');
+Route::get('overview', 'OverviewController@getLaraChart')->middleware('auth');
 
 
 Route::resource('posts', 'PostsController');

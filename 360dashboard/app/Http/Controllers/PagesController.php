@@ -9,6 +9,9 @@ use App\Suppliers;
 use DB;
 use Khill\Lavacharts\Lavacharts;
 use DateTime;
+
+session_start();
+
 class PagesController extends Controller
 {
     public function index(){
@@ -97,6 +100,8 @@ class PagesController extends Controller
     }
 
     public function sales(){
+        if(strcmp($_SESSION["saftUploaded"], "false")==0)
+            return redirect('/saft')->with('error', 'Please upload SAFT and turn on VM');
         $customers = DB::select(
             'select *
             from customers
@@ -170,8 +175,9 @@ class PagesController extends Controller
 
     public function suppliers(){
 
+    if(strcmp($_SESSION["saftUploaded"], "false")==0)
+        return redirect('/saft')->with('error', 'Please upload SAFT and turn on VM');
 
-    //  $suppliers = Suppliers::all();
 
     $suppliers = DB::select(
         'select *
@@ -217,6 +223,8 @@ class PagesController extends Controller
 
 
     public function inventory(){
+        if(strcmp($_SESSION["saftUploaded"], "false")==0)
+            return redirect('/saft')->with('error', 'Please upload SAFT and turn on VM');
 
         $products_stock = DB::select('select ProductDescription, ProductStkCurrent from products order by ProductStkCurrent DESC');
         $products_sales = DB::select('select ProductDescription, SUM(Quantity)as totals from `lines` GROUP BY ProductDescription ORDER BY totals DESC');
@@ -255,6 +263,9 @@ class PagesController extends Controller
     }
 
     public function financial(){
+        if(strcmp($_SESSION["saftUploaded"], "false")==0)
+            return redirect('/saft')->with('error', 'Please upload SAFT and turn on VM');
+
       $monthSales = DB::select(
           'select distinct MONTH(invoiceDate) as month, SUM(DocumentTotals_GrossTotal) as total
            from invoices

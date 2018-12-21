@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Post;
 use DB;
 
+session_start();
+
 class PostsController extends Controller
 {
     /**

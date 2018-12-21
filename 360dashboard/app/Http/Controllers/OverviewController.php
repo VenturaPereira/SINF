@@ -12,10 +12,16 @@ use App\Suppliers;
 use App\GeneralLedgerEntries;
 use DB;
 
+session_start();
+
 class OverviewController extends Controller
 {
     public function getLaraChart()
     {
+
+        if(strcmp($_SESSION["saftUploaded"], "false")==0)
+            return redirect('/saft')->with('error', 'Please upload SAFT and turn on VM');
+
         $COUNTRY = array(
             "AO" => "Angola",
             "ES" => "Spain",
@@ -91,6 +97,9 @@ class OverviewController extends Controller
 
     public function getYearSales(Request $request){
 
+        if(strcmp($_SESSION["saftUploaded"], "false")==0)
+            return redirect('/saft')->with('error', 'Please upload SAFT and turn on VM');
+
         $data = [];
 
         $totalBuyCash = DB::select(" SELECT sum(TotalIva) FROM cabec_compras WHERE year(DataDoc) = 2018  ");
@@ -126,6 +135,9 @@ class OverviewController extends Controller
     }
 
     public function getYearSupplies(Request $request){
+
+        if(strcmp($_SESSION["saftUploaded"], "false")==0)
+            return redirect('/saft')->with('error', 'Please upload SAFT and turn on VM');
 
         $data = [];
 

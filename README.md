@@ -1,42 +1,87 @@
-﻿# SINF
-Sistemas de Informação - FEUP
+# Project Title
 
+One Paragraph of project description goes here
 
-### Instructables for HOST PC (WINDOWS 10):
+## Getting Started
 
-1. Setup an Apache/XAMPP server: https://www.apachefriends.org/index.html
-2. Install 'Composer' on your computer: https://getcomposer.org/
-	- When asks for php path: 'C/Xampp/php/php.exe'
-3. Git clone'SINF/360Dashboard' to on XAMPP/htdocs
-4. Go to '...htdocs/SINF/360dashboard' and run command 'composer install' 
-5. [Only if you having 500 error] Go to '...htdocs/SINF/360dashboard' and run command 'cp .env.example .env' and 'php artisan key:generate'
-6. In order to run database:
-Go to http://localhost/phpmyadmin/ and create database called "360dashboard"
-- Verify inside .env file these settings (change them if not):
-- DB_DATABASE=360dashboard
-- DB_USERNAME=root
-- DB_PASSWORD=
-- Type on the sheel: php artisan migrate
-7. Modify 'upload_max_filesize=2M' to 'upload_max_filesize=10M' on xampp/php/php.ini file(s)
-8. Go to 'http://localhost/SINF/360dashboard/public/index'
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
+### Prerequisites
 
-### Instructables for GUEST PC - Enable Port Forwarding (VBOX WINDOWS 7 with Primavera):
+What things you need to install the software and how to install them
 
-1. Go to "Settings" on your virtual machine
-2. Go to "Network" -> Advanced -> Port Forwarding
-3. Add a Port with this settings: Host Port is 4001 and Guest Port is 2018
-4. This way we can work on our HOST pc and make API CALLS from Host to Guest
+```
+Give examples
+```
 
+### Installing
 
-### Instructables for sharing our Company Info through our VMBOXs (VBOX WINDOWS 7 with Primavera):
+A step by step series of examples that tell you how to get a development env running
 
-#### -Create File-
-1. Open Primavera Admin
-2. Right-Click on Company Name and then "Manuntenção"  -> "Cópia de Segurança"
-3. This option will create a file called "xxx.bak" and that .bak file can be shared through our VMBoxs
+Say what the step will be
 
-#### -Restore File-
-1. Open Primavera Admin
-2. Right-Click on "Nova" and then "Manuntenção"  -> "Reposição de Cópia de Segurança"
-3. This option will allow to restore that file created above called "xxx.bak"
+```
+Give the example
+```
+
+And repeat
+
+```
+until finished
+```
+
+End with an example of getting some data out of the system or using it for a little demo
+
+## Running the tests
+
+Explain how to run the automated tests for this system
+
+### Break down into end to end tests
+
+Explain what these tests test and why
+
+```
+Give an example
+```
+
+### And coding style tests
+
+Explain what these tests test and why
+
+```
+Give an example
+```
+
+## Deployment
+
+Add additional notes about how to deploy this on a live system
+
+## Built With
+
+* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
+* [Maven](https://maven.apache.org/) - Dependency Management
+* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+
+## Contributing
+
+Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+
+## Authors
+
+* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+
+See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+* Hat tip to anyone whose code was used
+* Inspiration
+* etc

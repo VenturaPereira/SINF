@@ -43,7 +43,7 @@ Please look under Instructions file in order to run our project.
 
 ![imagem2](https://user-images.githubusercontent.com/22004638/51409250-2f3bd380-1b59-11e9-8a4b-2cdcf74771d4.png)
 
-#### Suppliers
+#### Inventory
 
 ![imagem3](https://user-images.githubusercontent.com/22004638/51409253-31059700-1b59-11e9-9b67-49cbc46a1a6b.png)
 

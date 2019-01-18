@@ -11,8 +11,6 @@ Our product will present company data, particularly in the following areas:
 * Inventory (Equity and Value) - Inventory
 * Finance and Accounting - Financial
 
-### Screenshots
-
 ### Prerequisites
 ```
 Primavera API 
@@ -30,3 +28,15 @@ Please look under Instructions file in order to run our project.
 * Diogo Pereira 
 * Pedro Silva 
 * Ventura Pereira 
+
+### Screenshots
+
+![imagem0](https://user-images.githubusercontent.com/22004638/51409196-fe5b9e80-1b58-11e9-8d99-90aad0f5a68e.png)
+
+![imagem1](https://user-images.githubusercontent.com/22004638/51409226-1c290380-1b59-11e9-8d5d-1bfc29e92259.png)
+
+![imagem2](https://user-images.githubusercontent.com/22004638/51409250-2f3bd380-1b59-11e9-8a4b-2cdcf74771d4.png)
+
+![imagem3](https://user-images.githubusercontent.com/22004638/51409253-31059700-1b59-11e9-9b67-49cbc46a1a6b.png)
+
+![imagem4](https://user-images.githubusercontent.com/22004638/51409255-32cf5a80-1b59-11e9-9b1a-93028e774b4d.png)

@@ -21,8 +21,8 @@ Please look under Instructions file in order to run our project.
 
 ## Authors
 
-Bernardo Leite 
-Diogo Almeida Pereira
-Diogo Pereira 
-Pedro Silva 
-Ventura Pereira 
+* Bernardo Leite 
+* Diogo Almeida Pereira
+* Diogo Pereira 
+* Pedro Silva 
+* Ventura Pereira 

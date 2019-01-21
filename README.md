@@ -11,7 +11,7 @@ Our product will present company data, particularly in the following areas:
 * Inventory (Equity and Value) - Inventory
 * Finance and Accounting - Financial
 
-### Prerequisites
+### Technologies/Tools
 ```
 Primavera API 
 Laravel
